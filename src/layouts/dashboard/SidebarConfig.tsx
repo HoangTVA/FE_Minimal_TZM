@@ -13,7 +13,8 @@ const getIcon = (name: string) => (
 const ICONS = {
   dashboard: getIcon('dashboard'),
   store: getIcon('ic-store'),
-  poi: getIcon('ic-poi'),
+  poiBrand: getIcon('ic-poi'),
+  poi: getIcon('s-poi'),
   map: getIcon('ic-map'),
   asset: getIcon('ic-asset'),
   settings: getIcon('ic-setting')
@@ -37,8 +38,8 @@ export default function SidebarConfig() {
           path: PATH_DASHBOARD.general.storeManagementPage,
           icon: ICONS.store
         },
-        { title: t('content.poi'), path: PATH_DASHBOARD.general.pageThree, icon: ICONS.poi },
-        { title: t('content.map'), path: PATH_DASHBOARD.general.pageThree, icon: ICONS.map },
+        { title: t('poi.poi'), path: PATH_DASHBOARD.general.poiBrand, icon: ICONS.poiBrand },
+        { title: t('content.map'), path: PATH_DASHBOARD.general.brandMap, icon: ICONS.map },
         {
           title: t('content.asset'),
           path: PATH_DASHBOARD.general.pageThree,
@@ -52,6 +53,7 @@ export default function SidebarConfig() {
     {
       subheader: t('content.system'),
       items: [
+        { title: t('poi.sPoi'), path: PATH_DASHBOARD.general.poi, icon: ICONS.poi },
         {
           title: t('content.settings'),
           path: PATH_DASHBOARD.app.root,

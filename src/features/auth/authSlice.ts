@@ -2,6 +2,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import { AuthRequest, User } from 'models';
+import { toast } from 'react-toastify';
+import i18n from 'translation/i18n'
 
 export interface AuthState {
     isLoggedIn: boolean;
@@ -21,7 +23,7 @@ const authSlice = createSlice({
             state.logging = true;
         },
         loginSuccess(state, action: PayloadAction<User>) {
-
+            toast.success(i18n.t('login.loginSuccess'));
             state.isLoggedIn = true;
             state.logging = false;
             state.currentUser = action.payload;
@@ -29,9 +31,11 @@ const authSlice = createSlice({
             location.href = '/dashboard';
         },
         loginFailed(state, action: PayloadAction<string>) {
+            toast.error(i18n.t('login.userPassInvalid'));
             state.logging = false;
         },
         logout(state) {
+            toast.success(i18n.t('login.logoutSuccess'));
             state.isLoggedIn = false;
             state.currentUser = undefined;
         },

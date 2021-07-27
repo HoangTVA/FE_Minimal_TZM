@@ -23,7 +23,8 @@
     "asset": "Asset"
   },
   "map": {
-    "locate": "Show me where I am, yo!"
+    "locate": "Show me where I am, yo!",
+    "title": "Brand map"
   },
   "store": {
     "storeName": "Store name",
@@ -68,14 +69,17 @@
     "brandPoiCode": "Brand poi code",
     "alias": "Alias",
     "poiType": "Poi Type",
-    "title": "Pois Management",
+    "title": "System point of interest",
     "poiCode": "Poi code",
     "brandPois": "Number of brands interested",
-    "tabPoiBrand": "Brand's point of interest (Poi)",
-    "tabPoi": "System - Point of interest (S-Poi)",
+    "poi": "Point of interest (Poi)",
+    "sPoi": "System - Point of interest (S-Poi)",
     "search": "Search with poi name",
     "filter": "Filter",
-    "titleFilter": "More filter"
+    "titleFilter": "More filter",
+    "poiList": "System point of interest list",
+    "poiBrandList": "Brand Pois list",
+    "poiBrand": "Pois management"
   },
   "adminLevel": {
     "province": "Province/City",
@@ -111,6 +115,9 @@
     "password": "Password",
     "btnLogin": "Login",
     "errorUsername": "Username is required",
-    "errorPassword": "Password is required"
+    "errorPassword": "Password is required",
+    "loginSuccess": "You have successfully logged in.",
+    "logoutSuccess": "You have successfully logged out.",
+    "userPassInvalid": "Username or password is incorrect !!!"
   }
 }
