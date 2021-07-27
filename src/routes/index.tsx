@@ -8,6 +8,9 @@ import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 import LoadingScreen from '../components/LoadingScreen';
 import Login from 'features/auth/Login';
 import StoreList from 'features/store-management/pages/StoreList';
+import BrandMap from 'features/map/pages/BrandMap';
+import PoiList from 'features/pois/pages/PoiList';
+import PoiBrandList from 'features/pois-brand/pages/PoiBrandList';
 // ----------------------------------------------------------------------
 
 const Loadable = (Component: any) => (props: any) => {
@@ -46,6 +49,9 @@ export default function Router() {
       children: [
         { path: '/', element: <Navigate to="/dashboard/one" replace /> },
         { path: 'manage-store', element: <StoreList /> },
+        { path: 'brand-map', element: <BrandMap /> },
+        { path: 'pois', element: <PoiList /> },
+        { path: 'brand-pois', element: <PoiBrandList /> },
         { path: 'one', element: <PageTwo /> },
         { path: 'three', element: <PageThree /> },
         {

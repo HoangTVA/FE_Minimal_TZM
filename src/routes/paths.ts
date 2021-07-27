@@ -17,6 +17,9 @@ export const PATH_DASHBOARD = {
     pageTwo: path(ROOTS_DASHBOARD, '/two'),
     pageThree: path(ROOTS_DASHBOARD, '/three'),
     storeManagementPage: path(ROOTS_DASHBOARD, '/manage-store'),
+    brandMap: path(ROOTS_DASHBOARD, '/brand-map'),
+    poi: path(ROOTS_DASHBOARD, '/pois'),
+    poiBrand: path(ROOTS_DASHBOARD, '/brand-pois'),
   },
   app: {
     root: path(ROOTS_DASHBOARD, '/app'),
