@@ -16,6 +16,7 @@ import i18n from 'translation/i18n';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 // ----------------------------------------------------------------------
+import '@sweetalert2/theme-material-ui/material-ui.css';
 
 ReactDOM.render(
   <StrictMode>

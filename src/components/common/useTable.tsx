@@ -1,5 +1,6 @@
 import {
   Grid,
+  LinearProgress,
   Table,
   TableCell,
   TableHead,
@@ -8,6 +9,7 @@ import {
   TableSortLabel
 } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
+import { Box } from '@material-ui/system';
 import { PaginationRequest, Response } from 'models';
 import * as React from 'react';
 
@@ -67,7 +69,7 @@ export function useTable({
             <TableCell
               key={headCell.id}
               sortDirection={colName === headCell.id ? order : false}
-              style={{ color: 'purple', textAlign: headCell.align ? headCell.align : 'left' }}
+              style={{ color: 'primary', textAlign: headCell.align ? headCell.align : 'left' }}
             >
               {headCell.disableSorting ? (
                 headCell.label

@@ -51,7 +51,8 @@
     "storeCode": "Store code",
     "detailsStore": "Store details",
     "updateSuccessStart": "Store: ",
-    "updateSuccessEnd": "updated"
+    "updateSuccessEnd": "updated",
+    "listStore": "Store list"
   },
   "status": {
     "all": "All",
@@ -97,7 +98,9 @@
     "errorText": "Oops... Something went wrong!",
     "btnSubmit": "Submit",
     "btnBack": "Back",
-    "btnUpdate": "Update"
+    "btnUpdate": "Update",
+    "notFound": "Not found",
+    "searchNotFound": "No results found!!!. Try checking for typos or using complete words."
   },
   "login": {
     "welcome": "Welcone to Trade zone map",

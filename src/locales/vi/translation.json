@@ -51,7 +51,8 @@
     "storeCode": "Mã cửa hàng",
     "detailsStore": "Chi tiết cửa hàng",
     "updateSuccessStart": "Cửa hàng: ",
-    "updateSuccessEnd": "đã được cập nhật"
+    "updateSuccessEnd": "đã được cập nhật",
+    "listStore": "Danh sách cửa hàng"
   },
   "status": {
     "all": "Tất cả",
@@ -97,7 +98,9 @@
     "errorText": "Oops... Có gì đó không ổn!",
     "btnSubmit": "Gửi đi",
     "btnBack": "Trở về",
-    "btnUpdate": "Cập nhật"
+    "btnUpdate": "Cập nhật",
+    "notFound": "Không tìm thấy",
+    "searchNotFound": "Không có kết quả trùng khớp!!!. Thử kiểm tra lỗi chính tả hoặc sử dụng các từ hoàn chỉnh."
   },
   "login": {
     "welcome": "Chào mừng bạn đến với Trade zone map",

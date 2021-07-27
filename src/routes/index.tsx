@@ -7,7 +7,7 @@ import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 import Login from 'features/auth/Login';
-import UserList from 'features/store-management/pages/UserList';
+import StoreList from 'features/store-management/pages/StoreList';
 // ----------------------------------------------------------------------
 
 const Loadable = (Component: any) => (props: any) => {
@@ -45,7 +45,7 @@ export default function Router() {
       element: isLogIn ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         { path: '/', element: <Navigate to="/dashboard/one" replace /> },
-        { path: 'manage-store', element: <UserList /> },
+        { path: 'manage-store', element: <StoreList /> },
         { path: 'one', element: <PageTwo /> },
         { path: 'three', element: <PageThree /> },
         {
