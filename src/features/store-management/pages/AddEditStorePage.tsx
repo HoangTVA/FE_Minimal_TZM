@@ -131,14 +131,14 @@ export default function AddEditStorePage(props: AddEditStorePageProps) {
     setImglink(value);
   };
   return (
-    <Page title={isEdit ? t('store.formAdd') : t('store.detailsStore')}>
+    <Page title={!isEdit ? t('store.formAdd') : t('store.detailsStore')}>
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={isEdit ? t('store.formAdd') : t('store.detailsStore')}
+          heading={!isEdit ? t('store.formAdd') : t('store.detailsStore')}
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             { name: t('store.title'), href: PATH_DASHBOARD.store.root },
-            { name: isEdit ? t('store.btnAdd') : t('store.detailsStore') }
+            { name: !isEdit ? t('store.btnAdd') : t('store.detailsStore') }
           ]}
         />
         <Box>

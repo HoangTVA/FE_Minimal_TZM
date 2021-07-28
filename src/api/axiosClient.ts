@@ -6,7 +6,7 @@ import queryString from 'query-string';
 
 
 const axiosClient = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
+    baseURL: process.env.REACT_APP_API_URL || 'https://stg-api.tradezonemap.com/api/v1.0',
     headers: {
         'content-type': 'application/json',
     },

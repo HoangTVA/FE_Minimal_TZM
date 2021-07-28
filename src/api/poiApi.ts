@@ -29,10 +29,10 @@ const poiApi = {
     getPoiTypes(): Promise<PoiType[]> {
         const url = '/pois/poi-type';
         return axiosClient.get(url);
+    },
+    getPoiBrandById(id: string): Promise<Poi> {
+        const url = `/pois/${id}/brand`;
+        return axiosClient.get(url);
     }
-    // getPoirandById(id: number): Promise<Poi> {
-    //     const url = `/pois/${id}/brand`;
-    //     return axiosClient.get(url);
-    // }
 }
 export default poiApi;

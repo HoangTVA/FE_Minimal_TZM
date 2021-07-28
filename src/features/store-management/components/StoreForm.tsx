@@ -13,6 +13,7 @@ import { LatLngExpression } from 'leaflet';
 import { useDebouncedCallback } from 'components/common';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import InputAreaField from 'components/FormField/InputAreaField';
 interface StoreFormProps {
   initialValue: PostStore;
   location?: LatLngExpression;
@@ -85,7 +86,7 @@ export default function StoreForm({
               control={control}
               onChange={handelInputFieldImgChange}
             />
-            <InputField name="address" label={t('store.address') + '*'} control={control} />
+            <InputAreaField name="address" label={t('store.address') + '*'} control={control} />
             <SelectField
               name="storeTypeId"
               label={t('store.storeTypeName') + '*'}
