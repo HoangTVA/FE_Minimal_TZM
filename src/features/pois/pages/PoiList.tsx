@@ -1,18 +1,11 @@
 import editFill from '@iconify/icons-eva/edit-fill';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import { Icon } from '@iconify/react';
-import { useSnackbar } from 'notistack5';
 // material
 import {
   Button,
   Card,
   Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   LinearProgress,
   Table,
   TableBody,
@@ -23,7 +16,6 @@ import {
 } from '@material-ui/core';
 // material
 import { Box } from '@material-ui/system';
-import storeApi from 'api/storeApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { useTable } from 'components/common';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
@@ -31,17 +23,19 @@ import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 // components
 import Page from 'components/Page';
 import Scrollbar from 'components/Scrollbar';
+import { adminLevelActions } from 'features/admin-level/adminLevelSlice';
 // hooks
 import useSettings from 'hooks/useSettings';
-import { GetStatusMap, PaginationRequest, Poi, PoiPagingRequest, Store } from 'models';
-import { useEffect, useState } from 'react';
+import { GetStatusMap, Poi, PoiPagingRequest } from 'models';
+import { useSnackbar } from 'notistack5';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // redux
 // routes
 import { PATH_DASHBOARD } from 'routes/paths';
-import { poiActions, selectFilter, selectLoading, selectPoiList } from '../poiSlice';
 import PoiFilter from '../components/PoiFilter';
+import { poiActions, selectFilter, selectLoading, selectPoiList } from '../poiSlice';
 
 // ----------------------------------------------------------------------
 
@@ -56,6 +50,10 @@ export default function PoiList() {
   const { enqueueSnackbar } = useSnackbar();
 
   ///effect
+  useEffect(() => {
+    dispatch(poiActions.fetchPoiTypeList());
+    dispatch(adminLevelActions.fetchAdminLevelData());
+  }, [dispatch]);
   useEffect(() => {
     dispatch(poiActions.fetchPoiList(filter));
   }, [dispatch, filter]);
@@ -103,7 +101,7 @@ export default function PoiList() {
     { id: 'action', label: t('common.actions'), disableSorting: true, align: 'center' }
   ];
 
-  const { TblContainer, TblHead, TblPagination } = useTable({
+  const { TblHead, TblPagination } = useTable({
     rs,
     headCells,
     filter,
@@ -122,7 +120,7 @@ export default function PoiList() {
           heading={t('poi.poiList')}
           links={[
             { name: t('content.dashboard'), href: PATH_DASHBOARD.root },
-            { name: t('poi.title'), href: PATH_DASHBOARD.general.poi },
+            { name: t('poi.title'), href: PATH_DASHBOARD.poi.root },
             { name: t('poi.poiList') }
           ]}
           action={
@@ -138,7 +136,11 @@ export default function PoiList() {
         />
 
         <Card>
-          <PoiFilter filter={filter} onSearchChange={handelSearchDebounce} />
+          <PoiFilter
+            filter={filter}
+            onSearchChange={handelSearchDebounce}
+            onChange={handelFilterChange}
+          />
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>

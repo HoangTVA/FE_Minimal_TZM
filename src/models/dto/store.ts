@@ -27,6 +27,7 @@ export interface StoreType {
     name: string;
 }
 export interface PostStore {
+    id: number;
     name: string;
     brandId?: number;
     address: string;

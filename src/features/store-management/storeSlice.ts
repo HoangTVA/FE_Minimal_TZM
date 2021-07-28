@@ -1,5 +1,5 @@
 import { RootState } from 'app/store';
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PaginationRequest, Response, Store, StoreType } from "models";
 
 export interface StoreState {
@@ -57,6 +57,10 @@ export const selectStoresResponse = (state: RootState) => state.stores.response;
 export const selectLoading = (state: RootState) => state.stores.loading;
 export const selectFilter = (state: RootState) => state.stores.filter;
 export const selectStoreType = (state: RootState) => state.stores.storeTypes;
+export const selectStoreTypeOptions = createSelector(selectStoreType, (storeTypes) => storeTypes.map((storeType) => ({
+    label: storeType.name,
+    value: storeType.id
+})))
 
 //reducers
 const storeReducer = storeSlice.reducer;
