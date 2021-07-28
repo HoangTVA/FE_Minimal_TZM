@@ -1,23 +1,4 @@
 import { PaginationRequest } from 'models';
-// export interface Poi {
-//     id: number;
-//     name: string;
-//     geom: string;
-//     status: number;
-//     createDate: Date;
-//     poiCode: string;
-//     alias: string;
-//     notes: string;
-//     brandPoiCode: string;
-//     createDatePoiBrand: Date;
-//     statusPoiBrand: number;
-//     brandId: number;
-//     brandName: string;
-//     poiTypeName: string;
-//     poiTypeId: number;
-//     isNeedApproval: boolean;
-//     countPoiBrands: number;
-// }
 export interface Poi {
     point: Point;
     id: number;

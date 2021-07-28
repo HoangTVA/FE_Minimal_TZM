@@ -79,7 +79,14 @@
     "titleFilter": "Lọc cấp độ hành chính",
     "poiList": "Danh sách các điểm quan tâm của hệ thống",
     "poiBrandList": "Danh sách các điểm quan tâm",
-    "poiBrand": "Quản lí Pois"
+    "poiBrand": "Quản lí Pois",
+    "addPoiBrandTitle": "Thêm mới Poi",
+    "editPoiBrandTitle": "Chi tiết poi",
+    "errorAlias": "Vui lòng nhập bí danh",
+    "errorPoiId": "Vui lòng chọn địa điểm quan tâm",
+    "errorBrandPoiCode": "Vui lòng nhập mã poi",
+    "errorBrandPoiExisted": "Mã poi đã tồn tại, vui lòng nhập mã khác",
+    "note": "Ghi chú"
   },
   "adminLevel": {
     "province": "Tỉnh/Thành Phố",

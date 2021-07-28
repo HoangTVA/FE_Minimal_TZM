@@ -120,7 +120,7 @@ export default function PoiBrandList() {
     onSortChange
   });
   const handelDetailsClick = (poi: Poi) => {
-    navigate(`/${poi.id}`);
+    navigate(`${PATH_DASHBOARD.poiBrand.details}/${poi.id}`);
   };
   const handelRemoveClick = (poi: Poi) => {
     setPoiBrandSelected(poi);
@@ -156,10 +156,10 @@ export default function PoiBrandList() {
             <Button
               variant="contained"
               component={RouterLink}
-              to={PATH_DASHBOARD.root}
+              to={PATH_DASHBOARD.poiBrand.add}
               startIcon={<Icon icon={plusFill} />}
             >
-              {t('store.btnAdd')}
+              {t('poi.addPoiBrandTitle')}
             </Button>
           }
         />

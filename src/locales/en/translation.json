@@ -79,7 +79,14 @@
     "titleFilter": "More filter",
     "poiList": "System point of interest list",
     "poiBrandList": "Brand Pois list",
-    "poiBrand": "Pois management"
+    "poiBrand": "Pois management",
+    "addPoiBrandTitle": "Add new Poi",
+    "editPoiBrandTitle": "Details Poi",
+    "errorAlias": "Alias is required",
+    "errorPoiId": "Select Poi, Please!!!",
+    "errorBrandPoiCode": "Poi code is required",
+    "errorBrandPoiExisted": "Poi code is existed, input another code, pls!!!",
+    "note": "Note"
   },
   "adminLevel": {
     "province": "Province/City",

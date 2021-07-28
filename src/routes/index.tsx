@@ -12,6 +12,7 @@ import BrandMap from 'features/map/pages/BrandMap';
 import PoiList from 'features/pois/pages/PoiList';
 import PoiBrandList from 'features/pois-brand/pages/PoiBrandList';
 import AddEditStorePage from 'features/store-management/pages/AddEditStorePage';
+import AddEditPoiBrandPage from 'features/pois-brand/pages/AddEditPoiBrandPage';
 // ----------------------------------------------------------------------
 
 const Loadable = (Component: any) => (props: any) => {
@@ -58,8 +59,22 @@ export default function Router() {
           ]
         },
         { path: 'brand-map', element: <BrandMap /> },
-        { path: 'pois', element: <PoiList /> },
-        { path: 'brand-pois', element: <PoiBrandList /> },
+        {
+          path: 'pois',
+          children: [
+            { path: '/', element: <PoiList /> },
+            { path: 'add', element: <AddEditStorePage /> },
+            { path: 'details/:storeId', element: <AddEditStorePage /> }
+          ]
+        },
+        {
+          path: 'brand-pois',
+          children: [
+            { path: '/', element: <PoiBrandList /> },
+            { path: 'add', element: <AddEditPoiBrandPage /> },
+            { path: 'details/:poiId', element: <AddEditPoiBrandPage /> }
+          ]
+        },
         { path: 'one', element: <PageTwo /> },
         { path: 'three', element: <PageThree /> },
         {

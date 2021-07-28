@@ -10,11 +10,8 @@ function* handleLogin(payload: AuthRequest) {
     try {
         const jwt: string = yield call(authApi.authUsernamePass, payload)
         const decoded = jwtDecode<JwtPayload>(jwt);
-        // const ccc = process.env.REACT_APP_API_URL;
-        const test = process.env.NAME_IDENTIFIER;
-        console.log(test);
-
-        const id = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+        const key = process.env.REACT_APP_NAME_IDENTIFIER;
+        const id = decoded[key || 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
         const user: User = yield call(authApi.getMe, id);
         localStorage.setItem('user', JSON.stringify(user));
         localStorage.setItem('access_token', jwt);
