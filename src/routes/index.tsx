@@ -11,6 +11,7 @@ import StoreList from 'features/store-management/pages/StoreList';
 import BrandMap from 'features/map/pages/BrandMap';
 import PoiList from 'features/pois/pages/PoiList';
 import PoiBrandList from 'features/pois-brand/pages/PoiBrandList';
+import AddEditStorePage from 'features/store-management/pages/AddEditStorePage';
 // ----------------------------------------------------------------------
 
 const Loadable = (Component: any) => (props: any) => {
@@ -48,7 +49,14 @@ export default function Router() {
       element: isLogIn ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         { path: '/', element: <Navigate to="/dashboard/one" replace /> },
-        { path: 'manage-store', element: <StoreList /> },
+        {
+          path: 'manage-store',
+          children: [
+            { path: '/', element: <StoreList /> },
+            { path: 'add', element: <AddEditStorePage /> },
+            { path: 'details/:storeId', element: <AddEditStorePage /> }
+          ]
+        },
         { path: 'brand-map', element: <BrandMap /> },
         { path: 'pois', element: <PoiList /> },
         { path: 'brand-pois', element: <PoiBrandList /> },

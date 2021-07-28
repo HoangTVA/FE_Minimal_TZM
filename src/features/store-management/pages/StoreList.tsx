@@ -134,7 +134,7 @@ export default function StoreList() {
     onSortChange
   });
   const handelDetailsClick = (store: Store) => {
-    navigate(`/${store.id}`);
+    navigate(`${PATH_DASHBOARD.store.details}/${store.id}`);
   };
 
   return (
@@ -144,14 +144,14 @@ export default function StoreList() {
           heading={t('store.listStore')}
           links={[
             { name: t('content.dashboard'), href: PATH_DASHBOARD.root },
-            { name: t('store.title'), href: PATH_DASHBOARD.general.storeManagementPage },
+            { name: t('store.title'), href: PATH_DASHBOARD.store.root },
             { name: t('store.listStore') }
           ]}
           action={
             <Button
               variant="contained"
               component={RouterLink}
-              to={PATH_DASHBOARD.root}
+              to={PATH_DASHBOARD.store.add}
               startIcon={<Icon icon={plusFill} />}
             >
               {t('store.btnAdd')}
@@ -223,15 +223,6 @@ export default function StoreList() {
                     </TableRow>
                   )}
                 </TableBody>
-                {/* {isUserNotFound && (
-                  <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <SearchNotFound searchQuery={filterName} />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                )} */}
               </Table>
             </TableContainer>
           </Scrollbar>

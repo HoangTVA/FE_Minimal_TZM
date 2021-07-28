@@ -2,7 +2,6 @@ import editFill from '@iconify/icons-eva/edit-fill';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import { Icon } from '@iconify/react';
-import { useSnackbar } from 'notistack5';
 // material
 import {
   Button,
@@ -23,7 +22,6 @@ import {
 } from '@material-ui/core';
 // material
 import { Box } from '@material-ui/system';
-import storeApi from 'api/storeApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { useTable } from 'components/common';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
@@ -31,17 +29,20 @@ import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 // components
 import Page from 'components/Page';
 import Scrollbar from 'components/Scrollbar';
+import { adminLevelActions } from 'features/admin-level/adminLevelSlice';
+import { poiActions } from 'features/pois/poiSlice';
 // hooks
 import useSettings from 'hooks/useSettings';
-import { GetStatusMap, PaginationRequest, Poi, PoiPagingRequest, Store } from 'models';
+import { GetStatusMap, Poi, PoiPagingRequest } from 'models';
+import { useSnackbar } from 'notistack5';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // redux
 // routes
 import { PATH_DASHBOARD } from 'routes/paths';
-import { poiBrandActions, selectFilter, selectLoading, selectPoiBrandList } from '../poiBrandSlice';
 import PoiBrandFilter from '../components/PoiBrandFilter';
+import { poiBrandActions, selectFilter, selectLoading, selectPoiBrandList } from '../poiBrandSlice';
 
 // ----------------------------------------------------------------------
 
@@ -58,6 +59,10 @@ export default function PoiBrandList() {
   const [poiBrandSelected, setPoiBrandSelected] = useState<Poi>();
 
   //effect
+  useEffect(() => {
+    dispatch(poiActions.fetchPoiTypeList());
+    dispatch(adminLevelActions.fetchAdminLevelData());
+  }, [dispatch]);
   useEffect(() => {
     dispatch(poiBrandActions.fetchPoiBrandList(filter));
   }, [dispatch, filter]);
@@ -106,7 +111,7 @@ export default function PoiBrandList() {
     { id: 'action', label: t('common.actions'), disableSorting: true, align: 'center' }
   ];
 
-  const { TblContainer, TblHead, TblPagination } = useTable({
+  const { TblHead, TblPagination } = useTable({
     rs,
     headCells,
     filter,
@@ -144,7 +149,7 @@ export default function PoiBrandList() {
           heading={t('poi.poiBrandList')}
           links={[
             { name: t('content.dashboard'), href: PATH_DASHBOARD.root },
-            { name: t('poi.title'), href: PATH_DASHBOARD.general.poiBrand },
+            { name: t('poi.title'), href: PATH_DASHBOARD.poiBrand.root },
             { name: t('poi.poiBrandList') }
           ]}
           action={
@@ -160,7 +165,11 @@ export default function PoiBrandList() {
         />
 
         <Card>
-          <PoiBrandFilter filter={filter} onSearchChange={handelSearchDebounce} />
+          <PoiBrandFilter
+            filter={filter}
+            onSearchChange={handelSearchDebounce}
+            onChange={handelFilterChange}
+          />
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>

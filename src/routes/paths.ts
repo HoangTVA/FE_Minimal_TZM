@@ -1,3 +1,4 @@
+import { store } from './../app/store';
 // ----------------------------------------------------------------------
 
 function path(root: string, sublink: string) {
@@ -16,16 +17,21 @@ export const PATH_DASHBOARD = {
     pageOne: path(ROOTS_DASHBOARD, '/one'),
     pageTwo: path(ROOTS_DASHBOARD, '/two'),
     pageThree: path(ROOTS_DASHBOARD, '/three'),
-    storeManagementPage: path(ROOTS_DASHBOARD, '/manage-store'),
     brandMap: path(ROOTS_DASHBOARD, '/brand-map'),
-    poi: path(ROOTS_DASHBOARD, '/pois'),
-    poiBrand: path(ROOTS_DASHBOARD, '/brand-pois'),
   },
-  app: {
-    root: path(ROOTS_DASHBOARD, '/app'),
-    pageFour: path(ROOTS_DASHBOARD, '/app/four'),
-    pageFive: path(ROOTS_DASHBOARD, '/app/five'),
-    pageSix: path(ROOTS_DASHBOARD, '/app/six'),
-    homePage: path("", '/')
+  store: {
+    root: path(ROOTS_DASHBOARD, '/manage-store'),
+    add: path(ROOTS_DASHBOARD, '/manage-store/add'),
+    details: path(ROOTS_DASHBOARD, '/manage-store/details'),
+  },
+  poi: {
+    root: path(ROOTS_DASHBOARD, '/pois'),
+    add: path(ROOTS_DASHBOARD, '/pois/add'),
+    details: path(ROOTS_DASHBOARD, '/pois/details'),
+  },
+  poiBrand: {
+    root: path(ROOTS_DASHBOARD, '/brand-pois'),
+    add: path(ROOTS_DASHBOARD, '/brand-pois/add'),
+    details: path(ROOTS_DASHBOARD, '/brand-pois/details'),
   }
 };

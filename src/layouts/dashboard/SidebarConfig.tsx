@@ -35,10 +35,10 @@ export default function SidebarConfig() {
         },
         {
           title: t('content.stores'),
-          path: PATH_DASHBOARD.general.storeManagementPage,
+          path: PATH_DASHBOARD.store.root,
           icon: ICONS.store
         },
-        { title: t('poi.poi'), path: PATH_DASHBOARD.general.poiBrand, icon: ICONS.poiBrand },
+        { title: t('poi.poi'), path: PATH_DASHBOARD.poiBrand.root, icon: ICONS.poiBrand },
         { title: t('content.map'), path: PATH_DASHBOARD.general.brandMap, icon: ICONS.map },
         {
           title: t('content.asset'),
@@ -53,10 +53,10 @@ export default function SidebarConfig() {
     {
       subheader: t('content.system'),
       items: [
-        { title: t('poi.sPoi'), path: PATH_DASHBOARD.general.poi, icon: ICONS.poi },
+        { title: t('poi.sPoi'), path: PATH_DASHBOARD.poi.root, icon: ICONS.poi },
         {
           title: t('content.settings'),
-          path: PATH_DASHBOARD.app.root,
+          path: PATH_DASHBOARD.general.pageThree,
           icon: ICONS.settings
         }
       ]
