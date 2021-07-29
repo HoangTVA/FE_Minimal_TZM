@@ -40,10 +40,33 @@ export interface PostPoiBrand {
     alias: string;
     notes: string;
     brandPoiCode: string;
-    createBy: string;
+    createBy?: string;
 }
 export interface PoiType {
     id: number;
     name: string;
+}
+export interface PostPoi {
+    name: string;
+    geom: string;
+    poiTypeId: number;
+    poiCode: string;
+}
+export interface PoiDetails {
+    id: number;
+    osmId: string;
+    name: string;
+    geom: GeomPoi;
+    poiTypeId: number;
+    status: number;
+    createDate: Date;
+    poiCode: string;
+    poiTypeName: string;
+    poiBrands: any[];
+}
+
+export interface GeomPoi {
+    type: string;
+    coordinates: Array<number[]>;
 }
 

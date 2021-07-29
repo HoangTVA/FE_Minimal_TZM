@@ -4,11 +4,16 @@ import { Container, Typography } from '@material-ui/core';
 import useSettings from '../hooks/useSettings';
 // components
 import Page from '../components/Page';
+import { MapDraggable } from 'components/common';
+import { LatLngExpression } from 'leaflet';
 
 // ----------------------------------------------------------------------
 
 export default function PageTwo() {
   const { themeStretch } = useSettings();
+  const handelDragMarker = (point: LatLngExpression) => {
+    console.log('haha: ' + point);
+  };
 
   return (
     <Page title="Page Two | Minimal-UI">
@@ -32,6 +37,7 @@ export default function PageTwo() {
           libero metus, condimentum nec, tempor a, commodo mollis, magna. In enim justo, rhoncus ut,
           imperdiet a, venenatis vitae, justo. Cras dapibus.
         </Typography>
+        <MapDraggable location={[10.772461, 106.698055]} onDraggable={handelDragMarker} />
       </Container>
     </Page>
   );

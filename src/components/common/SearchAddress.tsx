@@ -1,7 +1,7 @@
 // *https://www.registers.service.gov.uk/registers/country/use-the-api*
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete from '@material-ui/core/Autocomplete';
 import fetch from 'cross-fetch';
 import { Address } from 'models';
 import React, { useEffect, useState } from 'react';
@@ -57,6 +57,7 @@ export function SearchAddress({ onChangeAddress }: SearchAddressProps) {
   }, 800);
 
   const handelSelected = (e, value) => {
+    if (value === [] || value === undefined || value === null) return;
     if (!onChangeAddress) return;
     const rs = splitWktToLatLng(value.geom);
     const postLatLng = splitWktTopPostLatLng(value.geom);
@@ -77,7 +78,7 @@ export function SearchAddress({ onChangeAddress }: SearchAddressProps) {
         setOpen(false);
       }}
       onChange={handelSelected}
-      //getOptionSelected={(option, value) => option?.name === value?.name}
+      //getOptionSelected={(option, value) => option?.add === value?.name}
       getOptionLabel={(option) => option?.address}
       options={options}
       size="small"

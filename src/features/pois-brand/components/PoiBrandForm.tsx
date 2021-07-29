@@ -3,7 +3,7 @@ import { Card, Stack } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
 import InputAreaField from 'components/FormField/InputAreaField';
 import InputField from 'components/FormField/InputField';
-import { PostPoiBrand, PostStore } from 'models';
+import { PostPoiBrand } from 'models';
 import * as React from 'react';
 import { useForm, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -26,7 +26,7 @@ export default function PoiBrandForm({ initialValue, onSubmit, isEdit }: PoiBran
     control,
     handleSubmit,
     formState: { isSubmitting }
-  } = useForm<PostStore>({
+  } = useForm<PostPoiBrand>({
     defaultValues: initialValue,
     resolver: yupResolver(schema)
   });
@@ -42,7 +42,7 @@ export default function PoiBrandForm({ initialValue, onSubmit, isEdit }: PoiBran
             <InputField name="alias" label={t('poi.alias') + '*'} control={control} />
             <InputField name="brandPoiCode" label={t('poi.poiCode') + '*'} control={control} />
 
-            <InputAreaField name="notes" label={t('poi.note') + '*'} control={control} />
+            <InputAreaField name="notes" label={t('poi.note')} control={control} />
           </Stack>
         </Card>
         <LoadingButton

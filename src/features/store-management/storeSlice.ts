@@ -60,7 +60,7 @@ export const selectStoreType = (state: RootState) => state.stores.storeTypes;
 export const selectStoreTypeOptions = createSelector(selectStoreType, (storeTypes) => storeTypes.map((storeType) => ({
     label: storeType.name,
     value: storeType.id
-})))
+})));
 
 //reducers
 const storeReducer = storeSlice.reducer;

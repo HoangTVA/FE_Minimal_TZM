@@ -1,4 +1,4 @@
-import { Response, Poi, PoiPagingRequest, PostPoiBrand, PoiType } from 'models';
+import { Response, Poi, PoiPagingRequest, PostPoiBrand, PoiType, PostPoi, PoiDetails } from 'models';
 import axiosClient from "./axiosClient";
 
 const poiApi = {
@@ -6,7 +6,7 @@ const poiApi = {
         const url = '/pois';
         return axiosClient.get(url, { params });
     },
-    addPoi(data: Poi): Promise<Poi> {
+    addPoi(data: PostPoi): Promise<Poi> {
         const url = '/pois';
         return axiosClient.post(url, data);
     },
@@ -16,14 +16,14 @@ const poiApi = {
     },
     updatePoiBrand(data: PostPoiBrand): Promise<Poi> {
         const url = '/pois/' + data.poiId + '/brand';
-        return axiosClient.patch(url, data);
+        return axiosClient.put(url, data);
     },
     remove(id: number): Promise<Poi> {
         const url = `/pois/${id}/brand`;
         return axiosClient.delete(url);
     },
-    getPoiById(id: number): Promise<Poi> {
-        const url = `/pois/${id}/brand`;
+    getPoiById(id: string): Promise<PoiDetails> {
+        const url = `/pois/${id}`;
         return axiosClient.get(url);
     },
     getPoiTypes(): Promise<PoiType[]> {
@@ -33,6 +33,6 @@ const poiApi = {
     getPoiBrandById(id: string): Promise<Poi> {
         const url = `/pois/${id}/brand`;
         return axiosClient.get(url);
-    }
+    },
 }
 export default poiApi;

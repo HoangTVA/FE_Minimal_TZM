@@ -86,7 +86,15 @@
     "errorPoiId": "Vui lòng chọn địa điểm quan tâm",
     "errorBrandPoiCode": "Vui lòng nhập mã poi",
     "errorBrandPoiExisted": "Mã poi đã tồn tại, vui lòng nhập mã khác",
-    "note": "Ghi chú"
+    "note": "Ghi chú",
+    "addSuccess": "Thêm mới Poi thành công",
+    "updateSuccessStart": "Poi: ",
+    "updateSuccessEnd": "đã được cập nhật",
+    "addSPoiSuccess": "Đã được thêm thành công, bạn phải chờ admin xác nhận để sử dụng!!!.",
+    "addSpoi": "Thêm mới S-Poi",
+    "sPoiDetails": "Chi tiết S-Poi",
+    "errorPoiName": "Vui lòng nhập tên địa điểm quan tâm",
+    "errorPoiType": "Vui long chọn loại địa điểm quan tâm"
   },
   "adminLevel": {
     "province": "Tỉnh/Thành Phố",

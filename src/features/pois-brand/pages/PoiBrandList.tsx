@@ -22,6 +22,7 @@ import {
 } from '@material-ui/core';
 // material
 import { Box } from '@material-ui/system';
+import poiApi from 'api/poiApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { useTable } from 'components/common';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
@@ -128,9 +129,9 @@ export default function PoiBrandList() {
   };
   const handelConfirmRemoveClick = async () => {
     try {
-      //   await storeApi.remove(storeSelected?.id || 0);
-      //   const newFilter = { ...filter };
-      //   dispatch(storeActions.setFilter(newFilter));
+      await poiApi.remove(poiBrandSelected?.id || 0);
+      const newFilter = { ...filter };
+      dispatch(poiBrandActions.setFilter(newFilter));
       enqueueSnackbar(poiBrandSelected?.name + ' ' + t('store.deleteSuccess'), {
         variant: 'success'
       });
@@ -242,7 +243,7 @@ export default function PoiBrandList() {
         <DialogTitle>{t('common.titleConfirm')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {t('store.removeTitleStart') + poiBrandSelected?.name + ' ' + t('store.removeTitleEnd')}
+            {'Poi: ' + poiBrandSelected?.name + ' ' + t('store.removeTitleEnd')}
             <br />
             {t('common.canRevert')}
           </DialogContentText>

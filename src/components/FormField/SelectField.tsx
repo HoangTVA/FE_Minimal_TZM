@@ -41,7 +41,7 @@ export default function SelectField({ name, control, label, disabled, options }:
         onChange={onChange}
         onBlur={onBlur}
         label={label}
-        value={value}
+        value={value === 0 ? '' : value}
       >
         {options.map((option) => (
           <MenuItem key={option.value} value={option.value}>
