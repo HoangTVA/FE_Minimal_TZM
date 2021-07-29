@@ -86,7 +86,15 @@
     "errorPoiId": "Select Poi, Please!!!",
     "errorBrandPoiCode": "Poi code is required",
     "errorBrandPoiExisted": "Poi code is existed, input another code, pls!!!",
-    "note": "Note"
+    "note": "Note",
+    "addSuccess": "Successfully added a new Poi",
+    "updateSuccessStart": "Poi: ",
+    "updateSuccessEnd": "updated",
+    "addSPoiSuccess": "Successfully added, you must wait for admin approval before using.!!!.",
+    "addSpoi": "Add new S-Poi",
+    "sPoiDetails": "Details S-Poi",
+    "errorPoiName": "Poi name í required",
+    "errorPoiType": "Select Poi type, Please!!!"
   },
   "adminLevel": {
     "province": "Province/City",

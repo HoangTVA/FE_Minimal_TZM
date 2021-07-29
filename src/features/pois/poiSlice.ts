@@ -1,5 +1,5 @@
 import { RootState } from 'app/store';
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Poi, PoiPagingRequest, PoiType, Response } from "models";
 export interface PoiState {
     loading: boolean;
@@ -63,6 +63,10 @@ export const selectLoading = (state: RootState) => state.poi.loading;
 export const selectPoiList = (state: RootState) => state.poi.pois;
 export const selectPoiTypeList = (state: RootState) => state.poi.poiTypes;
 export const selectFilter = (state: RootState) => state.poi.filter;
+export const selectPoiTypeOptions = createSelector(selectPoiTypeList, (poiTypes) => poiTypes.map((poiType) => ({
+    label: poiType.name,
+    value: poiType.id
+})));
 //reducers
 const poiReducer = poiSlice.reducer;
 export default poiReducer;

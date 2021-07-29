@@ -13,6 +13,7 @@ import PoiList from 'features/pois/pages/PoiList';
 import PoiBrandList from 'features/pois-brand/pages/PoiBrandList';
 import AddEditStorePage from 'features/store-management/pages/AddEditStorePage';
 import AddEditPoiBrandPage from 'features/pois-brand/pages/AddEditPoiBrandPage';
+import AddEditPoiPage from 'features/pois/pages/AddEditPoiPage';
 // ----------------------------------------------------------------------
 
 const Loadable = (Component: any) => (props: any) => {
@@ -63,8 +64,8 @@ export default function Router() {
           path: 'pois',
           children: [
             { path: '/', element: <PoiList /> },
-            { path: 'add', element: <AddEditStorePage /> },
-            { path: 'details/:storeId', element: <AddEditStorePage /> }
+            { path: 'add', element: <AddEditPoiPage /> },
+            { path: 'details/:poiId', element: <AddEditPoiPage /> }
           ]
         },
         {

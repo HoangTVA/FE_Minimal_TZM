@@ -4,6 +4,7 @@ import { Container, Typography } from '@material-ui/core';
 import useSettings from '../hooks/useSettings';
 // components
 import Page from '../components/Page';
+import { MapDraggable } from 'components/common';
 
 // ----------------------------------------------------------------------
 

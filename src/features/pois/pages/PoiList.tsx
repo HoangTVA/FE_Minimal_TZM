@@ -110,7 +110,7 @@ export default function PoiList() {
     onSortChange
   });
   const handelDetailsClick = (poi: Poi) => {
-    navigate(`/${poi.id}`);
+    navigate(`${PATH_DASHBOARD.poi.details}/${poi.id}`);
   };
 
   return (
@@ -127,10 +127,10 @@ export default function PoiList() {
             <Button
               variant="contained"
               component={RouterLink}
-              to={PATH_DASHBOARD.root}
+              to={PATH_DASHBOARD.poi.add}
               startIcon={<Icon icon={plusFill} />}
             >
-              {t('store.btnAdd')}
+              {t('poi.addSpoi')}
             </Button>
           }
         />

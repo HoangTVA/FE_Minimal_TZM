@@ -16,7 +16,6 @@ function* handleLogin(payload: AuthRequest) {
         localStorage.setItem('user', JSON.stringify(user));
         localStorage.setItem('access_token', jwt);
         localStorage.setItem('time_expire', decoded.exp?.toString() || '');
-
         yield put(authAction.loginSuccess(user));
 
     } catch (error) {

@@ -1,62 +1,56 @@
-import { Box, Card, Container, Grid, Stack, TextField, Autocomplete } from '@material-ui/core';
-import { styled } from '@material-ui/core/styles';
+import { Autocomplete, Box, Card, Container, Grid, Stack, TextField } from '@material-ui/core';
+import poiApi from 'api/poiApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { SearchAddress } from 'components/common';
 import MapWithMarker from 'components/common/MapWithMarker';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
+import SelectMUI from 'components/material-ui/SelectMUI';
 import Page from 'components/Page';
-import useSettings from 'hooks/useSettings';
-import { LatLngExpression } from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import { Address, Poi, PoiPagingRequest, PostPoiBrand } from 'models';
-import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router';
-import { PATH_DASHBOARD } from 'routes/paths';
-import { getCurrentUser, splitWktToLatLng } from 'utils/common';
-import { useSnackbar } from 'notistack5';
-import { poiBrandActions, selectFilter } from 'features/pois-brand/poiBrandSlice';
-import { poiActions, selectFilter as selectFilterPoi, selectPoiList } from 'features/pois/poiSlice';
-import PoiBrandForm from '../components/PoiBrandForm';
-import './style.css';
-import poiApi from 'api/poiApi';
 import {
   adminLevelActions,
   selectDistrictOptions,
   selectProvinceOptions,
   selectWardOptions
 } from 'features/admin-level/adminLevelSlice';
-import SelectMUI from 'components/material-ui/SelectMUI';
+import { poiBrandActions, selectFilter } from 'features/pois-brand/poiBrandSlice';
+import { poiActions, selectFilter as selectFilterPoi, selectPoiList } from 'features/pois/poiSlice';
+import useSettings from 'hooks/useSettings';
+import { LatLngExpression } from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import { Poi, PoiPagingRequest, PostPoiBrand } from 'models';
+import { useSnackbar } from 'notistack5';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router';
+import { PATH_DASHBOARD } from 'routes/paths';
+import { getCurrentUser, splitWktToLatLng } from 'utils/common';
+import PoiBrandForm from '../components/PoiBrandForm';
+import './style.css';
 
-interface AddEditPoiBrandPageProps {}
-const ThumbImgStyle = styled('img')(({ theme }) => ({
-  width: 300,
-  height: 300,
-  objectFit: 'cover',
-  margin: theme.spacing(0, 2),
-  borderRadius: theme.shape.borderRadiusSm
-}));
-export default function AddEditPoiBrandPage(props: AddEditPoiBrandPageProps) {
+export default function AddEditPoiBrandPage() {
   const { poiId } = useParams();
   const isEdit = Boolean(poiId);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { themeStretch } = useSettings();
-  const [poi, setPoi] = useState<PostPoiBrand>();
+  const [poi, setPoi] = useState<Poi>();
+  const [poiBrand, setPoiBrand] = useState<PostPoiBrand>();
   const [location, setLocation] = useState<LatLngExpression>();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const filter = useAppSelector(selectFilter);
   const filterPoi = useAppSelector(selectFilterPoi);
+  const [selectedPoiId, setSelectedPoiId] = useState();
   const user = getCurrentUser();
   const provinceOptions = useAppSelector(selectProvinceOptions);
   const districtOptions = useAppSelector(selectDistrictOptions);
   const wardOptions = useAppSelector(selectWardOptions);
   const poiList = useAppSelector(selectPoiList);
   useEffect(() => {
-    dispatch(poiActions.fetchPoiList(filterPoi));
-  }, [dispatch, filterPoi]);
+    if (!isEdit) {
+      dispatch(poiActions.fetchPoiList(filterPoi));
+    }
+  }, [dispatch, filterPoi, isEdit]);
   useEffect(() => {
     if (!poiId) return;
 
@@ -64,7 +58,8 @@ export default function AddEditPoiBrandPage(props: AddEditPoiBrandPageProps) {
     (async () => {
       try {
         const data: Poi = await poiApi.getPoiBrandById(poiId);
-
+        setPoi(data);
+        console.log(data);
         if (data?.geom) {
           const latLng = splitWktToLatLng(data.geom);
           setLocation(latLng);
@@ -73,47 +68,51 @@ export default function AddEditPoiBrandPage(props: AddEditPoiBrandPageProps) {
           alias: data.alias,
           brandId: data.brandId,
           brandPoiCode: data.brandPoiCode,
-          createBy: data.createBy,
           notes: data.notes,
           poiId: data.id
         };
-        setPoi(newValue);
+        setPoiBrand(newValue);
       } catch (error) {}
     })();
   }, [poiId]);
   const handelStoreFormSubmit = async (formValues: PostPoiBrand) => {
-    // if (!isEdit) {
-    //   try {
-    //     if (!user) return;
-    //     await storeApi.add(formValues);
-    //     enqueueSnackbar(formValues?.name + ' ' + t('store.addSuccess'), { variant: 'success' });
-    //     const newFilter = { ...filter };
-    //     dispatch(poiBrandActions.setFilter(newFilter));
-    //     navigate(PATH_DASHBOARD.store.root);
-    //   } catch (error) {
-    //     enqueueSnackbar(
-    //       formValues?.name + ' ' + t('common.errorText') + ' ,' + t('store.storeCodeIsExisted'),
-    //       { variant: 'error' }
-    //     );
-    //   }
-    // } else {
-    //   try {
-    //     if (!user) return;
-    //     await storeApi.update(Number(poiId), formValues);
-    //     enqueueSnackbar(
-    //       t('store.updateSuccessStart') + formValues.name + ' ' + t('store.updateSuccessEnd'),
-    //       { variant: 'success' }
-    //     );
-    //     const newFilter = { ...filter };
-    //     dispatch(poiBrandActions.setFilter(newFilter));
-    //     navigate(PATH_DASHBOARD.store.root);
-    //   } catch (error) {
-    //     enqueueSnackbar(
-    //       formValues?.name + ' ' + t('common.errorText') + ' ,' + t('store.storeCodeIsExisted'),
-    //       { variant: 'error' }
-    //     );
-    //   }
-    // }
+    if (!isEdit) {
+      try {
+        if (!user) return;
+        if (!selectedPoiId) {
+          enqueueSnackbar(t('poi.errorPoiId'), { variant: 'warning' });
+          return;
+        }
+        formValues.poiId = selectedPoiId || 0;
+        await poiApi.addPoiBrand(formValues);
+        enqueueSnackbar(formValues?.alias + ' ' + t('poi.addSuccess'), { variant: 'success' });
+        const newFilter = { ...filter };
+        dispatch(poiBrandActions.setFilter(newFilter));
+        navigate(PATH_DASHBOARD.poiBrand.root);
+      } catch (error) {
+        enqueueSnackbar(
+          formValues?.alias + ' ' + t('common.errorText') + ' ,' + t('poi.errorBrandPoiExisted'),
+          { variant: 'error' }
+        );
+      }
+    } else {
+      try {
+        if (!user) return;
+        await poiApi.updatePoiBrand(formValues);
+        enqueueSnackbar(
+          t('poi.updateSuccessStart') + formValues.alias + ' ' + t('poi.updateSuccessEnd'),
+          { variant: 'success' }
+        );
+        const newFilter = { ...filter };
+        dispatch(poiBrandActions.setFilter(newFilter));
+        navigate(PATH_DASHBOARD.poiBrand.root);
+      } catch (error) {
+        enqueueSnackbar(
+          formValues?.alias + ' ' + t('common.errorText') + ' ,' + t('poi.errorBrandPoiExisted'),
+          { variant: 'error' }
+        );
+      }
+    }
   };
   const initialValues: PostPoiBrand = {
     brandId: user?.brandId,
@@ -122,10 +121,12 @@ export default function AddEditPoiBrandPage(props: AddEditPoiBrandPageProps) {
     brandPoiCode: '',
     createBy: user?.id,
     notes: '',
-    ...poi
+    ...poiBrand
   } as PostPoiBrand;
-  const handelSelectLocation = (address: Address) => {
-    setLocation(address?.latlng);
+  const handelSelectLocation = (e, value) => {
+    const rs = splitWktToLatLng(value.geom);
+    setLocation(rs);
+    setSelectedPoiId(value.id);
   };
   const handleProvinceChange = (selectedId: number) => {
     dispatch(adminLevelActions.provinceChange(selectedId));
@@ -173,50 +174,65 @@ export default function AddEditPoiBrandPage(props: AddEditPoiBrandPageProps) {
               <Card sx={{ p: 3 }}>
                 <Stack spacing={3}>
                   <Box>
-                    <Box
-                      style={{
-                        display: 'flex',
-                        flexFlow: 'row nowrap',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                      }}
-                    >
-                      <SelectMUI
-                        isAll={true}
-                        label={t('adminLevel.province')}
-                        labelId="filterByProvince"
-                        options={provinceOptions}
-                        onChange={handleProvinceChange}
-                        selected={filterPoi.provinceId}
-                      />
-                      <SelectMUI
-                        isAll={true}
-                        label={t('adminLevel.district')}
-                        labelId="filterByDistrict"
-                        options={districtOptions}
-                        onChange={handleDistrictChange}
-                        selected={filterPoi.districtId}
-                      />
-                      <SelectMUI
-                        isAll={true}
-                        label={t('adminLevel.ward')}
-                        labelId="filterByWard"
-                        onChange={handelWardChange}
-                        selected={filterPoi.wardId}
-                        options={wardOptions}
-                      />
-                    </Box>
-                    <Box>
-                      <Autocomplete
-                        id="combo-box-demo"
-                        options={poiList.results}
-                        getOptionLabel={(option) => option.name}
-                        fullWidth
-                        renderInput={(params) => (
-                          <TextField {...params} label="Combo box" variant="outlined" />
-                        )}
-                      />
-                    </Box>
+                    {!isEdit ? (
+                      <>
+                        <Box
+                          style={{
+                            display: 'flex',
+                            flexFlow: 'row nowrap',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                          }}
+                        >
+                          <SelectMUI
+                            isAll={true}
+                            label={t('adminLevel.province')}
+                            labelId="filterByProvince"
+                            options={provinceOptions}
+                            onChange={handleProvinceChange}
+                            selected={filterPoi.provinceId}
+                          />
+                          <SelectMUI
+                            isAll={true}
+                            label={t('adminLevel.district')}
+                            labelId="filterByDistrict"
+                            options={districtOptions}
+                            onChange={handleDistrictChange}
+                            selected={filterPoi.districtId}
+                          />
+                          <SelectMUI
+                            isAll={true}
+                            label={t('adminLevel.ward')}
+                            labelId="filterByWard"
+                            onChange={handelWardChange}
+                            selected={filterPoi.wardId}
+                            options={wardOptions}
+                          />
+                        </Box>
+                        <Box mt={1}>
+                          <Autocomplete
+                            options={poiList.results}
+                            getOptionLabel={(option) => option.name}
+                            fullWidth
+                            onChange={handelSelectLocation}
+                            renderInput={(params) => (
+                              <TextField {...params} label={t('poi.poi')} variant="outlined" />
+                            )}
+                          />
+                        </Box>
+                      </>
+                    ) : (
+                      <Box>
+                        <TextField
+                          label={t('poi.poiName')}
+                          variant="outlined"
+                          value={poi?.name || ''}
+                          //defaultValue="value"
+                          disabled
+                          focused
+                        />
+                      </Box>
+                    )}
                     <Box mt={3}>
                       <MapWithMarker position={location} />
                     </Box>
@@ -225,7 +241,7 @@ export default function AddEditPoiBrandPage(props: AddEditPoiBrandPageProps) {
               </Card>
             </Grid>
             <Grid item xs={12} md={6}>
-              {(!isEdit || Boolean(poi)) && (
+              {(!isEdit || Boolean(poiBrand)) && (
                 <PoiBrandForm
                   initialValue={initialValues}
                   onSubmit={handelStoreFormSubmit}
