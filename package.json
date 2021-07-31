@@ -1,10 +1,10 @@
 {
-  "name": "@minimal/material-kit-react",
-  "author": "minimals.cc",
-  "version": "2.3.0",
+  "name": "tzm-fe-webapp",
+  "author": "Dong-Khanh-ResoTeam",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3005 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
