@@ -1,27 +1,26 @@
 FROM node:14.17.3-alpine as builder
 
-# Create app directory
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-# Installing dependencies
-COPY package.json /usr/src/app/
-COPY package-lock.json /usr/src/app/
-RUN npm install
+# Copying source files
+COPY . .
 
 # Building app
-RUN npm run build
+RUN npm install && \
+    npm run build && \
+    npm cache clean --force 
 
 FROM node:14.17.3-alpine
 
-# Copying source files
-COPY . /usr/src/app
+# Create app directory
+WORKDIR /usr/src/app
+
+# copy from the builder
+COPY --from=builder /usr/src/app/ .
+
+RUN ls -la
 
 EXPOSE 3000
 
-#Copying entrypoint.sh file
-COPY ./build/entrypoint.sh entrypoint.sh
-RUN chmod+x entrypoint.sh
-
-#start app
-ENTRYPOINT ["./entrypoint.sh"]
+# Start the app
+CMD npm run start
