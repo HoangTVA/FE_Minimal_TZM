@@ -20,7 +20,7 @@ COPY --from=builder /usr/src/app/ .
 
 RUN ls -la
 
-EXPOSE 3000
+EXPOSE 3005
 
 # Start the app
 CMD npm run start
