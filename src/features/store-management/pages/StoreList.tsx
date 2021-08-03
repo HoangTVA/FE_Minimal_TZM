@@ -1,9 +1,7 @@
 import editFill from '@iconify/icons-eva/edit-fill';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import layersFill from '@iconify/icons-eva/layers-fill';
 import { Icon } from '@iconify/react';
-import { useSnackbar } from 'notistack5';
 // material
 import {
   Button,
@@ -35,14 +33,15 @@ import Scrollbar from 'components/Scrollbar';
 // hooks
 import useSettings from 'hooks/useSettings';
 import { GetStatusMap, PaginationRequest, Store } from 'models';
+import { useSnackbar } from 'notistack5';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // redux
 // routes
 import { PATH_DASHBOARD } from 'routes/paths';
-import { selectFilter, selectLoading, selectStoresResponse, storeActions } from '../storeSlice';
 import StoreFilter from '../components/StoreFilter';
+import { selectFilter, selectLoading, selectStoresResponse, storeActions } from '../storeSlice';
 
 // ----------------------------------------------------------------------
 

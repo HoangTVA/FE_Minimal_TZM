@@ -66,7 +66,12 @@
     "detailsAttrsPage": "Details attribute",
     "templateId": "Template Code",
     "templateName": "Template name",
-    "url": "Short URL"
+    "url": "Short URL",
+    "imageUrl": "Image",
+    "errorUrl": "Short URL is required",
+    "errorTemplate": "Select template, Pls!!!",
+    "infoTemplate": "Template information",
+    "editInfo": "Edit information"
   },
   "status": {
     "all": "All",
@@ -132,7 +137,10 @@
     "btnBack": "Back",
     "btnUpdate": "Update",
     "notFound": "Not found",
-    "searchNotFound": "No results found!!!. Try checking for typos or using complete words."
+    "searchNotFound": "No results found!!!. Try checking for typos or using complete words.",
+    "editInfo": "Edit",
+    "select": "Select",
+    "view": "View"
   },
   "login": {
     "welcome": "Welcone to Trade zone map",

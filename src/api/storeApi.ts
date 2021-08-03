@@ -1,4 +1,4 @@
-import { PostStore } from './../models/dto/store';
+import { PostStore, Template, PostTemplate } from './../models/dto/store';
 import { PaginationRequest, Response, Store, StoreAttrs, StoreType } from "models";
 import axiosClient from "./axiosClient";
 import { FetchAttrs } from 'features/template/templateSlice';
@@ -40,6 +40,14 @@ const storeApi = {
     getAttrField(storeId: string, storeTypeId: string): Promise<AttrResponse[]> {
         const url = '/stores/' + storeId + '/store-type/' + storeTypeId + '/attr-group-details';
         return axiosClient.get(url);
+    },
+    getTemplates(params: PaginationRequest): Promise<Template[]> {
+        const url = '/stores/templates';
+        return axiosClient.get(url, { params });
+    },
+    updateStoreTemplate(id: string, data: PostTemplate): Promise<Store> {
+        const url = `/stores/${id}/templates`;
+        return axiosClient.put(url, data);
     },
 }
 export default storeApi;

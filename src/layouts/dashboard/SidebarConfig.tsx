@@ -45,11 +45,6 @@ export default function SidebarConfig() {
           title: t('content.asset'),
           path: PATH_DASHBOARD.general.pageThree,
           icon: ICONS.asset
-        },
-        {
-          title: t('content.templates'),
-          path: PATH_DASHBOARD.template.root,
-          icon: ICONS.template
         }
       ]
     },

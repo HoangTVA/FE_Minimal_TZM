@@ -1,4 +1,4 @@
-import { Box, Card, Container, Grid, Stack, TextField } from '@material-ui/core';
+import { Box, Card, Container, Grid, Stack, TextField, Typography } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 import storeApi from 'api/storeApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
@@ -138,13 +138,16 @@ export default function AddEditStorePage(props: AddEditStorePageProps) {
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             { name: t('store.title'), href: PATH_DASHBOARD.store.root },
-            { name: !isEdit ? t('store.btnAdd') : t('store.detailsStore') }
+            { name: !isEdit ? t('store.btnAdd') : t('store.editInfo') }
           ]}
         />
         <Box>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <Card sx={{ p: 3 }} style={{ marginBottom: '8px' }}>
+                <Typography variant="h6" gutterBottom marginBottom={4}>
+                  {t('store.imageUrl')}
+                </Typography>
                 <Stack spacing={3}>
                   <Box>
                     <Box
@@ -180,6 +183,9 @@ export default function AddEditStorePage(props: AddEditStorePageProps) {
             </Grid>
             <Grid item xs={12} md={6}>
               <Card sx={{ p: 3 }}>
+                <Typography variant="h6" gutterBottom marginBottom={3}>
+                  {t('store.addressMap')}
+                </Typography>
                 <Stack spacing={3}>
                   <Box>
                     <SearchAddress onChangeAddress={handelSelectLocation} />

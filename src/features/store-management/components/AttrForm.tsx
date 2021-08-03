@@ -99,9 +99,11 @@ export default function AttrForm({ initialValue, onSubmit, isView }: AttrFormPro
         <Card sx={{ p: 3 }}>
           <Stack spacing={3}>{initialValue.map((e) => renderControl(e))}</Stack>
         </Card>
-        <LoadingButton type="submit" fullWidth variant="contained" size="large">
-          {t('common.btnUpdate')}
-        </LoadingButton>
+        {!isView && (
+          <LoadingButton type="submit" fullWidth variant="contained" size="large">
+            {t('common.btnUpdate')}
+          </LoadingButton>
+        )}
       </Stack>
     </form>
   );

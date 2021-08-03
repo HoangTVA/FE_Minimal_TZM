@@ -24,6 +24,7 @@ export const PATH_DASHBOARD = {
     details: path(ROOTS_DASHBOARD, '/manage-store/details'),
     editInfo: path(ROOTS_DASHBOARD, '/manage-store/details/edit-info'),
     editAttrs: path(ROOTS_DASHBOARD, '/manage-store/details/edit-attrs'),
+    editTemplates: path(ROOTS_DASHBOARD, '/manage-store/details/edit-templates')
   },
   poi: {
     root: path(ROOTS_DASHBOARD, '/pois'),
