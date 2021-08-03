@@ -20,11 +20,18 @@
     "backHomePage": "Click to back",
     "business": "Business",
     "system": "System",
-    "asset": "Asset"
+    "asset": "Asset",
+    "nameCustom": "Short URL",
+    "noticeTemplate": "Select store and input url to get QR code!!!."
   },
   "map": {
     "locate": "Show me where I am, yo!",
-    "title": "Brand map"
+    "title": "Brand map",
+    "normalLayer": "Normal layer",
+    "blackWhiteLayer": "Black and white layer",
+    "stores": "Stores",
+    "pois": "Pois",
+    "myStore": "Brand's stores"
   },
   "store": {
     "storeName": "Store name",
@@ -53,7 +60,18 @@
     "detailsStore": "Store details",
     "updateSuccessStart": "Store: ",
     "updateSuccessEnd": "updated",
-    "listStore": "Store list"
+    "listStore": "Store list",
+    "attrs": "Attributes",
+    "attrList": "Attribute list",
+    "detailsAttrsPage": "Details attribute",
+    "templateId": "Template Code",
+    "templateName": "Template name",
+    "url": "Short URL",
+    "imageUrl": "Image",
+    "errorUrl": "Short URL is required",
+    "errorTemplate": "Select template, Pls!!!",
+    "infoTemplate": "Template information",
+    "editInfo": "Edit information"
   },
   "status": {
     "all": "All",
@@ -119,7 +137,10 @@
     "btnBack": "Back",
     "btnUpdate": "Update",
     "notFound": "Not found",
-    "searchNotFound": "No results found!!!. Try checking for typos or using complete words."
+    "searchNotFound": "No results found!!!. Try checking for typos or using complete words.",
+    "editInfo": "Edit",
+    "select": "Select",
+    "view": "View"
   },
   "login": {
     "welcome": "Welcone to Trade zone map",

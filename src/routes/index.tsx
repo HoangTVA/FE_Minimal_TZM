@@ -14,6 +14,11 @@ import PoiBrandList from 'features/pois-brand/pages/PoiBrandList';
 import AddEditStorePage from 'features/store-management/pages/AddEditStorePage';
 import AddEditPoiBrandPage from 'features/pois-brand/pages/AddEditPoiBrandPage';
 import AddEditPoiPage from 'features/pois/pages/AddEditPoiPage';
+import Template from 'features/template/pages/Template';
+import DisplayTemplate from 'features/template/pages/DisplayTemplate';
+import EditAttrsPage from 'features/store-management/pages/EditAttrsPage';
+import StoreViewPage from 'features/store-management/pages/StoreView';
+import StoreTemplatePage from 'features/store-management/pages/StoreTemplatePage';
 // ----------------------------------------------------------------------
 
 const Loadable = (Component: any) => (props: any) => {
@@ -56,10 +61,14 @@ export default function Router() {
           children: [
             { path: '/', element: <StoreList /> },
             { path: 'add', element: <AddEditStorePage /> },
-            { path: 'details/:storeId', element: <AddEditStorePage /> }
+            { path: 'details/:storeId', element: <StoreViewPage /> },
+            { path: 'details/edit-info/:storeId', element: <AddEditStorePage /> },
+            { path: 'details/edit-attrs/:storeId/:storeTypeId', element: <EditAttrsPage /> },
+            { path: 'details/edit-templates/:storeId', element: <StoreTemplatePage /> }
           ]
         },
         { path: 'brand-map', element: <BrandMap /> },
+        { path: 'templates', element: <Template /> },
         {
           path: 'pois',
           children: [
@@ -115,7 +124,6 @@ export default function Router() {
 // IMPORT COMPONENTS
 
 // Dashboard
-const PageOne = Loadable(lazy(() => import('../pages/PageOne')));
 const PageTwo = Loadable(lazy(() => import('../pages/PageTwo')));
 const PageThree = Loadable(lazy(() => import('../pages/PageThree')));
 const PageFour = Loadable(lazy(() => import('../pages/PageFour')));

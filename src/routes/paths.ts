@@ -1,4 +1,3 @@
-import { store } from './../app/store';
 // ----------------------------------------------------------------------
 
 function path(root: string, sublink: string) {
@@ -23,6 +22,9 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_DASHBOARD, '/manage-store'),
     add: path(ROOTS_DASHBOARD, '/manage-store/add'),
     details: path(ROOTS_DASHBOARD, '/manage-store/details'),
+    editInfo: path(ROOTS_DASHBOARD, '/manage-store/details/edit-info'),
+    editAttrs: path(ROOTS_DASHBOARD, '/manage-store/details/edit-attrs'),
+    editTemplates: path(ROOTS_DASHBOARD, '/manage-store/details/edit-templates')
   },
   poi: {
     root: path(ROOTS_DASHBOARD, '/pois'),
@@ -33,5 +35,8 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_DASHBOARD, '/brand-pois'),
     add: path(ROOTS_DASHBOARD, '/brand-pois/add'),
     details: path(ROOTS_DASHBOARD, '/brand-pois/details'),
+  },
+  template: {
+    root: path(ROOTS_DASHBOARD, '/templates'),
   }
 };

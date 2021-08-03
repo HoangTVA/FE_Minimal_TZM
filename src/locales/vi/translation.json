@@ -20,11 +20,18 @@
     "backHomePage": "Trở về",
     "business": "Kinh doanh",
     "system": "Hệ thống",
-    "asset": "Tài sản"
+    "asset": "Tài sản",
+    "nameCustom": "Tên URL",
+    "noticeTemplate": "Chọn cửa hàng và nhâp url để có QR code!!!."
   },
   "map": {
     "locate": "Đi đến vị trí hiện tại",
-    "title": "Bản đồ cho nhãn hàng"
+    "title": "Bản đồ cho nhãn hàng",
+    "normalLayer": "Bản đồ thường",
+    "blackWhiteLayer": "Bản đồ trắng đen",
+    "stores": "Cửa hàng hệ thống",
+    "pois": "Địa điểm quan tâm",
+    "myStore": "Cửa hàng của bạn"
   },
   "store": {
     "storeName": "Tên cửa hàng",
@@ -53,7 +60,20 @@
     "detailsStore": "Chi tiết cửa hàng",
     "updateSuccessStart": "Cửa hàng: ",
     "updateSuccessEnd": "đã được cập nhật",
-    "listStore": "Danh sách cửa hàng"
+    "listStore": "Danh sách cửa hàng",
+    "attrs": "Thuộc tính",
+    "attrList": "Danh sách các thuộc tính",
+    "detailsAttrsPage": "Chi tiết các thuộc tính",
+    "info": "Thông tin cửa hàng",
+    "addressMap": "Tọa độ cửa hàng",
+    "templateId": "Mẫu Code",
+    "templateName": "Tên Mẫu",
+    "url": "Tên URL",
+    "imageUrl": "Hình ảnh",
+    "errorUrl": "Vui lòng nhâp tên URL",
+    "errorTemplate": "Vui lòng chọn mẫu",
+    "infoTemplate": "Thông tin mẫu",
+    "editInfo": "Chỉnh sửa thông tin"
   },
   "status": {
     "all": "Tất cả",
@@ -119,7 +139,10 @@
     "btnBack": "Trở về",
     "btnUpdate": "Cập nhật",
     "notFound": "Không tìm thấy",
-    "searchNotFound": "Không có kết quả trùng khớp!!!. Thử kiểm tra lỗi chính tả hoặc sử dụng các từ hoàn chỉnh."
+    "searchNotFound": "Không có kết quả trùng khớp!!!. Thử kiểm tra lỗi chính tả hoặc sử dụng các từ hoàn chỉnh.",
+    "editInfo": "Chỉnh sửa",
+    "select": "Chọn",
+    "view": "Xem"
   },
   "login": {
     "welcome": "Chào mừng bạn đến với Trade zone map",

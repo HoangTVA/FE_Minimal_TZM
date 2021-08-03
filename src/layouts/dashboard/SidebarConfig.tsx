@@ -17,7 +17,8 @@ const ICONS = {
   poi: getIcon('s-poi'),
   map: getIcon('ic-map'),
   asset: getIcon('ic-asset'),
-  settings: getIcon('ic-setting')
+  settings: getIcon('ic-setting'),
+  template: getIcon('ic-template')
 };
 export default function SidebarConfig() {
   const { t } = useTranslation();

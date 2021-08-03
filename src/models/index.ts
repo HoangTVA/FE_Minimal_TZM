@@ -8,3 +8,6 @@ export * from './dto/status';
 export * from './dto/poi';
 export * from './dto/adminLevel';
 export * from './dto/address';
+export * from './dto/attrProps';
+export * from './dto/geoJonMarker';
+export * from './dto/RequestBounds';

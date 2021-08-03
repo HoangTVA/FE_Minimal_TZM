@@ -16,6 +16,8 @@ export interface Store {
     imageUrl?: string;
     storeTypeId?: number;
     storeCode?: string;
+    url: string;
+    template: Template;
 }
 
 export interface Geom {
@@ -35,4 +37,15 @@ export interface PostStore {
     imageUrl?: string;
     storeCode: string;
     storeTypeId: number;
+}
+export interface Template {
+    id: number;
+    name: string;
+    imageUrl: string;
+}
+export interface PostTemplate {
+
+    templateId: number,
+    url: string
+
 }

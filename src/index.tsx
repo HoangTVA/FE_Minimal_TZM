@@ -18,9 +18,6 @@ import { store } from './app/store';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
-// ----------------------------------------------------------------------
-import '@sweetalert2/theme-material-ui/material-ui.css';
-
 ReactDOM.render(
   <StrictMode>
     <HelmetProvider>

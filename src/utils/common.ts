@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { LatLngExpression } from 'leaflet';
+import { LatLngBounds, LatLngExpression } from 'leaflet';
 import { User } from "models";
 import { toast } from 'react-toastify';
 import { useSnackbar } from 'notistack5';
@@ -28,4 +28,12 @@ export const splitWktTopPostLatLng = (wkt: string) => {
     const rs = sub.split(' ');
     const latLng: string = rs[0] + " " + rs[1];
     return latLng
+}
+export const convertBounds = (bounds: LatLngBounds) => {
+    const rs = `${bounds.getSouthWest().lng} ${bounds.getSouthWest().lat}, ` +
+        `${bounds.getNorthWest().lng} ${bounds.getNorthWest().lat}, ` +
+        `${bounds.getNorthEast().lng} ${bounds.getNorthEast().lat}, ` +
+        `${bounds.getSouthEast().lng} ${bounds.getSouthEast().lat}, ` +
+        `${bounds.getSouthWest().lng} ${bounds.getSouthWest().lat}`
+    return rs;
 }

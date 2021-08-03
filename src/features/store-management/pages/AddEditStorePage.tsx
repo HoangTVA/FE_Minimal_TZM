@@ -1,4 +1,4 @@
-import { Box, Card, Container, Grid, Stack, TextField } from '@material-ui/core';
+import { Box, Card, Container, Grid, Stack, TextField, Typography } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 import storeApi from 'api/storeApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
@@ -21,6 +21,7 @@ import { storeActions } from '../storeSlice';
 import { useSnackbar } from 'notistack5';
 import { selectFilter } from 'features/pois-brand/poiBrandSlice';
 import './style.css';
+import Images from 'constants/image';
 
 interface AddEditStorePageProps {}
 const ThumbImgStyle = styled('img')(({ theme }) => ({
@@ -30,6 +31,7 @@ const ThumbImgStyle = styled('img')(({ theme }) => ({
   margin: theme.spacing(0, 2),
   borderRadius: theme.shape.borderRadiusSm
 }));
+
 export default function AddEditStorePage(props: AddEditStorePageProps) {
   const { storeId } = useParams();
   const isEdit = Boolean(storeId);
@@ -41,9 +43,7 @@ export default function AddEditStorePage(props: AddEditStorePageProps) {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const filter = useAppSelector(selectFilter);
-  const [imgLink, setImglink] = useState<string>(
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Circle-icons-image.svg/1024px-Circle-icons-image.svg.png'
-  );
+  const [imgLink, setImglink] = useState<string>(Images.DEFAULT_IMG);
   const user = getCurrentUser();
   useEffect(() => {
     dispatch(storeActions.fetchStoreType());
@@ -138,21 +138,17 @@ export default function AddEditStorePage(props: AddEditStorePageProps) {
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             { name: t('store.title'), href: PATH_DASHBOARD.store.root },
-            { name: !isEdit ? t('store.btnAdd') : t('store.detailsStore') }
+            { name: !isEdit ? t('store.btnAdd') : t('store.editInfo') }
           ]}
         />
         <Box>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
-              <Card sx={{ p: 3 }}>
+              <Card sx={{ p: 3 }} style={{ marginBottom: '8px' }}>
+                <Typography variant="h6" gutterBottom marginBottom={4}>
+                  {t('store.imageUrl')}
+                </Typography>
                 <Stack spacing={3}>
-                  <Box>
-                    <SearchAddress onChangeAddress={handelSelectLocation} />
-                    <Box mt={3}>
-                      <MapWithMarker position={location} />
-                    </Box>
-                  </Box>
-
                   <Box>
                     <Box
                       style={{
@@ -161,26 +157,20 @@ export default function AddEditStorePage(props: AddEditStorePageProps) {
                         justifyContent: 'center',
                         alignItems: 'center',
                         borderRadius: '10px',
-                        border: '2px solid gray',
-                        height: '35vh',
+
+                        height: '30vh',
                         width: '100%'
                       }}
                     >
                       <ThumbImgStyle
                         alt="error"
                         src={imgLink}
-                        onError={() =>
-                          setImglink(
-                            'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Circle-icons-image.svg/1024px-Circle-icons-image.svg.png'
-                          )
-                        }
+                        onError={(e) => setImglink(Images.DEFAULT_IMG)}
                       />
                     </Box>
                   </Box>
                 </Stack>
               </Card>
-            </Grid>
-            <Grid item xs={12} md={6}>
               {(!isEdit || Boolean(store)) && (
                 <StoreForm
                   initialValue={initialValues}
@@ -190,6 +180,21 @@ export default function AddEditStorePage(props: AddEditStorePageProps) {
                   isEdit={isEdit}
                 />
               )}
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Card sx={{ p: 3 }}>
+                <Typography variant="h6" gutterBottom marginBottom={3}>
+                  {t('store.addressMap')}
+                </Typography>
+                <Stack spacing={3}>
+                  <Box>
+                    <SearchAddress onChangeAddress={handelSelectLocation} />
+                    <Box mt={3}>
+                      <MapWithMarker position={location} />
+                    </Box>
+                  </Box>
+                </Stack>
+              </Card>
             </Grid>
           </Grid>
         </Box>
