@@ -17,7 +17,8 @@ const ICONS = {
   poi: getIcon('s-poi'),
   map: getIcon('ic-map'),
   asset: getIcon('ic-asset'),
-  settings: getIcon('ic-setting')
+  settings: getIcon('ic-setting'),
+  template: getIcon('ic-template')
 };
 export default function SidebarConfig() {
   const { t } = useTranslation();
@@ -44,6 +45,11 @@ export default function SidebarConfig() {
           title: t('content.asset'),
           path: PATH_DASHBOARD.general.pageThree,
           icon: ICONS.asset
+        },
+        {
+          title: t('content.templates'),
+          path: PATH_DASHBOARD.template.root,
+          icon: ICONS.template
         }
       ]
     },

@@ -58,8 +58,8 @@ export const selectLoading = (state: RootState) => state.stores.loading;
 export const selectFilter = (state: RootState) => state.stores.filter;
 export const selectStoreType = (state: RootState) => state.stores.storeTypes;
 export const selectStoreTypeOptions = createSelector(selectStoreType, (storeTypes) => storeTypes.map((storeType) => ({
-    label: storeType.name,
-    value: storeType.id
+    name: storeType.name,
+    id: storeType.id
 })));
 
 //reducers

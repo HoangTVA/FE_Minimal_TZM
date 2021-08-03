@@ -1,6 +1,7 @@
 import editFill from '@iconify/icons-eva/edit-fill';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
+import layersFill from '@iconify/icons-eva/layers-fill';
 import { Icon } from '@iconify/react';
 import { useSnackbar } from 'notistack5';
 // material
@@ -136,7 +137,6 @@ export default function StoreList() {
   const handelDetailsClick = (store: Store) => {
     navigate(`${PATH_DASHBOARD.store.details}/${store.id}`);
   };
-
   return (
     <Page title={t('store.title')}>
       <Container maxWidth={themeStretch ? false : 'lg'}>

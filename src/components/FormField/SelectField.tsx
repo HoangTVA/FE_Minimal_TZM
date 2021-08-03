@@ -4,8 +4,8 @@ import { size } from 'lodash';
 import { Control, useController } from 'react-hook-form';
 
 export interface SelectOptions {
-  label?: string;
-  value: number | string;
+  name?: string;
+  id: number | string;
 }
 interface SelectFieldProps {
   name: string;
@@ -44,8 +44,8 @@ export default function SelectField({ name, control, label, disabled, options }:
         value={value === 0 ? '' : value}
       >
         {options.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
+          <MenuItem key={option.id} value={option.id}>
+            {option.name}
           </MenuItem>
         ))}
       </Select>

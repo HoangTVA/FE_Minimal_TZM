@@ -20,11 +20,18 @@
     "backHomePage": "Trở về",
     "business": "Kinh doanh",
     "system": "Hệ thống",
-    "asset": "Tài sản"
+    "asset": "Tài sản",
+    "nameCustom": "Tên URL",
+    "noticeTemplate": "Chọn cửa hàng và nhâp url để có QR code!!!."
   },
   "map": {
     "locate": "Đi đến vị trí hiện tại",
-    "title": "Bản đồ cho nhãn hàng"
+    "title": "Bản đồ cho nhãn hàng",
+    "normalLayer": "Bản đồ thường",
+    "blackWhiteLayer": "Bản đồ trắng đen",
+    "stores": "Cửa hàng hệ thống",
+    "pois": "Địa điểm quan tâm",
+    "myStore": "Cửa hàng của bạn"
   },
   "store": {
     "storeName": "Tên cửa hàng",
@@ -53,7 +60,15 @@
     "detailsStore": "Chi tiết cửa hàng",
     "updateSuccessStart": "Cửa hàng: ",
     "updateSuccessEnd": "đã được cập nhật",
-    "listStore": "Danh sách cửa hàng"
+    "listStore": "Danh sách cửa hàng",
+    "attrs": "Thuộc tính",
+    "attrList": "Danh sách các thuộc tính",
+    "detailsAttrsPage": "Chi tiết các thuộc tính",
+    "info": "Thông tin cửa hàng",
+    "addressMap": "Tọa độ cửa hàng",
+    "templateId": "Mẫu Code",
+    "templateName": "Tên Mẫu",
+    "url": "Tên URL"
   },
   "status": {
     "all": "Tất cả",

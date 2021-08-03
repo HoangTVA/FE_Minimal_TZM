@@ -64,8 +64,8 @@ export const selectPoiList = (state: RootState) => state.poi.pois;
 export const selectPoiTypeList = (state: RootState) => state.poi.poiTypes;
 export const selectFilter = (state: RootState) => state.poi.filter;
 export const selectPoiTypeOptions = createSelector(selectPoiTypeList, (poiTypes) => poiTypes.map((poiType) => ({
-    label: poiType.name,
-    value: poiType.id
+    name: poiType.name,
+    id: poiType.id
 })));
 //reducers
 const poiReducer = poiSlice.reducer;

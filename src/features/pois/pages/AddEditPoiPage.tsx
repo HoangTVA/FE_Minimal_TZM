@@ -9,14 +9,13 @@ import { poiActions, selectFilter } from 'features/pois/poiSlice';
 import useSettings from 'hooks/useSettings';
 import { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Address, Poi, PoiDetails, PostPoi } from 'models';
+import { Address, PoiDetails, PostPoi } from 'models';
 import { useSnackbar } from 'notistack5';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import { PATH_DASHBOARD } from 'routes/paths';
-import { getCurrentUser, splitWktToLatLng } from 'utils/common';
 import PoiForm from '../components/PoiForm';
 import './style.css';
 

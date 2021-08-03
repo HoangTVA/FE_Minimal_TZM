@@ -20,6 +20,7 @@ interface StoreFormProps {
   onSubmit?: (formValue: PostStore) => void;
   onImageChange?: (value: string) => void;
   isEdit: boolean;
+  isView?: boolean;
 }
 
 export default function StoreForm({
@@ -27,7 +28,8 @@ export default function StoreForm({
   onSubmit,
   onImageChange,
   location,
-  isEdit
+  isEdit,
+  isView
 }: StoreFormProps) {
   const { t } = useTranslation();
   //schema
@@ -72,8 +74,19 @@ export default function StoreForm({
       <Stack spacing={3}>
         <Card sx={{ p: 3 }}>
           <Stack spacing={3}>
-            <InputField name="name" label={t('store.storeName') + '*'} control={control} />
-            <InputField name="storeCode" label={t('store.storeCode') + '*'} control={control} />
+            <InputField
+              name="storeCode"
+              label={t('store.storeCode') + '*'}
+              control={control}
+              disabled={isView}
+            />
+            <InputField
+              name="name"
+              label={t('store.storeName') + '*'}
+              control={control}
+              disabled={isView}
+            />
+
             <InputField
               name="coordinateString"
               label={t('store.location') + '*'}
@@ -85,26 +98,37 @@ export default function StoreForm({
               label={t('store.img') + '*'}
               control={control}
               onChange={handelInputFieldImgChange}
+              disabled={isView}
             />
-            <InputAreaField name="address" label={t('store.address') + '*'} control={control} />
+            <InputAreaField
+              name="address"
+              label={t('store.address') + '*'}
+              control={control}
+              disabled={isView}
+            />
             <SelectField
               name="storeTypeId"
               label={t('store.storeTypeName') + '*'}
               control={control}
               options={storeTypeOptions}
+              disabled={isView}
             />
           </Stack>
         </Card>
-        <LoadingButton
-          disabled={!isDirty}
-          type="submit"
-          fullWidth
-          variant="contained"
-          size="large"
-          loading={isSubmitting}
-        >
-          {isEdit ? t('common.btnUpdate') : t('common.btnSubmit')}
-        </LoadingButton>
+        {isView ? (
+          <></>
+        ) : (
+          <LoadingButton
+            disabled={!isDirty}
+            type="submit"
+            fullWidth
+            variant="contained"
+            size="large"
+            loading={isSubmitting}
+          >
+            {isEdit ? t('common.btnUpdate') : t('common.btnSubmit')}
+          </LoadingButton>
+        )}
       </Stack>
     </form>
   );

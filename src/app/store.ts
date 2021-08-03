@@ -4,6 +4,7 @@ import authReducer from 'features/auth/authSlice';
 import poiBrandReducer from 'features/pois-brand/poiBrandSlice';
 import poiReducer from 'features/pois/poiSlice';
 import storeReducer from 'features/store-management/storeSlice';
+import templateReducer from 'features/template/templateSlice';
 
 
 import createSagaMiddleware from 'redux-saga';
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   poi: poiReducer,
   adminLevel: adminLevelReducer,
   poiBrands: poiBrandReducer,
+  template: templateReducer,
 })
 
 const sagaMiddleware = createSagaMiddleware();

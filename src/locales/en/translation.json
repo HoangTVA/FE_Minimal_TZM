@@ -20,11 +20,18 @@
     "backHomePage": "Click to back",
     "business": "Business",
     "system": "System",
-    "asset": "Asset"
+    "asset": "Asset",
+    "nameCustom": "Short URL",
+    "noticeTemplate": "Select store and input url to get QR code!!!."
   },
   "map": {
     "locate": "Show me where I am, yo!",
-    "title": "Brand map"
+    "title": "Brand map",
+    "normalLayer": "Normal layer",
+    "blackWhiteLayer": "Black and white layer",
+    "stores": "Stores",
+    "pois": "Pois",
+    "myStore": "Brand's stores"
   },
   "store": {
     "storeName": "Store name",
@@ -53,7 +60,13 @@
     "detailsStore": "Store details",
     "updateSuccessStart": "Store: ",
     "updateSuccessEnd": "updated",
-    "listStore": "Store list"
+    "listStore": "Store list",
+    "attrs": "Attributes",
+    "attrList": "Attribute list",
+    "detailsAttrsPage": "Details attribute",
+    "templateId": "Template Code",
+    "templateName": "Template name",
+    "url": "Short URL"
   },
   "status": {
     "all": "All",

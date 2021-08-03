@@ -7,8 +7,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import { Control, useController } from 'react-hook-form';
 
 export interface RadioOption {
-  label?: string;
-  value: number | string;
+  name?: string;
+  id: number | string;
 }
 interface RadioGroupFieldProps {
   name: string;
@@ -39,10 +39,10 @@ export default function RadioGroupField({
       <RadioGroup name={name} value={value} onChange={onChange} onBlur={onBlur}>
         {options.map((option) => (
           <FormControlLabel
-            key={option.value}
-            value={option.value}
+            key={option.id}
+            value={option.id}
             control={<Radio />}
-            label={option.label}
+            label={option.name}
           />
         ))}
       </RadioGroup>
