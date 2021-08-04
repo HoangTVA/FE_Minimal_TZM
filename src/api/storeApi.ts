@@ -1,3 +1,4 @@
+import { PostAttr } from './../models/dto/attr';
 import { PostStore, Template, PostTemplate } from './../models/dto/store';
 import { PaginationRequest, Response, Store, StoreAttrs, StoreType } from "models";
 import axiosClient from "./axiosClient";
@@ -49,5 +50,9 @@ const storeApi = {
         const url = `/stores/${id}/templates`;
         return axiosClient.put(url, data);
     },
+    updateAttrs(id: string, data: PostAttr[]) {
+        const url = `/stores/${id}/attrs-insert-value`;
+        return axiosClient.put(url, data);
+    }
 }
 export default storeApi;

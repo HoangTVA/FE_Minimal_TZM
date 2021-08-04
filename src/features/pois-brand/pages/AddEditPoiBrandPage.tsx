@@ -1,4 +1,13 @@
-import { Autocomplete, Box, Card, Container, Grid, Stack, TextField } from '@material-ui/core';
+import {
+  Autocomplete,
+  Box,
+  Card,
+  Container,
+  Grid,
+  Stack,
+  TextField,
+  Typography
+} from '@material-ui/core';
 import poiApi from 'api/poiApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import MapWithMarker from 'components/common/MapWithMarker';
@@ -23,7 +32,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import { PATH_DASHBOARD } from 'routes/paths';
-import { getCurrentUser, splitWktToLatLng } from 'utils/common';
+import { getCurrentUser, splitLongString, splitWktToLatLng } from 'utils/common';
 import PoiBrandForm from '../components/PoiBrandForm';
 import './style.css';
 
@@ -164,14 +173,28 @@ export default function AddEditPoiBrandPage() {
           heading={isEdit ? t('poi.editPoiBrandTitle') : t('poi.addPoiBrandTitle')}
           links={[
             { name: t('content.dashboard'), href: PATH_DASHBOARD.root },
-            { name: t('poi.poiBrand'), href: PATH_DASHBOARD.poiBrand.root },
-            { name: isEdit ? t('poi.editPoiBrandTitle') : t('poi.addPoiBrandTitle') }
+            { name: t('poi.poiBrandList'), href: PATH_DASHBOARD.poiBrand.root },
+            {
+              name: isEdit ? splitLongString(poiBrand?.alias || '') : t('poi.addPoiBrandTitle')
+            }
           ]}
         />
         <Box>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
+              {(!isEdit || Boolean(poiBrand)) && (
+                <PoiBrandForm
+                  initialValue={initialValues}
+                  onSubmit={handelStoreFormSubmit}
+                  isEdit={isEdit}
+                />
+              )}
+            </Grid>
+            <Grid item xs={12} md={6}>
               <Card sx={{ p: 3 }}>
+                <Typography variant="h6" gutterBottom marginBottom={4}>
+                  {t('poi.sPoi')}
+                </Typography>
                 <Stack spacing={3}>
                   <Box>
                     {!isEdit ? (
@@ -224,6 +247,7 @@ export default function AddEditPoiBrandPage() {
                     ) : (
                       <Box>
                         <TextField
+                          fullWidth
                           label={t('poi.poiName')}
                           variant="outlined"
                           value={poi?.name || ''}
@@ -239,15 +263,6 @@ export default function AddEditPoiBrandPage() {
                   </Box>
                 </Stack>
               </Card>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              {(!isEdit || Boolean(poiBrand)) && (
-                <PoiBrandForm
-                  initialValue={initialValues}
-                  onSubmit={handelStoreFormSubmit}
-                  isEdit={isEdit}
-                />
-              )}
             </Grid>
           </Grid>
         </Box>

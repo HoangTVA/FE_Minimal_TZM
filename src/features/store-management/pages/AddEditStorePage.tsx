@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import { PATH_DASHBOARD } from 'routes/paths';
-import { getCurrentUser } from 'utils/common';
+import { getCurrentUser, splitLongString } from 'utils/common';
 import StoreForm from '../components/StoreForm';
 import { storeActions } from '../storeSlice';
 import { useSnackbar } from 'notistack5';
@@ -138,6 +138,10 @@ export default function AddEditStorePage(props: AddEditStorePageProps) {
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             { name: t('store.title'), href: PATH_DASHBOARD.store.root },
+            {
+              name: splitLongString(store?.name || ''),
+              href: `${PATH_DASHBOARD.store.details}/${storeId}`
+            },
             { name: !isEdit ? t('store.btnAdd') : t('store.editInfo') }
           ]}
         />

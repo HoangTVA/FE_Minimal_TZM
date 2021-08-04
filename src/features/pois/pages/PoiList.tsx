@@ -120,7 +120,6 @@ export default function PoiList() {
           heading={t('poi.poiList')}
           links={[
             { name: t('content.dashboard'), href: PATH_DASHBOARD.root },
-            { name: t('poi.title'), href: PATH_DASHBOARD.poi.root },
             { name: t('poi.poiList') }
           ]}
           action={
@@ -163,7 +162,7 @@ export default function PoiList() {
                       <TableCell align="left">{e.name}</TableCell>
                       <TableCell align="left">{e.poiCode}</TableCell>
                       <TableCell align="left">{e.poiTypeName}</TableCell>
-                      <TableCell align="left">{e.countPoiBrands}</TableCell>
+                      <TableCell align="center">{e.countPoiBrands}</TableCell>
                       <TableCell>
                         <Box color={statusMap[e.status].color} fontWeight="bold">
                           {statusMap[e.status].name}

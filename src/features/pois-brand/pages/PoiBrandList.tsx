@@ -150,7 +150,7 @@ export default function PoiBrandList() {
           heading={t('poi.poiBrandList')}
           links={[
             { name: t('content.dashboard'), href: PATH_DASHBOARD.root },
-            { name: t('poi.title'), href: PATH_DASHBOARD.poiBrand.root },
+
             { name: t('poi.poiBrandList') }
           ]}
           action={
@@ -202,9 +202,9 @@ export default function PoiBrandList() {
                       <TableCell width={250}>
                         <Box style={{ display: 'flex', justifyContent: 'center' }}>
                           <Button
-                            color="warning"
+                            color="info"
                             onClick={() => handelDetailsClick(e)}
-                            startIcon={<Icon icon={editFill} color="#FFC107" />}
+                            startIcon={<Icon icon={editFill} color="#1890FF" />}
                           >
                             {t('common.details')}
                           </Button>

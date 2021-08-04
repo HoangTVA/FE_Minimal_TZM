@@ -31,7 +31,7 @@ export default function SidebarConfig() {
       items: [
         {
           title: t('content.dashboard'),
-          path: PATH_DASHBOARD.general.pageOne,
+          path: PATH_DASHBOARD.general.comingSoon,
           icon: ICONS.dashboard
         },
         {
@@ -40,12 +40,12 @@ export default function SidebarConfig() {
           icon: ICONS.store
         },
         { title: t('poi.poi'), path: PATH_DASHBOARD.poiBrand.root, icon: ICONS.poiBrand },
-        { title: t('content.map'), path: PATH_DASHBOARD.general.brandMap, icon: ICONS.map },
-        {
-          title: t('content.asset'),
-          path: PATH_DASHBOARD.general.pageThree,
-          icon: ICONS.asset
-        }
+        { title: t('content.map'), path: PATH_DASHBOARD.general.brandMap, icon: ICONS.map }
+        // {
+        //   title: t('content.asset'),
+        //   path: PATH_DASHBOARD.general.brandMap,
+        //   icon: ICONS.asset
+        // }
       ]
     },
 
@@ -54,12 +54,12 @@ export default function SidebarConfig() {
     {
       subheader: t('content.system'),
       items: [
-        { title: t('poi.sPoi'), path: PATH_DASHBOARD.poi.root, icon: ICONS.poi },
-        {
-          title: t('content.settings'),
-          path: PATH_DASHBOARD.general.pageThree,
-          icon: ICONS.settings
-        }
+        { title: t('poi.sPoi'), path: PATH_DASHBOARD.poi.root, icon: ICONS.poi }
+        // {
+        //   title: t('content.settings'),
+        //   path: PATH_DASHBOARD.general.brandMap,
+        //   icon: ICONS.settings
+        // }
       ]
     }
   ];

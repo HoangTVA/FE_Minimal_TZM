@@ -37,3 +37,9 @@ export const convertBounds = (bounds: LatLngBounds) => {
         `${bounds.getSouthWest().lng} ${bounds.getSouthWest().lat}`
     return rs;
 }
+export const splitLongString = (s: string) => {
+    if (s.length > 20) {
+        return s.substring(0, 20) + ' ...';
+    }
+    return s;
+}

@@ -1,15 +1,17 @@
-import { Box, Container, Stack, Tab } from '@material-ui/core';
+import { Box, Container, Tab } from '@material-ui/core';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import storeApi from 'api/storeApi';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Page from 'components/Page';
 import useSettings from 'hooks/useSettings';
 import 'leaflet/dist/leaflet.css';
+import { PostAttr } from 'models';
 import { AttrResponse } from 'models/dto/attrResponse';
+import { useSnackbar } from 'notistack5';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { PATH_DASHBOARD } from 'routes/paths';
 import AttrForm from '../components/AttrForm';
 import { Block } from '../components/Block';
@@ -29,6 +31,8 @@ export default function EditAttrsPage(props: EditAttrsPageProps) {
   const { themeStretch } = useSettings();
   const { t } = useTranslation();
   const [value, setValue] = useState('1');
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!storeId) return;
@@ -38,17 +42,24 @@ export default function EditAttrsPage(props: EditAttrsPageProps) {
       try {
         const data: AttrResponse[] = await storeApi.getAttrField(storeId, storeTypeId);
         setAttrs(data);
-        console.log(data);
-      } catch (error) {}
+      } catch (error) {
+        enqueueSnackbar(t('common.errorText'), { variant: 'error' });
+      }
     })();
   }, [storeId, storeTypeId]);
-  const SIMPLE_TAB = [
-    { value: '1', label: 'Item One', disabled: false },
-    { value: '2', label: 'Item Two', disabled: false },
-    { value: '3', label: 'Item Three', disabled: true }
-  ];
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+  };
+  const handleBack = () => {
+    navigate(`${PATH_DASHBOARD.store.details}/${storeId}`);
+  };
+  const handelSubmitForm = async (formValues: PostAttr[]) => {
+    try {
+      await storeApi.updateAttrs(storeId, formValues);
+      enqueueSnackbar(t('store.updateAttrsSuccess'), { variant: 'success' });
+    } catch (error) {
+      enqueueSnackbar(t('common.errorText'), { variant: 'error' });
+    }
   };
   return (
     <Page title={t('store.detailsAttrsPage')}>
@@ -58,39 +69,43 @@ export default function EditAttrsPage(props: EditAttrsPageProps) {
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             { name: t('store.title'), href: PATH_DASHBOARD.store.root },
+            { name: t('common.details'), href: `${PATH_DASHBOARD.store.details}/${storeId}` },
             { name: t('store.attrs') }
           ]}
         />
         <Box>
-          <Stack spacing={3}>
-            <Stack spacing={3} direction={{ xs: 'column', md: 'row' }}>
-              <Block sx={style}>
-                <TabContext value={value}>
-                  <TabList onChange={handleChange}>
-                    {attrs?.map((tab, index) => (
-                      <Tab key={tab.id} label={tab.name} value={String(index + 1)} />
-                    ))}
-                  </TabList>
-                  <Box
-                    sx={{
-                      p: 2,
-                      mt: 2,
-                      height: 80,
-                      width: '100%',
-                      borderRadius: 1,
-                      bgcolor: 'grey.50012'
-                    }}
-                  >
-                    {attrs?.map((panel, index) => (
-                      <TabPanel key={panel.id} value={String(index + 1)}>
-                        <AttrForm initialValue={panel.attrs} isView={true} />
-                      </TabPanel>
-                    ))}
-                  </Box>
-                </TabContext>
-              </Block>
-            </Stack>
-          </Stack>
+          <Block sx={style}>
+            <TabContext value={value}>
+              <TabList onChange={handleChange}>
+                {attrs?.map((tab, index) => (
+                  <Tab key={tab.id} label={tab.name} value={String(index + 1)} />
+                ))}
+              </TabList>
+              <Box
+                sx={{
+                  p: 2,
+                  mt: 2,
+
+                  width: '100%',
+                  borderRadius: 1,
+                  bgcolor: 'grey.50012'
+                }}
+              >
+                {attrs?.map((panel, index) => (
+                  <TabPanel key={panel.id} value={String(index + 1)}>
+                    <AttrForm
+                      initialValue={panel.attrs}
+                      isView={false}
+                      id={panel.id}
+                      key={panel.id}
+                      onSubmit={handelSubmitForm}
+                      onBack={handleBack}
+                    />
+                  </TabPanel>
+                ))}
+              </Box>
+            </TabContext>
+          </Block>
         </Box>
       </Container>
     </Page>

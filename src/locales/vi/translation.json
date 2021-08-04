@@ -73,7 +73,12 @@
     "errorUrl": "Vui lòng nhâp tên URL",
     "errorTemplate": "Vui lòng chọn mẫu",
     "infoTemplate": "Thông tin mẫu",
-    "editInfo": "Chỉnh sửa thông tin"
+    "editInfo": "Chỉnh sửa thông tin",
+    "updateAttrsSuccess": "Cập nhật thuộc tính thành công",
+    "editTemplate": "Chỉnh sửa mẫu",
+    "selected": "Đã chọn: ",
+    "nonSelect": "Chưa chọn",
+    "noteTemplate": "Chưa có thông tin, vui lòng nhấn chỉnh sửa để thêm mẫu!!!"
   },
   "status": {
     "all": "Tất cả",
@@ -114,7 +119,10 @@
     "addSpoi": "Thêm mới S-Poi",
     "sPoiDetails": "Chi tiết S-Poi",
     "errorPoiName": "Vui lòng nhập tên địa điểm quan tâm",
-    "errorPoiType": "Vui long chọn loại địa điểm quan tâm"
+    "errorPoiType": "Vui long chọn loại địa điểm quan tâm",
+    "infoPoiBrand": "Thông tin điểm quan tâm",
+    "infoPoiLocation": "Thông tin địa điểm",
+    "infoPoi": "Thông tin S-Poi"
   },
   "adminLevel": {
     "province": "Tỉnh/Thành Phố",

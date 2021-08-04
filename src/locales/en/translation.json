@@ -71,7 +71,12 @@
     "errorUrl": "Short URL is required",
     "errorTemplate": "Select template, Pls!!!",
     "infoTemplate": "Template information",
-    "editInfo": "Edit information"
+    "editInfo": "Edit information",
+    "updateAttrsSuccess": "Attribute successfully updated",
+    "editTemplate": "Edit template",
+    "selected": "Selected: ",
+    "nonSelect": "Not available",
+    "noteTemplate": "Not available, Click edit to add new template!!!"
   },
   "status": {
     "all": "All",
@@ -112,7 +117,10 @@
     "addSpoi": "Add new S-Poi",
     "sPoiDetails": "Details S-Poi",
     "errorPoiName": "Poi name í required",
-    "errorPoiType": "Select Poi type, Please!!!"
+    "errorPoiType": "Select Poi type, Please!!!",
+    "infoPoiBrand": "Poi information",
+    "infoPoiLocation": "Location",
+    "infoPoi": "S-Poi information"
   },
   "adminLevel": {
     "province": "Province/City",

@@ -19,6 +19,7 @@ import DisplayTemplate from 'features/template/pages/DisplayTemplate';
 import EditAttrsPage from 'features/store-management/pages/EditAttrsPage';
 import StoreViewPage from 'features/store-management/pages/StoreView';
 import StoreTemplatePage from 'features/store-management/pages/StoreTemplatePage';
+import ComingSoon from 'pages/ComingSoon';
 // ----------------------------------------------------------------------
 
 const Loadable = (Component: any) => (props: any) => {
@@ -55,7 +56,7 @@ export default function Router() {
       path: 'dashboard',
       element: isLogIn ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
-        { path: '/', element: <Navigate to="/dashboard/one" replace /> },
+        { path: '/', element: <Navigate to="/dashboard/coming-soon" replace /> },
         {
           path: 'manage-store',
           children: [
@@ -85,20 +86,7 @@ export default function Router() {
             { path: 'details/:poiId', element: <AddEditPoiBrandPage /> }
           ]
         },
-        { path: 'one', element: <PageTwo /> },
-        { path: 'three', element: <PageThree /> },
-        {
-          path: 'app',
-          children: [
-            {
-              path: '/',
-              element: <Navigate to="/dashboard/app/four" replace />
-            },
-            { path: 'four', element: <PageFour /> },
-            { path: 'five', element: <PageFive /> },
-            { path: 'six', element: <PageSix /> }
-          ]
-        }
+        { path: 'coming-soon', element: <ComingSoon /> }
       ]
     },
 
@@ -124,11 +112,7 @@ export default function Router() {
 // IMPORT COMPONENTS
 
 // Dashboard
-const PageTwo = Loadable(lazy(() => import('../pages/PageTwo')));
-const PageThree = Loadable(lazy(() => import('../pages/PageThree')));
-const PageFour = Loadable(lazy(() => import('../pages/PageFour')));
-const PageFive = Loadable(lazy(() => import('../pages/PageFive')));
-const PageSix = Loadable(lazy(() => import('../pages/PageSix')));
+
 const NotFound = Loadable(lazy(() => import('../pages/Page404')));
 // Main
 const LandingPage = Loadable(lazy(() => import('../pages/LandingPage')));

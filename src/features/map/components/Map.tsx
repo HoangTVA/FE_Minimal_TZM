@@ -86,7 +86,7 @@ function MapAction({ onChangeBounds, onActiveLayer, onCloseLayer }: MapProps) {
 
 const useStyle = makeStyles((theme) => ({
   root: {
-    height: '85vh',
+    height: '75vh',
     borderRadius: '10px',
     overflow: 'hidden',
     marginTop: '-39px'
@@ -113,6 +113,7 @@ export default function Map({
   };
   return (
     <MapContainer
+      style={{ marginTop: '-23px' }}
       center={{ lat: 10.772461, lng: 106.698055 }}
       zoom={16}
       scrollWheelZoom={true}
@@ -131,13 +132,13 @@ export default function Map({
       }}
     >
       <LayersControl position="topright">
-        <LayersControl.BaseLayer checked name={t('map.normalLayer')}>
+        <LayersControl.BaseLayer name={t('map.normalLayer')}>
           <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="http://3.36.96.192:6281/tile/{z}/{x}/{y}.png"
           />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name={t('map.blackWhiteLayer')}>
+        <LayersControl.BaseLayer checked name={t('map.blackWhiteLayer')}>
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png"
