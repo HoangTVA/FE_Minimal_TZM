@@ -3,7 +3,7 @@
   border: none;
 }
 .leaflet-control-layers-toggle {
-  background-image: url('https://img.lovepik.com/element/40149/7356.png_300.png') !important;
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQry8qyzDS-1yEJ53dxUD2ZCP1XWi_OrXr3PA&usqp=CAU') !important;
   width: 40px;
   height: 40px;
   background-size: 40px;
@@ -43,4 +43,19 @@
 .leaflet-control-fullscreen-button {
   border-radius: 10px !important;
   border: none !important;
+}
+.leaflet-control-layers-expanded {
+  background-color: rgba(22, 28, 36, 0.72) !important;
+  backdrop-filter: blur(8px);
+}
+.leaflet-control-layers-list {
+  color: #fff;
+  font-size: 17px;
+}
+.leaflet-popup-content-wrapper {
+  background-color: rgba(22, 28, 36, 0.72) !important;
+  color: #fff;
+}
+.leaflet-popup-tip {
+  background-color: rgba(22, 28, 36, 0.72) !important;
 }

@@ -1,4 +1,4 @@
-import { Box, Card, Container, Grid, Stack } from '@material-ui/core';
+import { Box, Card, Container, Grid, Stack, Typography } from '@material-ui/core';
 import poiApi from 'api/poiApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { MapDraggable, SearchAddress } from 'components/common';
@@ -92,14 +92,26 @@ export default function AddEditPoiPage() {
           heading={isEdit ? t('poi.sPoiDetails') : t('poi.addSpoi')}
           links={[
             { name: t('content.dashboard'), href: PATH_DASHBOARD.root },
-            { name: t('poi.poi'), href: PATH_DASHBOARD.poi.root },
-            { name: isEdit ? t('poi.sPoiDetails') : t('poi.addSpoi') }
+            { name: t('poi.poiBrandList'), href: PATH_DASHBOARD.poi.root },
+            { name: isEdit ? poi?.name || '' : t('poi.addSpoi') }
           ]}
         />
         <Box>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
+              {(!isEdit || Boolean(poi)) && (
+                <PoiForm
+                  initialValue={initialValues}
+                  onSubmit={handelStoreFormSubmit}
+                  isEdit={isEdit}
+                />
+              )}
+            </Grid>
+            <Grid item xs={12} md={6}>
               <Card sx={{ p: 3 }}>
+                <Typography variant="h6" gutterBottom marginBottom={4}>
+                  {t('poi.infoPoiBrand')}
+                </Typography>
                 <Stack spacing={3}>
                   <Box>
                     {isEdit ? (
@@ -115,15 +127,6 @@ export default function AddEditPoiPage() {
                   </Box>
                 </Stack>
               </Card>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              {(!isEdit || Boolean(poi)) && (
-                <PoiForm
-                  initialValue={initialValues}
-                  onSubmit={handelStoreFormSubmit}
-                  isEdit={isEdit}
-                />
-              )}
             </Grid>
           </Grid>
         </Box>

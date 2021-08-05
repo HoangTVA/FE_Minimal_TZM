@@ -1,4 +1,4 @@
-import { GeoJSONMarker, Province, RequestBounds } from 'models';
+import { GeoJSONMarker, RequestBounds } from 'models';
 import axiosClient from "./axiosClient";
 
 

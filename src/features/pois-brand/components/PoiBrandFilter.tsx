@@ -1,6 +1,6 @@
 import searchFill from '@iconify/icons-eva/search-fill';
 import { Icon } from '@iconify/react';
-import { Box, Grid, InputAdornment, OutlinedInput, Toolbar } from '@material-ui/core';
+import { Box, Grid, InputAdornment, OutlinedInput } from '@material-ui/core';
 // material
 import { styled } from '@material-ui/core/styles';
 import { useAppDispatch, useAppSelector } from 'app/hooks';

@@ -22,3 +22,7 @@ export interface FormatField {
     length: number;
     selects: any[];
 }
+export interface PostAttr {
+    attrId: number;
+    value: string;
+}

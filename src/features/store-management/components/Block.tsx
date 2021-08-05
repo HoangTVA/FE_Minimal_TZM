@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { Theme } from '@material-ui/core/styles';
 import { Card, CardHeader, Box, Typography } from '@material-ui/core';
 import { SxProps } from '@material-ui/system';
+import { snapshotViewportBox } from 'framer-motion';
 
 // ----------------------------------------------------------------------
 
@@ -26,7 +27,7 @@ type BlockProps = {
 
 export function Block({ title, sx, children }: BlockProps) {
   return (
-    <Card sx={{ overflow: 'unset', position: 'unset', width: '100%' }}>
+    <Box sx={{ overflow: 'unset', position: 'unset', width: '100%' }}>
       {title && <CardHeader title={title} />}
       <Box
         sx={{
@@ -37,6 +38,6 @@ export function Block({ title, sx, children }: BlockProps) {
       >
         {children}
       </Box>
-    </Card>
+    </Box>
   );
 }

@@ -1,8 +1,5 @@
-import { useTranslation } from 'react-i18next';
 import { LatLngBounds, LatLngExpression } from 'leaflet';
 import { User } from "models";
-import { toast } from 'react-toastify';
-import { useSnackbar } from 'notistack5';
 
 export const getCurrentUser = () => {
     try {
@@ -36,4 +33,10 @@ export const convertBounds = (bounds: LatLngBounds) => {
         `${bounds.getSouthEast().lng} ${bounds.getSouthEast().lat}, ` +
         `${bounds.getSouthWest().lng} ${bounds.getSouthWest().lat}`
     return rs;
+}
+export const splitLongString = (s: string) => {
+    if (s.length > 20) {
+        return s.substring(0, 20) + ' ...';
+    }
+    return s;
 }

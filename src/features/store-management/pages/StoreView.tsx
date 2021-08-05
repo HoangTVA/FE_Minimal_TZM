@@ -1,7 +1,6 @@
-import editFill from '@iconify/icons-eva/edit-fill';
 import cloudDownloadFill from '@iconify/icons-eva/cloud-download-fill';
+import editFill from '@iconify/icons-eva/edit-fill';
 import { Icon } from '@iconify/react';
-import QRCode from 'qrcode.react';
 import {
   Box,
   Button,
@@ -14,28 +13,25 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
-import { styled } from '@material-ui/core/styles';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import storeApi from 'api/storeApi';
-import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { useAppDispatch } from 'app/hooks';
 import MapWithMarker from 'components/common/MapWithMarker';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Page from 'components/Page';
-import Images from 'constants/image';
-import { selectFilter } from 'features/pois-brand/poiBrandSlice';
 import useSettings from 'hooks/useSettings';
 import { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { PostStore, Store } from 'models';
 import { AttrResponse } from 'models/dto/attrResponse';
-import { useSnackbar } from 'notistack5';
+import QRCode from 'qrcode.react';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
 import { PATH_DASHBOARD } from 'routes/paths';
-import { getCurrentUser } from 'utils/common';
+import { getCurrentUser, splitLongString } from 'utils/common';
 import AttrForm from '../components/AttrForm';
 import { Block } from '../components/Block';
 import StoreForm from '../components/StoreForm';
@@ -43,13 +39,6 @@ import { storeActions } from '../storeSlice';
 import './style.css';
 
 interface StoreViewPageProps {}
-const ThumbImgStyle = styled('img')(({ theme }) => ({
-  width: 300,
-  height: 300,
-  objectFit: 'cover',
-  margin: theme.spacing(0, 2),
-  borderRadius: theme.shape.borderRadiusSm
-}));
 const style = {
   display: 'flex',
   alignItems: 'center',
@@ -63,11 +52,7 @@ export default function StoreViewPage(props: StoreViewPageProps) {
   const { t } = useTranslation();
   const { themeStretch } = useSettings();
   const [store, setStore] = useState<Store>();
-  const [storeForm, setStoreForm] = useState<PostStore>();
   const [location, setLocation] = useState<LatLngExpression>();
-  const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
-  const filter = useAppSelector(selectFilter);
   const [attrs, setAttrs] = useState<AttrResponse[]>();
   const user = getCurrentUser();
   const [value, setValue] = useState('1');
@@ -81,28 +66,14 @@ export default function StoreViewPage(props: StoreViewPageProps) {
     (async () => {
       try {
         const data: Store = await storeApi.getStoreById(storeId);
-
-        let postLocation: string = '';
         if (data?.geom?.coordinates) {
           const detailsLocation: LatLngExpression = [
             data?.geom?.coordinates[1],
             data?.geom?.coordinates[0]
           ];
-
-          postLocation = data?.geom?.coordinates[0] + ' ' + data?.geom?.coordinates[1];
           setLocation(detailsLocation);
         }
-        const newValue: PostStore = {
-          id: data?.id,
-          address: data?.address || '',
-          name: data?.name || '',
-          imageUrl: data?.imageUrl || '',
-          coordinateString: postLocation,
-          storeCode: data?.storeCode || '',
-          storeTypeId: data?.storeTypeId || 0
-        };
         setStore(data);
-        setStoreForm(newValue);
         if (data.storeTypeId) {
           const attrData: AttrResponse[] = await storeApi.getAttrField(
             storeId,
@@ -147,7 +118,7 @@ export default function StoreViewPage(props: StoreViewPageProps) {
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             { name: t('store.title'), href: PATH_DASHBOARD.store.root },
-            { name: t('store.detailsStore') }
+            { name: splitLongString(store?.name || '') }
           ]}
         />
         <Box>
@@ -166,7 +137,7 @@ export default function StoreViewPage(props: StoreViewPageProps) {
             ></CardHeader>
             <Grid container marginTop={2}>
               <Grid item xs={12} md={4} lg={5}>
-                <Card sx={{ p: 3 }} style={{ height: '641px', width: '95%' }}>
+                <Card sx={{ p: 3 }} style={{ height: '641px', width: '97%' }}>
                   <Typography variant="h6" gutterBottom marginBottom={4}>
                     {t('store.imageUrl')}
                   </Typography>
@@ -228,37 +199,39 @@ export default function StoreViewPage(props: StoreViewPageProps) {
                 </Button>
               }
             />
+            <Block sx={style}>
+              <TabContext value={value}>
+                <TabList onChange={handleChange}>
+                  {attrs?.map((tab, index) => (
+                    <Tab key={tab.id} label={tab.name} value={String(index + 1)} />
+                  ))}
+                </TabList>
+                <Box
+                  sx={{
+                    p: 2,
+                    mt: 2,
 
-            <TabContext value={value}>
-              <TabList onChange={handleChange}>
-                {attrs?.map((tab, index) => (
-                  <Tab key={tab.id} label={tab.name} value={String(index + 1)} />
-                ))}
-              </TabList>
-              <Box
-                sx={{
-                  p: 2,
-                  mt: 2,
-
-                  width: '100%',
-                  borderRadius: 1,
-                  bgcolor: 'grey.50012'
-                }}
-              >
-                {attrs?.map((panel, index) => (
-                  <TabPanel key={panel.id} value={String(index + 1)} style={{ padding: '0px' }}>
-                    <AttrForm initialValue={panel.attrs} isView={true} />
-                  </TabPanel>
-                ))}
-              </Box>
-            </TabContext>
+                    width: '100%',
+                    borderRadius: 1,
+                    bgcolor: 'grey.50012'
+                  }}
+                >
+                  {attrs?.map((panel, index) => (
+                    <TabPanel key={panel.id} value={String(index + 1)} style={{ padding: '0px' }}>
+                      <AttrForm initialValue={panel.attrs} isView={true} id={panel.id} />
+                    </TabPanel>
+                  ))}
+                </Box>
+              </TabContext>
+            </Block>
           </Card>
-          {store?.template && (
-            <Card sx={{ p: 3 }} style={{ paddingTop: '0px', marginTop: '20px' }}>
-              <CardHeader
-                title={t('content.templates')}
-                action={
-                  <>
+
+          <Card sx={{ p: 3 }} style={{ paddingTop: '0px', marginTop: '20px' }}>
+            <CardHeader
+              title={t('content.templates')}
+              action={
+                <>
+                  {store?.template && (
                     <Button
                       onClick={downloadQR}
                       color="info"
@@ -266,16 +239,18 @@ export default function StoreViewPage(props: StoreViewPageProps) {
                     >
                       {t('content.btnDownloadQR')}
                     </Button>
-                    <Button
-                      component={RouterLink}
-                      to={`${PATH_DASHBOARD.store.editTemplates}/${store?.id}`}
-                      startIcon={<Icon icon={editFill} />}
-                    >
-                      {t('common.editInfo')}
-                    </Button>
-                  </>
-                }
-              />
+                  )}
+                  <Button
+                    component={RouterLink}
+                    to={`${PATH_DASHBOARD.store.editTemplates}/${store?.id}`}
+                    startIcon={<Icon icon={editFill} />}
+                  >
+                    {t('common.editInfo')}
+                  </Button>
+                </>
+              }
+            />
+            {store?.template ? (
               <Grid container marginTop={2} spacing={2}>
                 <Grid item xs={6} md={3} lg={3}>
                   <Card sx={{ p: 3 }} style={{ height: '300px' }}>
@@ -293,7 +268,7 @@ export default function StoreViewPage(props: StoreViewPageProps) {
                       <QRCode
                         id="qrcode"
                         value={store.url}
-                        size={190}
+                        size={250}
                         level={'H'}
                         includeMargin={true}
                       />
@@ -355,8 +330,10 @@ export default function StoreViewPage(props: StoreViewPageProps) {
                   </Stack>
                 </Grid>
               </Grid>
-            </Card>
-          )}
+            ) : (
+              <Box textAlign="center">{t('store.noteTemplate')}</Box>
+            )}
+          </Card>
         </Box>
       </Container>
     </Page>

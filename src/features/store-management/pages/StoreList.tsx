@@ -53,11 +53,7 @@ export default function StoreList() {
   const filter = useAppSelector(selectFilter);
   const rs = useAppSelector(selectStoresResponse);
   const loading = useAppSelector(selectLoading);
-  //const storeType = useAppSelector(selectStoreType);
   const { statusMap } = GetStatusMap();
-  //const classes = useStyle();
-  //const match = useRouteMatch();
-  //const history = useHistory();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -67,7 +63,6 @@ export default function StoreList() {
   }, [dispatch, filter]);
 
   const onPageChange = (page: number) => {
-    console.log(page);
     dispatch(
       storeActions.setFilter({
         ...filter,
@@ -143,7 +138,7 @@ export default function StoreList() {
           heading={t('store.listStore')}
           links={[
             { name: t('content.dashboard'), href: PATH_DASHBOARD.root },
-            { name: t('store.title'), href: PATH_DASHBOARD.store.root },
+
             { name: t('store.listStore') }
           ]}
           action={
@@ -192,9 +187,9 @@ export default function StoreList() {
                       <TableCell width={250}>
                         <Box style={{ display: 'flex', justifyContent: 'center' }}>
                           <Button
-                            color="warning"
+                            color="info"
                             onClick={() => handelDetailsClick(e)}
-                            startIcon={<Icon icon={editFill} color="#FFC107" />}
+                            startIcon={<Icon icon={editFill} color="#1890FF" />}
                           >
                             {t('common.details')}
                           </Button>

@@ -1,53 +1,46 @@
-import eyeFill from '@iconify/icons-eva/eye-fill';
-import plusFill from '@iconify/icons-eva/plus-fill';
-import arrowCircleRightFill from '@iconify/icons-eva/arrow-circle-right-fill';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import { Icon } from '@iconify/react';
 // material
 import {
+  Box,
   Button,
   Card,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Grid,
-  LinearProgress,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
   Typography
 } from '@material-ui/core';
+import Pagination from '@material-ui/core/Pagination';
 import { styled } from '@material-ui/core/styles';
-// material
-import { Box } from '@material-ui/system';
 import storeApi from 'api/storeApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { useTable } from 'components/common';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 // @types
 // components
 import Page from 'components/Page';
-import Scrollbar from 'components/Scrollbar';
 // hooks
 import useSettings from 'hooks/useSettings';
-import { PaginationRequest, PostTemplate, Store } from 'models';
+import { PostTemplate, Store, Template } from 'models';
 import { useSnackbar } from 'notistack5';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 // redux
 // routes
 import { PATH_DASHBOARD } from 'routes/paths';
-import StoreFilter from '../components/StoreFilter';
+import { splitLongString } from 'utils/common';
+import ShopProductList from '../components/ShopProductList';
 import TemplateForm from '../components/TemplateForm';
 import { selectFilterTemplate, selectLoading, selectTemplate, storeActions } from '../storeSlice';
 // ----------------------------------------------------------------------
-const ThumbImgStyle = styled('img')(({ theme }) => ({
-  width: 64,
-  height: 64,
+const ProductImgStyle = styled('img')(({ theme }) => ({
+  top: 0,
+  width: '100%',
+  height: '100%',
   objectFit: 'cover',
-  margin: theme.spacing(0, 2),
-  borderRadius: theme.shape.borderRadiusSm
+  position: 'absolute'
 }));
 export default function StoreTemplatePage() {
   const { themeStretch } = useSettings();
@@ -59,6 +52,9 @@ export default function StoreTemplatePage() {
   const rs = useAppSelector(selectTemplate);
   const loading = useAppSelector(selectLoading);
   const navigate = useNavigate();
+  const [popup, setPopup] = useState(false);
+  const [selected, setSelected] = useState<Template>();
+  const [selectTemplateId, setSelectTemplateId] = useState<Template>();
   const { enqueueSnackbar } = useSnackbar();
 
   //effect
@@ -69,14 +65,17 @@ export default function StoreTemplatePage() {
     (async () => {
       try {
         const data: Store = await storeApi.getStoreById(storeId);
-
         const newValue: PostTemplate = {
           url: data?.url || '',
           templateId: data?.template.id || 0
         };
         setStore(data);
         setTemplateForm(newValue);
-      } catch (error) {}
+        setSelectTemplateId(data?.template);
+        //console.log(data.url);
+      } catch (error) {
+        //enqueueSnackbar(t('common.errorText'), { variant: 'error' });
+      }
     })();
   }, [storeId]);
   useEffect(() => {
@@ -94,6 +93,7 @@ export default function StoreTemplatePage() {
         t('store.updateSuccessStart') + store?.name + ' ' + t('store.updateSuccessEnd'),
         { variant: 'success' }
       );
+      navigate(`${PATH_DASHBOARD.store.details}/${storeId}`);
     } catch (error) {
       enqueueSnackbar(
         store?.name + ' ' + t('common.errorText') + ' ,' + t('store.storeCodeIsExisted'),
@@ -101,173 +101,98 @@ export default function StoreTemplatePage() {
       );
     }
   };
-  const onPageChange = (page: number) => {
-    dispatch(
-      storeActions.setFilter({
-        ...filter,
-        page: page + 1
-      })
-    );
-  };
-  const onRowPerPageChange = (perPage: number) => {
-    dispatch(
-      storeActions.setFilter({
-        ...filter,
-        pageSize: perPage
-      })
-    );
-  };
-  const onSortChange = (colName: string, sortType: number) => {
-    dispatch(
-      storeActions.setFilter({
-        ...filter,
-        colName: colName,
-        sortType: sortType
-      })
-    );
-  };
-  const handelSearchDebounce = (newFilter: PaginationRequest) => {
-    dispatch(storeActions.setFilterWithDebounce(newFilter));
-  };
 
   //header
   const { t } = useTranslation();
-  const headCells = [
-    { id: 'id', label: t('store.templateId') },
-    { id: 'imageUrl', label: t('store.imageUrl') },
-    { id: 'name', label: t('store.templateName') },
-    { id: 'actions', label: t('common.actions'), disableSorting: true, align: 'center' }
-  ];
 
-  const { TblHead, TblPagination } = useTable({
-    rs,
-    headCells,
-    filter,
-    onPageChange,
-    onRowPerPageChange,
-    onSortChange
-  });
-  const handelDetailsClick = (store: Store) => {
-    navigate(`${PATH_DASHBOARD.store.details}/${store.id}`);
+  const handelViewClick = (template: Template) => {
+    setSelected(template);
+    setPopup(true);
+  };
+  const handelSelectClick = (template: Template) => {
+    setSelectTemplateId(template);
+    enqueueSnackbar(t('store.selected') + template?.name, {
+      variant: 'success'
+    });
+  };
+  const handelPagingNumberChange = (e: any, page: number) => {
+    dispatch(
+      storeActions.setFilterTemplate({
+        ...filter,
+        page: page
+      })
+    );
   };
   return (
-    <Page title={t('store.title')}>
+    <Page title={t('store.editTemplate')}>
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading={t('store.listStore')}
           links={[
             { name: t('content.dashboard'), href: PATH_DASHBOARD.root },
             { name: t('store.title'), href: PATH_DASHBOARD.store.root },
-            { name: t('store.listStore') }
+            {
+              name: splitLongString(store?.name || ''),
+              href: `${PATH_DASHBOARD.store.details}/${storeId}`
+            },
+            { name: t('store.editTemplate') }
           ]}
         />
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6} lg={7}>
-            <Card>
-              <StoreFilter filter={filter} onSearchChange={handelSearchDebounce} />
-
-              <Scrollbar>
-                <TableContainer sx={{ minWidth: 800 }}>
-                  <Table>
-                    <TblHead />
-                    <TableBody>
-                      {true && (
-                        <TableRow style={{ height: 1 }}>
-                          <TableCell
-                            colSpan={20}
-                            style={{ paddingBottom: '0px', paddingTop: '0px' }}
-                          >
-                            <Box>{loading && <LinearProgress color="primary" />}</Box>
-                          </TableCell>
-                        </TableRow>
-                      )}
-
-                      {rs.results.map((e, idx) => (
-                        <TableRow key={e.id}>
-                          <TableCell width={80} component="th" scope="row" padding="none">
-                            {idx + 1}
-                          </TableCell>
-                          <TableCell align="left">
-                            <Box
-                              sx={{
-                                py: 2,
-                                display: 'flex',
-                                alignItems: 'center'
-                              }}
-                            >
-                              <ThumbImgStyle alt={'error'} src={e.imageUrl} />
-                            </Box>
-                          </TableCell>
-                          <TableCell align="left">{e.name}</TableCell>
-                          <TableCell width={250}>
-                            <Box style={{ display: 'flex', justifyContent: 'center' }}>
-                              <Button
-                                color="info"
-                                onClick={() => {}}
-                                startIcon={<Icon icon={arrowCircleRightFill} color="#1890FF" />}
-                              >
-                                {t('common.select')}
-                              </Button>
-                              <Button
-                                color="info"
-                                onClick={() => {}}
-                                startIcon={<Icon icon={eyeFill} color="#1890FF" />}
-                              >
-                                {t('common.view')}
-                              </Button>
-                            </Box>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                      {rs.results.length === 0 && (
-                        <TableRow style={{ height: 53 * 10 }}>
-                          <TableCell colSpan={20}>
-                            <Typography gutterBottom align="center" variant="subtitle1">
-                              {t('common.notFound')}
-                            </Typography>
-                            <Typography variant="body2" align="center">
-                              {t('common.searchNotFound')}
-                            </Typography>
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Scrollbar>
-
-              <TblPagination />
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={6} lg={5}>
-            {Boolean(templateForm) && (
+          <Grid item xs={12} md={12} lg={12}>
+            {(!Boolean(store?.template.id) || Boolean(templateForm)) && (
               <TemplateForm
                 initialValue={initialValues}
                 onSubmit={handelStoreFormSubmit}
                 storeName={store?.name || ''}
+                selectedTemplateName={store?.template.name || ''}
+                selectTemplate={selectTemplateId || undefined}
               />
             )}
           </Grid>
+          <Grid item xs={12} md={12} lg={12}>
+            <Card sx={{ p: 3 }}>
+              <Typography variant="h4" gutterBottom marginBottom={4}>
+                {t('content.listTemplate')}
+              </Typography>
+              <ShopProductList
+                products={rs.results}
+                isLoad={loading}
+                onSelectTemplate={handelSelectClick}
+                onViewTemplate={handelViewClick}
+                selected={selectTemplateId}
+              />
+              <Box mt={2}>
+                <Pagination
+                  color="standard"
+                  count={rs.totalNumberOfPages}
+                  page={rs.pageNumber}
+                  showFirstButton
+                  showLastButton
+                  onChange={handelPagingNumberChange}
+                />
+              </Box>
+            </Card>
+          </Grid>
         </Grid>
       </Container>
-      {/* <Dialog open={confirmDelete} onClose={() => setConfirmDelete(false)}>
-        <DialogTitle>{t('common.titleConfirm')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {t('store.removeTitleStart') + storeSelected?.name + ' ' + t('store.removeTitleEnd')}
-            <br />
-            {t('common.canRevert')}
+      <Dialog open={popup} onClose={() => setPopup(false)} maxWidth="lg" fullWidth>
+        <DialogTitle>{selected?.name}</DialogTitle>
+        <DialogContent style={{ marginTop: '15px' }}>
+          <DialogContentText>
+            <Card>
+              <Box sx={{ pt: '100%', position: 'relative' }}>
+                <ProductImgStyle alt={'error'} src={selected?.imageUrl} />
+              </Box>
+            </Card>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button color="inherit" onClick={() => setConfirmDelete(false)}>
+          <Button color="inherit" onClick={() => setPopup(false)}>
             {t('content.btnClose')}
           </Button>
-          <Button onClick={handelConfirmRemoveClick} autoFocus>
-            {t('common.confirmBtn')}
-          </Button>
         </DialogActions>
-      </Dialog> */}
+      </Dialog>
     </Page>
   );
 }

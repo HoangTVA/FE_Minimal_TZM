@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Card, Stack } from '@material-ui/core';
+import { Card, Stack, Typography } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
 import InputAreaField from 'components/FormField/InputAreaField';
 import InputField from 'components/FormField/InputField';
@@ -38,6 +38,9 @@ export default function PoiBrandForm({ initialValue, onSubmit, isEdit }: PoiBran
     <form onSubmit={handleSubmit(handelFormSubmit)}>
       <Stack spacing={3}>
         <Card sx={{ p: 3 }}>
+          <Typography variant="h6" gutterBottom marginBottom={4}>
+            {t('poi.infoPoi')}
+          </Typography>
           <Stack spacing={3}>
             <InputField name="alias" label={t('poi.alias') + '*'} control={control} />
             <InputField name="brandPoiCode" label={t('poi.poiCode') + '*'} control={control} />
