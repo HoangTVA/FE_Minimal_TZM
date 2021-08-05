@@ -1,5 +1,5 @@
 // material
-import { Container } from '@material-ui/core';
+import { Box, Container } from '@material-ui/core';
 import mapApi from 'api/mapApi';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 // components
@@ -104,6 +104,7 @@ export default function BrandMap() {
           ]}
         />
       </Container>
+
       <Map
         onChangeBounds={handelOnChangeBounds}
         stores={storesLayer || undefined}

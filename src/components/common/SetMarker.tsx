@@ -1,3 +1,4 @@
+import { IconMyStore } from 'components/map/MarkerStyles';
 import { LatLngExpression } from 'leaflet';
 import * as React from 'react';
 import { Marker, useMap } from 'react-leaflet';
@@ -12,7 +13,7 @@ export default function SetMarker({ position }: SetMarkerProps) {
 
   if (!position) return <></>;
   return (
-    <Marker position={position}>
+    <Marker position={position} icon={IconMyStore}>
       {/* <Popup>
         A pretty CSS3 popup. <br /> Easily customizable.
       </Popup> */}

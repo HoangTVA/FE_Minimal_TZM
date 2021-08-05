@@ -1,69 +1,79 @@
+import arrowCircleLeftOutline from '@iconify/icons-eva/arrow-circle-left-outline';
+import saveFill from '@iconify/icons-eva/save-fill';
+import { Icon } from '@iconify/react';
 import {
+  Box,
+  Button,
   Card,
   Checkbox,
+  FormControl,
   FormControlLabel,
+  InputLabel,
   MenuItem,
   Select,
   Stack,
   TextField
 } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
-import { useAppSelector } from 'app/hooks';
-import InputField from 'components/FormField/InputField';
-import SelectField from 'components/FormField/SelectField';
-import { PostStore } from 'models';
-import * as React from 'react';
-import { useForm, useFormState } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import { selectStoreTypeOptions } from '../storeSlice';
-import { useEffect } from 'react';
-import { LatLngExpression } from 'leaflet';
-import { useDebouncedCallback } from 'components/common';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import InputAreaField from 'components/FormField/InputAreaField';
+import { PostAttr } from 'models';
 import { Attr } from 'models/dto/attrResponse';
-import RadioGroupField from 'components/FormField/RadioGroupField';
-import CheckField from 'components/FormField/CheckField';
+import { useTranslation } from 'react-i18next';
 interface AttrFormProps {
   initialValue: Attr[];
   isView: boolean;
-  onSubmit?: (formValue: PostStore) => void;
+  id: number;
+  onSubmit?: (formValue: PostAttr[]) => void;
+  onBack?: () => void;
 }
 
-export default function AttrForm({ initialValue, onSubmit, isView }: AttrFormProps) {
+export default function AttrForm({ id, initialValue, onSubmit, isView, onBack }: AttrFormProps) {
   const { t } = useTranslation();
   const handleSubmit = (formValues) => {
     formValues.preventDefault();
-    console.log(formValues);
-    //if (onSubmit) onSubmit(formValues);
+    let postAttrList: PostAttr[] = [];
+    // eslint-disable-next-line array-callback-return
+    initialValue.map((e) => {
+      postAttrList.push({
+        attrId: e.id,
+        value:
+          e.formatField.type === 'check'
+            ? formValues.target[e.name].checked.toString()
+            : formValues.target[e.name].value
+      });
+    });
+    if (onSubmit) onSubmit(postAttrList);
   };
   const renderControl = (attr: Attr) => {
     switch (attr.formatField.type) {
       case 'select': {
         return (
-          <Select
-            labelId={`${attr.name}_label`}
-            key={attr.name}
-            label={attr.name}
-            value={attr.value === '0' ? '' : attr.value}
-            disabled={isView}
-          >
-            {attr.formatField.selects.map((option) => (
-              <MenuItem key={option.id} value={option.id}>
-                {option.name}
-              </MenuItem>
-            ))}
-          </Select>
+          <FormControl key={attr.name}>
+            <InputLabel id={`${attr.name}_label`}>{attr.name}</InputLabel>
+            <Select
+              labelId={`${attr.name}_label`}
+              name={attr.name}
+              key={attr.name}
+              label={attr.name}
+              defaultValue={attr.value === '0' ? '' : attr.value}
+              disabled={isView}
+            >
+              {attr.formatField.selects.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         );
       }
       case 'text': {
         return (
           <TextField
             fullWidth
+            name={attr.name}
             label={attr.name}
             disabled={isView}
-            value={attr.value}
+            defaultValue={attr.value}
             key={attr.name}
           />
         );
@@ -72,9 +82,10 @@ export default function AttrForm({ initialValue, onSubmit, isView }: AttrFormPro
         return (
           <TextField
             fullWidth
+            name={attr.name}
             label={attr.name}
             disabled={isView}
-            value={attr.value}
+            defaultValue={attr.value}
             key={attr.name}
             type="number"
           />
@@ -83,10 +94,13 @@ export default function AttrForm({ initialValue, onSubmit, isView }: AttrFormPro
       case 'check': {
         return (
           <FormControlLabel
-            control={<Checkbox checked={attr.value === 'true' ? true : false} />}
+            control={
+              <Checkbox key={attr.name} defaultChecked={attr.value === 'true' ? true : false} />
+            }
             label={attr.name}
             key={attr.name}
             disabled={isView}
+            name={attr.name}
           />
         );
       }
@@ -94,14 +108,45 @@ export default function AttrForm({ initialValue, onSubmit, isView }: AttrFormPro
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Stack spacing={3}>
-        <Card sx={{ p: 3 }}>
-          <Stack spacing={3}>{initialValue.map((e) => renderControl(e))}</Stack>
+    <form onSubmit={handleSubmit} key={id}>
+      <Stack spacing={3} key={`Stack1-${id}`}>
+        <Card sx={{ p: 3 }} key={`Stack2-${id}`}>
+          <Stack key={`Stack3-${id}`} spacing={3}>
+            {initialValue.map((e) => renderControl(e))}
+          </Stack>
+          {!isView && (
+            <Box
+              style={{
+                display: 'flex',
+                flexFlow: 'row nowrap',
+                justifyContent: 'flex-end',
+                alignContent: 'center',
+                backgroundColor: '#fff',
+                marginTop: '15px'
+              }}
+            >
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  if (onBack) onBack();
+                }}
+                startIcon={<Icon icon={arrowCircleLeftOutline} />}
+                style={{ marginRight: '15px' }}
+              >
+                {t('content.backHomePage')}
+              </Button>
+              <LoadingButton
+                type="submit"
+                variant="contained"
+                size="large"
+                startIcon={<Icon icon={saveFill} />}
+              >
+                {t('common.btnUpdate')}
+              </LoadingButton>
+            </Box>
+          )}
         </Card>
-        <LoadingButton type="submit" fullWidth variant="contained" size="large">
-          {t('common.btnUpdate')}
-        </LoadingButton>
       </Stack>
     </form>
   );

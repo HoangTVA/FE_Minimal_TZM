@@ -66,7 +66,20 @@
     "detailsAttrsPage": "Details attribute",
     "templateId": "Template Code",
     "templateName": "Template name",
-    "url": "Short URL"
+    "url": "Short URL",
+    "imageUrl": "Image",
+    "errorUrl": "Short URL is required",
+    "errorTemplate": "Select template, Pls!!!",
+    "infoTemplate": "Template information",
+    "editInfo": "Edit information",
+    "updateAttrsSuccess": "Attribute successfully updated",
+    "editTemplate": "Edit template",
+    "selected": "Selected: ",
+    "nonSelect": "Not available",
+    "noteTemplate": "Not available, Click edit to add new template!!!",
+    "selectedTemplate": "Template",
+    "templatePage": "Template",
+    "detailsQRCode": "show QR code"
   },
   "status": {
     "all": "All",
@@ -107,7 +120,10 @@
     "addSpoi": "Add new S-Poi",
     "sPoiDetails": "Details S-Poi",
     "errorPoiName": "Poi name í required",
-    "errorPoiType": "Select Poi type, Please!!!"
+    "errorPoiType": "Select Poi type, Please!!!",
+    "infoPoiBrand": "Poi information",
+    "infoPoiLocation": "Location",
+    "infoPoi": "S-Poi information"
   },
   "adminLevel": {
     "province": "Province/City",
@@ -132,7 +148,10 @@
     "btnBack": "Back",
     "btnUpdate": "Update",
     "notFound": "Not found",
-    "searchNotFound": "No results found!!!. Try checking for typos or using complete words."
+    "searchNotFound": "No results found!!!. Try checking for typos or using complete words.",
+    "editInfo": "Edit",
+    "select": "Select",
+    "view": "View"
   },
   "login": {
     "welcome": "Welcone to Trade zone map",

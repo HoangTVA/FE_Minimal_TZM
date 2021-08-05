@@ -1,6 +1,5 @@
 import {
   Grid,
-  LinearProgress,
   Table,
   TableCell,
   TableHead,
@@ -8,8 +7,7 @@ import {
   TableRow,
   TableSortLabel
 } from '@material-ui/core';
-import { Pagination } from '@material-ui/lab';
-import { Box } from '@material-ui/system';
+import Pagination from '@material-ui/core/Pagination';
 import { PaginationRequest, Response } from 'models';
 import * as React from 'react';
 

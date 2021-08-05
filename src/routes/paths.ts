@@ -13,10 +13,8 @@ export const PATH_AUTH = {
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
   general: {
-    pageOne: path(ROOTS_DASHBOARD, '/one'),
-    pageTwo: path(ROOTS_DASHBOARD, '/two'),
-    pageThree: path(ROOTS_DASHBOARD, '/three'),
     brandMap: path(ROOTS_DASHBOARD, '/brand-map'),
+    comingSoon: path(ROOTS_DASHBOARD, '/coming-soon')
   },
   store: {
     root: path(ROOTS_DASHBOARD, '/manage-store'),
@@ -24,6 +22,7 @@ export const PATH_DASHBOARD = {
     details: path(ROOTS_DASHBOARD, '/manage-store/details'),
     editInfo: path(ROOTS_DASHBOARD, '/manage-store/details/edit-info'),
     editAttrs: path(ROOTS_DASHBOARD, '/manage-store/details/edit-attrs'),
+    editTemplates: path(ROOTS_DASHBOARD, '/manage-store/details/edit-templates')
   },
   poi: {
     root: path(ROOTS_DASHBOARD, '/pois'),
@@ -37,5 +36,8 @@ export const PATH_DASHBOARD = {
   },
   template: {
     root: path(ROOTS_DASHBOARD, '/templates'),
-  }
+  },
+  asset: {
+    root: path(ROOTS_DASHBOARD, '/assets'),
+  },
 };

@@ -1,4 +1,4 @@
-import { Card, Stack } from '@material-ui/core';
+import { Card, Stack, Typography } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
 import { useAppSelector } from 'app/hooks';
 import InputField from 'components/FormField/InputField';
@@ -73,6 +73,9 @@ export default function StoreForm({
     <form onSubmit={handleSubmit(handelFormSubmit)}>
       <Stack spacing={3}>
         <Card sx={{ p: 3 }}>
+          <Typography variant="h6" gutterBottom marginBottom={4}>
+            {t('store.info')}
+          </Typography>
           <Stack spacing={3}>
             <InputField
               name="storeCode"

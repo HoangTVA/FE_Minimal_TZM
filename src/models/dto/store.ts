@@ -43,3 +43,9 @@ export interface Template {
     name: string;
     imageUrl: string;
 }
+export interface PostTemplate {
+
+    templateId: number,
+    url: string
+
+}

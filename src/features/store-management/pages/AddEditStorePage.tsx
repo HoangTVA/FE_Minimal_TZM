@@ -1,4 +1,4 @@
-import { Box, Card, Container, Grid, Stack, TextField } from '@material-ui/core';
+import { Box, Card, Container, Grid, Stack, Typography } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 import storeApi from 'api/storeApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
@@ -6,22 +6,22 @@ import { SearchAddress } from 'components/common';
 import MapWithMarker from 'components/common/MapWithMarker';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Page from 'components/Page';
+import Images from 'constants/image';
+import { selectFilter } from 'features/pois-brand/poiBrandSlice';
 import useSettings from 'hooks/useSettings';
 import { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Address, PostStore, Store } from 'models';
+import { useSnackbar } from 'notistack5';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import { PATH_DASHBOARD } from 'routes/paths';
-import { getCurrentUser } from 'utils/common';
+import { getCurrentUser, splitLongString } from 'utils/common';
 import StoreForm from '../components/StoreForm';
 import { storeActions } from '../storeSlice';
-import { useSnackbar } from 'notistack5';
-import { selectFilter } from 'features/pois-brand/poiBrandSlice';
 import './style.css';
-import Images from 'constants/image';
 
 interface AddEditStorePageProps {}
 const ThumbImgStyle = styled('img')(({ theme }) => ({
@@ -138,13 +138,20 @@ export default function AddEditStorePage(props: AddEditStorePageProps) {
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             { name: t('store.title'), href: PATH_DASHBOARD.store.root },
-            { name: !isEdit ? t('store.btnAdd') : t('store.detailsStore') }
+            {
+              name: splitLongString(store?.name || ''),
+              href: `${PATH_DASHBOARD.store.details}/${storeId}`
+            },
+            { name: !isEdit ? t('store.btnAdd') : t('store.editInfo') }
           ]}
         />
         <Box>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <Card sx={{ p: 3 }} style={{ marginBottom: '8px' }}>
+                <Typography variant="h6" gutterBottom marginBottom={4}>
+                  {t('store.imageUrl')}
+                </Typography>
                 <Stack spacing={3}>
                   <Box>
                     <Box
@@ -180,6 +187,9 @@ export default function AddEditStorePage(props: AddEditStorePageProps) {
             </Grid>
             <Grid item xs={12} md={6}>
               <Card sx={{ p: 3 }}>
+                <Typography variant="h6" gutterBottom marginBottom={3}>
+                  {t('store.addressMap')}
+                </Typography>
                 <Stack spacing={3}>
                   <Box>
                     <SearchAddress onChangeAddress={handelSelectLocation} />
