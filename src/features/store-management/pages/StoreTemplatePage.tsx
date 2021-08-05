@@ -10,7 +10,6 @@ import {
   DialogContentText,
   DialogTitle,
   Grid,
-  Stack,
   Typography
 } from '@material-ui/core';
 import Pagination from '@material-ui/core/Pagination';
@@ -66,7 +65,6 @@ export default function StoreTemplatePage() {
     (async () => {
       try {
         const data: Store = await storeApi.getStoreById(storeId);
-
         const newValue: PostTemplate = {
           url: data?.url || '',
           templateId: data?.template.id || 0
@@ -74,7 +72,10 @@ export default function StoreTemplatePage() {
         setStore(data);
         setTemplateForm(newValue);
         setSelectTemplateId(data?.template);
-      } catch (error) {}
+        //console.log(data.url);
+      } catch (error) {
+        //enqueueSnackbar(t('common.errorText'), { variant: 'error' });
+      }
     })();
   }, [storeId]);
   useEffect(() => {
@@ -138,7 +139,18 @@ export default function StoreTemplatePage() {
           ]}
         />
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6} lg={7}>
+          <Grid item xs={12} md={12} lg={12}>
+            {(!Boolean(store?.template.id) || Boolean(templateForm)) && (
+              <TemplateForm
+                initialValue={initialValues}
+                onSubmit={handelStoreFormSubmit}
+                storeName={store?.name || ''}
+                selectedTemplateName={store?.template.name || ''}
+                selectTemplate={selectTemplateId || undefined}
+              />
+            )}
+          </Grid>
+          <Grid item xs={12} md={12} lg={12}>
             <Card sx={{ p: 3 }}>
               <Typography variant="h4" gutterBottom marginBottom={4}>
                 {t('content.listTemplate')}
@@ -161,17 +173,6 @@ export default function StoreTemplatePage() {
                 />
               </Box>
             </Card>
-          </Grid>
-          <Grid item xs={12} md={6} lg={5}>
-            {(Boolean(storeId) || Boolean(templateForm)) && (
-              <TemplateForm
-                initialValue={initialValues}
-                onSubmit={handelStoreFormSubmit}
-                storeName={store?.name || ''}
-                selectedTemplateName={store?.template.name || ''}
-                selectTemplate={selectTemplateId || undefined}
-              />
-            )}
           </Grid>
         </Grid>
       </Container>

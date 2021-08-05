@@ -40,12 +40,17 @@ export default function SidebarConfig() {
           icon: ICONS.store
         },
         { title: t('poi.poi'), path: PATH_DASHBOARD.poiBrand.root, icon: ICONS.poiBrand },
-        { title: t('content.map'), path: PATH_DASHBOARD.general.brandMap, icon: ICONS.map }
-        // {
-        //   title: t('content.asset'),
-        //   path: PATH_DASHBOARD.general.brandMap,
-        //   icon: ICONS.asset
-        // }
+        { title: t('content.map'), path: PATH_DASHBOARD.general.brandMap, icon: ICONS.map },
+        {
+          title: t('content.asset'),
+          path: PATH_DASHBOARD.asset.root,
+          icon: ICONS.asset
+        },
+        {
+          title: t('content.templates'),
+          path: PATH_DASHBOARD.template.root,
+          icon: ICONS.template
+        }
       ]
     },
 

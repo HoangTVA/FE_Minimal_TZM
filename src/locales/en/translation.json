@@ -76,7 +76,10 @@
     "editTemplate": "Edit template",
     "selected": "Selected: ",
     "nonSelect": "Not available",
-    "noteTemplate": "Not available, Click edit to add new template!!!"
+    "noteTemplate": "Not available, Click edit to add new template!!!",
+    "selectedTemplate": "Template",
+    "templatePage": "Template",
+    "detailsQRCode": "show QR code"
   },
   "status": {
     "all": "All",

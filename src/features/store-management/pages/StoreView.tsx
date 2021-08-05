@@ -13,25 +13,22 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
-import { styled } from '@material-ui/core/styles';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import storeApi from 'api/storeApi';
-import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { useAppDispatch } from 'app/hooks';
 import MapWithMarker from 'components/common/MapWithMarker';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Page from 'components/Page';
-import { selectFilter } from 'features/pois-brand/poiBrandSlice';
 import useSettings from 'hooks/useSettings';
 import { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { PostStore, Store } from 'models';
 import { AttrResponse } from 'models/dto/attrResponse';
-import { useSnackbar } from 'notistack5';
 import QRCode from 'qrcode.react';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
 import { PATH_DASHBOARD } from 'routes/paths';
 import { getCurrentUser, splitLongString } from 'utils/common';

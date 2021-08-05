@@ -9,7 +9,6 @@ import { GeoJSONMarker } from 'models';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import Control from '@skyeer/react-leaflet-custom-control';
 import {
   LayersControl,
   MapContainer,
@@ -21,7 +20,6 @@ import {
 } from 'react-leaflet';
 import { convertBounds } from 'utils/common';
 import './style.css';
-import ReactDOM from 'react-dom';
 
 interface MapProps {
   stores?: GeoJSONMarker;

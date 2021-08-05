@@ -1,25 +1,24 @@
-import { Suspense, lazy } from 'react';
-import { Navigate, useRoutes, useLocation } from 'react-router-dom';
-// layouts
-import MainLayout from '../layouts/main';
-import DashboardLayout from '../layouts/dashboard';
-import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
+import Login from 'features/auth/Login';
+import BrandMap from 'features/map/pages/BrandMap';
+import AddEditPoiBrandPage from 'features/pois-brand/pages/AddEditPoiBrandPage';
+import PoiBrandList from 'features/pois-brand/pages/PoiBrandList';
+import AddEditPoiPage from 'features/pois/pages/AddEditPoiPage';
+import PoiList from 'features/pois/pages/PoiList';
+import AddEditStorePage from 'features/store-management/pages/AddEditStorePage';
+import EditAttrsPage from 'features/store-management/pages/EditAttrsPage';
+import StoreList from 'features/store-management/pages/StoreList';
+import StoreTemplatePage from 'features/store-management/pages/StoreTemplatePage';
+import StoreViewPage from 'features/store-management/pages/StoreView';
+import Template from 'features/template/pages/Template';
+import ComingSoon from 'pages/ComingSoon';
+import { lazy, Suspense } from 'react';
+import { Navigate, useLocation, useRoutes } from 'react-router-dom';
 // components
 import LoadingScreen from '../components/LoadingScreen';
-import Login from 'features/auth/Login';
-import StoreList from 'features/store-management/pages/StoreList';
-import BrandMap from 'features/map/pages/BrandMap';
-import PoiList from 'features/pois/pages/PoiList';
-import PoiBrandList from 'features/pois-brand/pages/PoiBrandList';
-import AddEditStorePage from 'features/store-management/pages/AddEditStorePage';
-import AddEditPoiBrandPage from 'features/pois-brand/pages/AddEditPoiBrandPage';
-import AddEditPoiPage from 'features/pois/pages/AddEditPoiPage';
-import Template from 'features/template/pages/Template';
-import DisplayTemplate from 'features/template/pages/DisplayTemplate';
-import EditAttrsPage from 'features/store-management/pages/EditAttrsPage';
-import StoreViewPage from 'features/store-management/pages/StoreView';
-import StoreTemplatePage from 'features/store-management/pages/StoreTemplatePage';
-import ComingSoon from 'pages/ComingSoon';
+import DashboardLayout from '../layouts/dashboard';
+import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
+// layouts
+import MainLayout from '../layouts/main';
 // ----------------------------------------------------------------------
 
 const Loadable = (Component: any) => (props: any) => {
@@ -86,7 +85,8 @@ export default function Router() {
             { path: 'details/:poiId', element: <AddEditPoiBrandPage /> }
           ]
         },
-        { path: 'coming-soon', element: <ComingSoon /> }
+        { path: 'coming-soon', element: <ComingSoon /> },
+        { path: 'asset', element: <ComingSoon /> }
       ]
     },
 

@@ -1,8 +1,5 @@
-import { useTranslation } from 'react-i18next';
 import { LatLngBounds, LatLngExpression } from 'leaflet';
 import { User } from "models";
-import { toast } from 'react-toastify';
-import { useSnackbar } from 'notistack5';
 
 export const getCurrentUser = () => {
     try {

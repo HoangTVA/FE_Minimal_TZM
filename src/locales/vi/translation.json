@@ -78,7 +78,10 @@
     "editTemplate": "Chỉnh sửa mẫu",
     "selected": "Đã chọn: ",
     "nonSelect": "Chưa chọn",
-    "noteTemplate": "Chưa có thông tin, vui lòng nhấn chỉnh sửa để thêm mẫu!!!"
+    "noteTemplate": "Chưa có thông tin, vui lòng nhấn chỉnh sửa để thêm mẫu!!!",
+    "selectedTemplate": "Mẫu đã chọn",
+    "templatePage": "Mẫu",
+    "detailsQRCode": "Xem QR code"
   },
   "status": {
     "all": "Tất cả",

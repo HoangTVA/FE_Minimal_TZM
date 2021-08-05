@@ -1,11 +1,10 @@
-import { useRef, useState } from 'react';
 // material
-import { Box, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Box, ListItemIcon, ListItemText, MenuItem } from '@material-ui/core';
+import useLocales from 'hooks/useLocales';
+import { useRef, useState } from 'react';
+import { MIconButton } from '../../components/@material-extend';
 // components
 import MenuPopover from '../../components/MenuPopover';
-import { MIconButton } from '../../components/@material-extend';
-import i18n from 'translation/i18n';
-import useLocales from 'hooks/useLocales';
 
 // ----------------------------------------------------------------------
 

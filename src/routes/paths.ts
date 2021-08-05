@@ -36,5 +36,8 @@ export const PATH_DASHBOARD = {
   },
   template: {
     root: path(ROOTS_DASHBOARD, '/templates'),
-  }
+  },
+  asset: {
+    root: path(ROOTS_DASHBOARD, '/assets'),
+  },
 };

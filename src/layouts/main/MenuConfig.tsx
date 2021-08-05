@@ -1,6 +1,5 @@
-import { Icon } from '@iconify/react';
-import homeFill from '@iconify/icons-eva/home-fill';
 import fileFill from '@iconify/icons-eva/file-fill';
+import { Icon } from '@iconify/react';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 

@@ -1,70 +1,75 @@
+import qrcodeOutlined from '@iconify/icons-ant-design/qrcode-outlined';
+import editFill from '@iconify/icons-eva/edit-fill';
+import { Icon } from '@iconify/react';
+// material
+
 import {
-  Box,
   Button,
   Card,
-  CardContent,
-  CardHeader,
   Container,
-  Grid,
-  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  LinearProgress,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
   Typography
 } from '@material-ui/core';
+// material
+import { Box } from '@material-ui/system';
+import storeApi from 'api/storeApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { useDebouncedCallback } from 'components/common';
+import { useTable } from 'components/common';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
-import SelectMUI from 'components/material-ui/SelectMUI';
+// @types
 // components
 import Page from 'components/Page';
+import Scrollbar from 'components/Scrollbar';
+import StoreFilter from 'features/store-management/components/StoreFilter';
+import {
+  selectFilter,
+  selectLoading,
+  selectStoresResponse,
+  storeActions
+} from 'features/store-management/storeSlice';
 // hooks
 import useSettings from 'hooks/useSettings';
-import QRCode from 'qrcode.react';
+import { GetStatusMap, PaginationRequest, Store } from 'models';
+import { useSnackbar } from 'notistack5';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+// redux
 // routes
 import { PATH_DASHBOARD } from 'routes/paths';
-import CarouselBasic3 from '../components/CarouselBasic3';
-import { FetchAttrs, selectStoreOptions, templateActions } from '../templateSlice';
-import './style.css';
+import QRCode from 'qrcode.react';
+// ----------------------------------------------------------------------
 
-interface TemplateProps {}
-
-export default function Template(props: TemplateProps) {
+export default function Template() {
   const { themeStretch } = useSettings();
+  const [showPopup, setShowPopup] = useState(false);
+  const [storeSelected, setStoreSelected] = useState<Store>();
   const dispatch = useAppDispatch();
-  const storeOptions = useAppSelector(selectStoreOptions);
-  const [current, setCurrent] = useState(1);
-  const [valueQrCode, setValueQrCode] = useState('');
-  const [storeSelected, setStoreSelected] = useState(-1);
-  const [text, setText] = useState('');
-  const { t } = useTranslation();
-  useEffect(() => {
-    dispatch(templateActions.fetchStores());
-  }, [dispatch]);
-  useEffect(() => {
-    if (storeSelected === -1 || text === '') return;
-    const valueQrCode = `https://${window.location.host}/${text}/${storeSelected}/${current}`;
-    setValueQrCode(valueQrCode);
-  }, [current, storeSelected, text]);
-  const handelTextChange = useDebouncedCallback((e) => {
-    setText(e.target.value);
-  }, 500);
-  const handelOnChange = (index: number) => {
-    setCurrent(index);
-  };
-  const handelSelectStore = (selectedId: number) => {
-    setStoreSelected(selectedId);
-    const params: FetchAttrs = {
-      storeId: selectedId,
-      typeId: 4
-    };
+  const filter = useAppSelector(selectFilter);
+  const rs = useAppSelector(selectStoresResponse);
+  const loading = useAppSelector(selectLoading);
+  const { statusMap } = GetStatusMap();
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
-    dispatch(templateActions.fetchAttrs(params));
-  };
+  //effect
+  useEffect(() => {
+    dispatch(storeActions.fetchStores(filter));
+  }, [dispatch, filter]);
   const downloadQR = () => {
     const canvas = document.getElementById('qrcode') as HTMLCanvasElement;
     if (canvas) {
       const pngUrl = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
-      console.log('pngUrl', pngUrl);
       let downloadLink = document.createElement('a');
       downloadLink.href = pngUrl;
       downloadLink.download = 'test.png';
@@ -73,87 +78,185 @@ export default function Template(props: TemplateProps) {
       document.body.removeChild(downloadLink);
     } else return;
   };
+  const onPageChange = (page: number) => {
+    dispatch(
+      storeActions.setFilter({
+        ...filter,
+        page: page + 1
+      })
+    );
+  };
+  const onRowPerPageChange = (perPage: number) => {
+    dispatch(
+      storeActions.setFilter({
+        ...filter,
+        pageSize: perPage
+      })
+    );
+  };
+  const onSortChange = (colName: string, sortType: number) => {
+    dispatch(
+      storeActions.setFilter({
+        ...filter,
+        colName: colName,
+        sortType: sortType
+      })
+    );
+  };
 
+  const handelShowPopupClick = (store: Store) => {
+    setStoreSelected(store);
+    setShowPopup(true);
+  };
+  const handelConfirmRemoveClick = async () => {
+    try {
+      await storeApi.remove(storeSelected?.id || 0);
+      const newFilter = { ...filter };
+      dispatch(storeActions.setFilter(newFilter));
+      enqueueSnackbar(storeSelected?.name + ' ' + t('store.deleteSuccess'), { variant: 'success' });
+
+      setStoreSelected(undefined);
+      setShowPopup(false);
+    } catch (error) {
+      enqueueSnackbar(storeSelected?.name + ' ' + t('common.errorText'), { variant: 'error' });
+    }
+  };
+
+  //header
+  const { t } = useTranslation();
+  const headCells = [
+    { id: 'no', label: '#' },
+    { id: 'name', label: t('store.storeName') },
+    { id: 'address', label: t('store.selectedTemplate') },
+    { id: 'status', label: t('common.status') },
+    { id: 'actions', label: t('common.actions'), disableSorting: true, align: 'center' }
+  ];
+
+  const { TblHead, TblPagination } = useTable({
+    rs,
+    headCells,
+    filter,
+    onPageChange,
+    onRowPerPageChange,
+    onSortChange
+  });
+  const handelDetailsClick = (store: Store) => {
+    navigate(`${PATH_DASHBOARD.store.editTemplates}/${store.id}`);
+  };
+  const handelSearchDebounce = (newFilter: PaginationRequest) => {
+    dispatch(storeActions.setFilterWithDebounce(newFilter));
+  };
   return (
-    <Page title={t('content.listTemplate')}>
+    <Page title={t('store.templatePage')}>
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={t('content.listTemplate')}
+          heading={t('store.listStore')}
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: t('content.listTemplate') }
+            { name: t('content.dashboard'), href: PATH_DASHBOARD.root },
+
+            { name: t('store.listStore') }
           ]}
         />
 
         <Card>
-          <Grid container>
-            <Grid item xs={12} md={7} lg={9}>
-              <Card>
-                <CardHeader title={t('content.listTemplate')} />
-                <CardContent>
-                  <CarouselBasic3 onChange={handelOnChange} />
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={5} lg={3}>
-              <Card>
-                <CardHeader title={t('content.stores')} />
-                <CardContent>
-                  <Box
-                    style={{
-                      width: '100%',
-                      height: '400px',
-                      display: 'flex',
-                      flexFlow: 'row nowrap',
-                      justifyContent: 'center',
-                      alignItems: 'center'
-                    }}
-                  >
-                    {valueQrCode !== '' ? (
-                      <QRCode
-                        id="qrcode"
-                        value={valueQrCode}
-                        size={290}
-                        level={'H'}
-                        includeMargin={true}
-                      />
-                    ) : (
-                      <Typography variant="body2" align="center" sx={{ color: 'text.secondary' }}>
-                        {t('content.noticeTemplate')}
-                      </Typography>
-                    )}
-                  </Box>
-                  <Box mt={1}>
-                    <SelectMUI
-                      label={t('content.selectStore')}
-                      isAll={false}
-                      labelId="selectStore"
-                      options={storeOptions}
-                      onChange={handelSelectStore}
-                      selected={storeSelected === -1 ? '' : storeSelected}
-                    />
-                  </Box>
-                  <Box mt={1}>
-                    <TextField
-                      fullWidth
-                      label={t('content.nameCustom')}
-                      variant="outlined"
-                      onChange={handelTextChange}
-                    />
-                  </Box>
-                  <Box mt={1}>
-                    {valueQrCode !== '' && (
-                      <Button fullWidth onClick={downloadQR} color="primary">
-                        {t('content.btnDownloadQR')}
-                      </Button>
-                    )}
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
+          <StoreFilter filter={filter} onSearchChange={handelSearchDebounce} />
+          <Scrollbar>
+            <TableContainer sx={{ minWidth: 800 }}>
+              <Table>
+                <TblHead />
+                <TableBody>
+                  {true && (
+                    <TableRow style={{ height: 1 }}>
+                      <TableCell colSpan={20} style={{ paddingBottom: '0px', paddingTop: '0px' }}>
+                        <Box>{loading && <LinearProgress color="primary" />}</Box>
+                      </TableCell>
+                    </TableRow>
+                  )}
+
+                  {rs.results.map((e, idx) => (
+                    <TableRow key={e.id}>
+                      <TableCell width={80} component="th" scope="row" padding="none">
+                        {idx + 1}
+                      </TableCell>
+                      <TableCell align="left">{e.name}</TableCell>
+                      <TableCell align="left">{e.template?.name || t('store.none')}</TableCell>
+                      <TableCell>
+                        <Box color={statusMap[e.status].color} fontWeight="bold">
+                          {statusMap[e.status].name}
+                        </Box>
+                      </TableCell>
+                      <TableCell width={300}>
+                        <Box style={{ display: 'flex', justifyContent: 'center' }}>
+                          <Button
+                            disabled={!Boolean(e.template.name)}
+                            color="info"
+                            onClick={() => handelShowPopupClick(e)}
+                            startIcon={<Icon icon={qrcodeOutlined} color="#1890FF" />}
+                          >
+                            {t('store.detailsQRCode')}
+                          </Button>
+                          <Button
+                            color="success"
+                            onClick={() => handelDetailsClick(e)}
+                            startIcon={<Icon icon={editFill} color="#54D62C" />}
+                          >
+                            {t('common.editInfo')}
+                          </Button>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  {rs.results.length === 0 && (
+                    <TableRow style={{ height: 53 * 10 }}>
+                      <TableCell colSpan={20}>
+                        <Typography gutterBottom align="center" variant="subtitle1">
+                          {t('common.notFound')}
+                        </Typography>
+                        <Typography variant="body2" align="center">
+                          {t('common.searchNotFound')}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Scrollbar>
+
+          <TblPagination />
         </Card>
       </Container>
+      <Dialog open={showPopup} onClose={() => setShowPopup(false)} maxWidth="lg">
+        <DialogTitle>QR CODE</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            <Box
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexFlow: 'row nowrap'
+              }}
+            >
+              <QRCode
+                id="qrcode"
+                value={storeSelected?.url}
+                size={300}
+                level={'H'}
+                includeMargin={true}
+              />
+            </Box>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button color="inherit" onClick={() => setShowPopup(false)}>
+            {t('content.btnClose')}
+          </Button>
+          <Button onClick={downloadQR} autoFocus>
+            {t('content.btnDownloadQR')}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Page>
   );
 }

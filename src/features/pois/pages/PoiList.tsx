@@ -27,7 +27,6 @@ import { adminLevelActions } from 'features/admin-level/adminLevelSlice';
 // hooks
 import useSettings from 'hooks/useSettings';
 import { GetStatusMap, Poi, PoiPagingRequest } from 'models';
-import { useSnackbar } from 'notistack5';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -47,7 +46,7 @@ export default function PoiList() {
   const rs = useAppSelector(selectPoiList);
   const { statusMap } = GetStatusMap();
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
+  //const { enqueueSnackbar } = useSnackbar();
 
   ///effect
   useEffect(() => {
