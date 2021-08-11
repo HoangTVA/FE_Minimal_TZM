@@ -11,7 +11,6 @@ function* fetchPoiBrandList(action: PayloadAction<PaginationRequest>) {
         yield put(poiBrandActions.fetchPoiBrandListSuccess(rs));
     } catch (error) {
         yield put(poiBrandActions.fetchPoiBrandListError());
-        console.log(error);
     }
 }
 function* searchWithDebounce(action: PayloadAction<PaginationRequest>) {

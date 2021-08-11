@@ -18,14 +18,14 @@ const ICONS = {
   map: getIcon('ic-map'),
   asset: getIcon('ic-asset'),
   settings: getIcon('ic-setting'),
-  template: getIcon('ic-template')
+  template: getIcon('ic-template'),
+  groupZone: getIcon('ic-gz'),
+  tradeZone: getIcon('ic-tz')
 };
 export default function SidebarConfig() {
   const { t } = useTranslation();
 
   const sidebarConfig = [
-    // GENERAL
-    // ----------------------------------------------------------------------
     {
       subheader: t('content.business'),
       items: [
@@ -44,28 +44,32 @@ export default function SidebarConfig() {
         {
           title: t('content.asset'),
           path: PATH_DASHBOARD.asset.root,
-          icon: ICONS.asset
+          icon: ICONS.asset,
+          children: [
+            { title: t('asset.list'), path: PATH_DASHBOARD.asset.assets },
+            { title: t('asset.violationLogs'), path: PATH_DASHBOARD.asset.violations }
+          ]
         },
         {
           title: t('content.templates'),
           path: PATH_DASHBOARD.template.root,
           icon: ICONS.template
+        },
+        {
+          title: 'Group zone',
+          path: PATH_DASHBOARD.groupZone.root,
+          icon: ICONS.groupZone
+        },
+        {
+          title: 'Trade zone',
+          path: PATH_DASHBOARD.tradeZone.root,
+          icon: ICONS.tradeZone
         }
       ]
     },
-
-    // MANAGEMENT
-    // ----------------------------------------------------------------------
     {
       subheader: t('content.system'),
-      items: [
-        { title: t('poi.sPoi'), path: PATH_DASHBOARD.poi.root, icon: ICONS.poi }
-        // {
-        //   title: t('content.settings'),
-        //   path: PATH_DASHBOARD.general.brandMap,
-        //   icon: ICONS.settings
-        // }
-      ]
+      items: [{ title: t('poi.sPoi'), path: PATH_DASHBOARD.poi.root, icon: ICONS.poi }]
     }
   ];
   return sidebarConfig;

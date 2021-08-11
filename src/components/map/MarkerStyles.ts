@@ -1,9 +1,9 @@
 import L from 'leaflet';
-import icons from "assets/icons/l3.svg";
+import icons from "assets/ics-map/ics-stores.svg";
 import poi from "assets/ics-map/ics-map-pois.svg";
 import myStore from "assets/ics-map/ics-map-store.svg";
-const IconMarker = new L.Icon({
-  iconSize: [42, 56],
+const IconStores = new L.Icon({
+  iconSize: [36, 48],
   popupAnchor: [-3, -56],
   iconAnchor: [22, 56],
   iconUrl: icons
@@ -24,4 +24,4 @@ const IconMyStore = new L.Icon({
 
 });
 
-export { IconMarker, IconMyStore, IconPois };
+export { IconStores, IconMyStore, IconPois };

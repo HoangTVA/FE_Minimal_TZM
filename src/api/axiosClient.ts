@@ -33,6 +33,9 @@ axiosClient.interceptors.response.use((response: AxiosResponse) => {
     if (response && response.data) {
         return response.data;
     }
+    if (typeof (response.data) === 'boolean') {
+        return response.data;
+    }
     return response;
 }, (error) => {
     // Handle errors

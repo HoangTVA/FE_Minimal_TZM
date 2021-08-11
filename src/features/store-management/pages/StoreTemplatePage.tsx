@@ -42,9 +42,10 @@ const ProductImgStyle = styled('img')(({ theme }) => ({
   objectFit: 'cover',
   position: 'absolute'
 }));
+
 export default function StoreTemplatePage() {
   const { themeStretch } = useSettings();
-  const { storeId } = useParams();
+  const { storeId, isStoreView } = useParams();
   const [store, setStore] = useState<Store>();
   const [templateForm, setTemplateForm] = useState<PostTemplate>();
   const dispatch = useAppDispatch();
@@ -93,7 +94,13 @@ export default function StoreTemplatePage() {
         t('store.updateSuccessStart') + store?.name + ' ' + t('store.updateSuccessEnd'),
         { variant: 'success' }
       );
-      navigate(`${PATH_DASHBOARD.store.details}/${storeId}`);
+      if (isStoreView === 'true') {
+        navigate(`${PATH_DASHBOARD.store.details}/${storeId}`);
+      } else {
+        const newFilter = { ...filter };
+        dispatch(storeActions.setFilter(newFilter));
+        navigate(`${PATH_DASHBOARD.template.root}`);
+      }
     } catch (error) {
       enqueueSnackbar(
         store?.name + ' ' + t('common.errorText') + ' ,' + t('store.storeCodeIsExisted'),
@@ -130,7 +137,13 @@ export default function StoreTemplatePage() {
           heading={t('store.listStore')}
           links={[
             { name: t('content.dashboard'), href: PATH_DASHBOARD.root },
-            { name: t('store.title'), href: PATH_DASHBOARD.store.root },
+            {
+              name: isStoreView === 'true' ? t('store.title') : t('content.templates'),
+              href:
+                isStoreView === 'true'
+                  ? `${PATH_DASHBOARD.store.root}`
+                  : `${PATH_DASHBOARD.template.root}`
+            },
             {
               name: splitLongString(store?.name || ''),
               href: `${PATH_DASHBOARD.store.details}/${storeId}`

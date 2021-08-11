@@ -2,7 +2,6 @@ import qrcodeOutlined from '@iconify/icons-ant-design/qrcode-outlined';
 import editFill from '@iconify/icons-eva/edit-fill';
 import { Icon } from '@iconify/react';
 // material
-
 import {
   Button,
   Card,
@@ -22,7 +21,6 @@ import {
 } from '@material-ui/core';
 // material
 import { Box } from '@material-ui/system';
-import storeApi from 'api/storeApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { useTable } from 'components/common';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
@@ -40,14 +38,13 @@ import {
 // hooks
 import useSettings from 'hooks/useSettings';
 import { GetStatusMap, PaginationRequest, Store } from 'models';
-import { useSnackbar } from 'notistack5';
+import QRCode from 'qrcode.react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 // redux
 // routes
 import { PATH_DASHBOARD } from 'routes/paths';
-import QRCode from 'qrcode.react';
 // ----------------------------------------------------------------------
 
 export default function Template() {
@@ -60,7 +57,6 @@ export default function Template() {
   const loading = useAppSelector(selectLoading);
   const { statusMap } = GetStatusMap();
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
 
   //effect
   useEffect(() => {
@@ -108,19 +104,6 @@ export default function Template() {
     setStoreSelected(store);
     setShowPopup(true);
   };
-  const handelConfirmRemoveClick = async () => {
-    try {
-      await storeApi.remove(storeSelected?.id || 0);
-      const newFilter = { ...filter };
-      dispatch(storeActions.setFilter(newFilter));
-      enqueueSnackbar(storeSelected?.name + ' ' + t('store.deleteSuccess'), { variant: 'success' });
-
-      setStoreSelected(undefined);
-      setShowPopup(false);
-    } catch (error) {
-      enqueueSnackbar(storeSelected?.name + ' ' + t('common.errorText'), { variant: 'error' });
-    }
-  };
 
   //header
   const { t } = useTranslation();
@@ -141,7 +124,7 @@ export default function Template() {
     onSortChange
   });
   const handelDetailsClick = (store: Store) => {
-    navigate(`${PATH_DASHBOARD.store.editTemplates}/${store.id}`);
+    navigate(`${PATH_DASHBOARD.template.edit}/${store.id}/false`);
   };
   const handelSearchDebounce = (newFilter: PaginationRequest) => {
     dispatch(storeActions.setFilterWithDebounce(newFilter));

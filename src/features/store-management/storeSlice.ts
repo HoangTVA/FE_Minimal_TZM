@@ -98,6 +98,10 @@ export const selectTemplatesOptions = createSelector(selectTemplate, (templates)
     name: template.name,
     id: template.id
 })));
+export const selectStoresOptions = createSelector(selectStoresResponse, (stores) => stores.results.map((store) => ({
+    name: store.name,
+    id: store.id
+})));
 //reducers
 const storeReducer = storeSlice.reducer;
 export default storeReducer;

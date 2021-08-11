@@ -27,17 +27,30 @@ export const PATH_DASHBOARD = {
   poi: {
     root: path(ROOTS_DASHBOARD, '/pois'),
     add: path(ROOTS_DASHBOARD, '/pois/add'),
-    details: path(ROOTS_DASHBOARD, '/pois/details'),
+    edit: path(ROOTS_DASHBOARD, '/pois/edit'),
   },
   poiBrand: {
     root: path(ROOTS_DASHBOARD, '/brand-pois'),
     add: path(ROOTS_DASHBOARD, '/brand-pois/add'),
-    details: path(ROOTS_DASHBOARD, '/brand-pois/details'),
+    edit: path(ROOTS_DASHBOARD, '/brand-pois/edit'),
   },
   template: {
     root: path(ROOTS_DASHBOARD, '/templates'),
+    edit: path(ROOTS_DASHBOARD, '/templates/edit-templates'),
   },
   asset: {
-    root: path(ROOTS_DASHBOARD, '/assets'),
+    root: path(ROOTS_DASHBOARD, '/manage-assets'),
+    assets: path(ROOTS_DASHBOARD, '/manage-assets/list'),
+    violations: path(ROOTS_DASHBOARD, '/manage-assets/violation/list'),
+    add: path(ROOTS_DASHBOARD, '/manage-assets/add'),
+    edit: path(ROOTS_DASHBOARD, '/manage-assets/edit'),
   },
+  groupZone: {
+    root: path(ROOTS_DASHBOARD, '/group-zones'),
+    add: path(ROOTS_DASHBOARD, '/group-zones/add'),
+    edit: path(ROOTS_DASHBOARD, '/group-zones/edit'),
+  },
+  tradeZone: {
+    root: path(ROOTS_DASHBOARD, '/trade-zones'),
+  }
 };
