@@ -11,3 +11,4 @@ export * from './dto/address';
 export * from './dto/attrProps';
 export * from './dto/geoJonMarker';
 export * from './dto/RequestBounds';
+export * from './dto/asset';

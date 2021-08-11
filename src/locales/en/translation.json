@@ -79,7 +79,8 @@
     "noteTemplate": "Not available, Click edit to add new template!!!",
     "selectedTemplate": "Template",
     "templatePage": "Template",
-    "detailsQRCode": "show QR code"
+    "detailsQRCode": "show QR code",
+    "addressMap": "Store location"
   },
   "status": {
     "all": "All",
@@ -130,6 +131,42 @@
     "district": "District",
     "ward": "Ward"
   },
+  "asset": {
+    "code": "Asset code",
+    "name": "Asset name",
+    "type": "Asset type",
+    "storeName": "Store name",
+    "btnAdd": "Add asset",
+    "title": "Asset management",
+    "list": "Asset list",
+    "violationLogs": "Violation logs",
+    "motorcycle": "Motorcycle",
+    "truck": "Truck",
+    "addSuccess": "Successfully added a new asset",
+    "updateSuccessStart": "Asset: ",
+    "updateSuccessEnd": "updated",
+    "editTitle": "Edit asset",
+    "addTitle": "Add new asset",
+    "infoAsset": "Asset information",
+    "errorName": "Asset name is required!!!",
+    "errorType": "Pls, Select asset type!!!",
+    "errorStore": "Pls, Select store"
+  },
+  "groupZone": {
+    "name": "Group zone name",
+    "title": "Group zone",
+    "add": "Add new Group zone",
+    "list": "Group zone list",
+    "viewOnMap": "View on map",
+    "showAll": "Display all group zone",
+    "ward": "Ward mode",
+    "district": "District mode",
+    "mode": "Mode",
+    "errorName": "Group zone name is required!!!",
+    "errorSelected": "Select zones, Pls!!!",
+    "addSuccess": "Successfully add a new group zone",
+    "invalidGroupZone": "Group zone must be adjacent to each other in order to be valid."
+  },
   "common": {
     "status": "Status",
     "remove": "Remove",
@@ -151,7 +188,8 @@
     "searchNotFound": "No results found!!!. Try checking for typos or using complete words.",
     "editInfo": "Edit",
     "select": "Select",
-    "view": "View"
+    "view": "View",
+    "other": "Other"
   },
   "login": {
     "welcome": "Welcone to Trade zone map",

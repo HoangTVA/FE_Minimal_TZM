@@ -242,7 +242,7 @@ export default function StoreViewPage(props: StoreViewPageProps) {
                   )}
                   <Button
                     component={RouterLink}
-                    to={`${PATH_DASHBOARD.store.editTemplates}/${store?.id}`}
+                    to={`${PATH_DASHBOARD.store.editTemplates}/${store?.id}/true`}
                     startIcon={<Icon icon={editFill} />}
                   >
                     {t('common.editInfo')}

@@ -1,26 +1,24 @@
-import { Icon } from '@iconify/react';
-import { useRef, useState } from 'react';
 import homeFill from '@iconify/icons-eva/home-fill';
 import personFill from '@iconify/icons-eva/person-fill';
 import settings2Fill from '@iconify/icons-eva/settings-2-fill';
-import { Link as RouterLink } from 'react-router-dom';
+import { Avatar, Box, Button, Divider, Typography } from '@material-ui/core';
 // material
 import { alpha } from '@material-ui/core/styles';
-import { Avatar, Button, Box, Divider, MenuItem, Typography } from '@material-ui/core';
+import { useAppDispatch } from 'app/hooks';
+import { authAction } from 'features/auth/authSlice';
+import { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 // components
 import { MIconButton } from '../../components/@material-extend';
 import MenuPopover from '../../components/MenuPopover';
-import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from 'app/hooks';
-import { authAction } from 'features/auth/authSlice';
 
 // ----------------------------------------------------------------------
 
-const MENU_OPTIONS = [
-  { label: 'Home', icon: homeFill, linkTo: '/' },
-  { label: 'Profile', icon: personFill, linkTo: '#' },
-  { label: 'Settings', icon: settings2Fill, linkTo: '#' }
-];
+// const MENU_OPTIONS = [
+//   { label: 'Home', icon: homeFill, linkTo: '/' },
+//   { label: 'Profile', icon: personFill, linkTo: '#' },
+//   { label: 'Settings', icon: settings2Fill, linkTo: '#' }
+// ];
 
 // ----------------------------------------------------------------------
 

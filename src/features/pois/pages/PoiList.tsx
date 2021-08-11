@@ -109,7 +109,7 @@ export default function PoiList() {
     onSortChange
   });
   const handelDetailsClick = (poi: Poi) => {
-    navigate(`${PATH_DASHBOARD.poi.details}/${poi.id}`);
+    navigate(`${PATH_DASHBOARD.poi.edit}/${poi.id}`);
   };
 
   return (
@@ -172,9 +172,9 @@ export default function PoiList() {
                           <Button
                             color="warning"
                             onClick={() => handelDetailsClick(e)}
-                            startIcon={<Icon icon={editFill} color="#FFC107" />}
+                            startIcon={<Icon icon={editFill} />}
                           >
-                            {t('common.details')}
+                            {t('common.editInfo')}
                           </Button>
                         </Box>
                       </TableCell>

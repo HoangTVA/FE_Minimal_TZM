@@ -22,7 +22,7 @@ import {
 } from '@material-ui/core';
 // material
 import { Box } from '@material-ui/system';
-import poiApi from 'api/poiApi';
+import assetApi from 'api/assetApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { useTable } from 'components/common';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
@@ -30,11 +30,10 @@ import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 // components
 import Page from 'components/Page';
 import Scrollbar from 'components/Scrollbar';
-import { adminLevelActions } from 'features/admin-level/adminLevelSlice';
-import { poiActions } from 'features/pois/poiSlice';
+import { storeActions } from 'features/store-management/storeSlice';
 // hooks
 import useSettings from 'hooks/useSettings';
-import { GetStatusMap, Poi, PoiPagingRequest } from 'models';
+import { Asset, AssetPagingRequest, GetAssetType } from 'models';
 import { useSnackbar } from 'notistack5';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -42,35 +41,42 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // redux
 // routes
 import { PATH_DASHBOARD } from 'routes/paths';
-import PoiBrandFilter from '../components/PoiBrandFilter';
-import { poiBrandActions, selectFilter, selectLoading, selectPoiBrandList } from '../poiBrandSlice';
+import { assetActions, selectAssetList, selectFilter, selectLoading } from '../assetSlice';
+import AssetFilter from '../components/AssetFilter';
 
 // ----------------------------------------------------------------------
 
-export default function PoiBrandList() {
+export default function AssetList() {
   const { themeStretch } = useSettings();
   const dispatch = useAppDispatch();
   const filter = useAppSelector(selectFilter);
   const loading = useAppSelector(selectLoading);
-  const rs = useAppSelector(selectPoiBrandList);
-  const { statusMap } = GetStatusMap();
+  const rs = useAppSelector(selectAssetList);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const [poiBrandSelected, setPoiBrandSelected] = useState<Poi>();
+  const [assetSelected, setAssetSelected] = useState<Asset>();
+  const { typeAssetMap } = GetAssetType();
 
   //effect
   useEffect(() => {
-    dispatch(poiActions.fetchPoiTypeList());
-    dispatch(adminLevelActions.fetchAdminLevelData());
-  }, [dispatch]);
+    dispatch(
+      storeActions.fetchStores({
+        page: undefined,
+        colName: undefined,
+        keySearch: undefined,
+        pageSize: undefined,
+        sortType: undefined
+      })
+    );
+  }, [dispatch, filter]);
   useEffect(() => {
-    dispatch(poiBrandActions.fetchPoiBrandList(filter));
+    dispatch(assetActions.fetchAssetList(filter));
   }, [dispatch, filter]);
   //functions
   const onPageChange = (page: number) => {
     dispatch(
-      poiBrandActions.setFilter({
+      assetActions.setFilter({
         ...filter,
         page: page + 1
       })
@@ -78,7 +84,7 @@ export default function PoiBrandList() {
   };
   const onRowPerPageChange = (perPage: number) => {
     dispatch(
-      poiBrandActions.setFilter({
+      assetActions.setFilter({
         ...filter,
         pageSize: perPage
       })
@@ -86,32 +92,29 @@ export default function PoiBrandList() {
   };
   const onSortChange = (colName: string, sortType: number) => {
     dispatch(
-      poiBrandActions.setFilter({
+      assetActions.setFilter({
         ...filter,
         colName: colName,
         sortType: sortType
       })
     );
   };
-  const handelSearchDebounce = (newFilter: PoiPagingRequest) => {
-    dispatch(poiBrandActions.setFilterWithDebounce(newFilter));
+  const handelSearchDebounce = (newFilter: AssetPagingRequest) => {
+    dispatch(assetActions.setFilterWithDebounce(newFilter));
   };
-  const handelFilterChange = (newFilter: PoiPagingRequest) => {
-    dispatch(poiBrandActions.setFilterWithDebounce(newFilter));
+  const handelFilterChange = (newFilter: AssetPagingRequest) => {
+    dispatch(assetActions.setFilterWithDebounce(newFilter));
   };
   //header
   const { t } = useTranslation();
 
   const headCells = [
-    { id: 'no', label: '#', disableSorting: true },
-    { id: 'poiName', label: t('poi.poiName'), disableSorting: true },
-    { id: 'brandPoiCode', label: t('poi.brandPoiCode'), disableSorting: true },
-    { id: 'alias', label: t('poi.alias'), disableSorting: true },
-    { id: 'poiType', label: t('poi.poiType'), disableSorting: true },
-    { id: 'status', label: t('common.status'), disableSorting: true },
+    { id: 'id', label: t('asset.code') },
+    { id: 'name', label: t('asset.name') },
+    { id: 'storeName', label: t('asset.storeName') },
+    { id: 'type', label: t('asset.type') },
     { id: 'action', label: t('common.actions'), disableSorting: true, align: 'center' }
   ];
-
   const { TblHead, TblPagination } = useTable({
     rs,
     headCells,
@@ -120,53 +123,53 @@ export default function PoiBrandList() {
     onRowPerPageChange,
     onSortChange
   });
-  const handelDetailsClick = (poi: Poi) => {
-    navigate(`${PATH_DASHBOARD.poiBrand.edit}/${poi.id}`);
+  const handelDetailsClick = (asset: Asset) => {
+    navigate(`${PATH_DASHBOARD.asset.edit}/${asset.id}`);
   };
-  const handelRemoveClick = (poi: Poi) => {
-    setPoiBrandSelected(poi);
+  const handelRemoveClick = (asset: Asset) => {
+    setAssetSelected(asset);
     setConfirmDelete(true);
   };
   const handelConfirmRemoveClick = async () => {
     try {
-      await poiApi.remove(poiBrandSelected?.id || 0);
+      await assetApi.remove(Number(assetSelected?.id) || 0);
       const newFilter = { ...filter };
-      dispatch(poiBrandActions.setFilter(newFilter));
-      enqueueSnackbar(poiBrandSelected?.name + ' ' + t('store.deleteSuccess'), {
+      dispatch(assetActions.setFilter(newFilter));
+      enqueueSnackbar(assetSelected?.name + ' ' + t('store.deleteSuccess'), {
         variant: 'success'
       });
 
-      setPoiBrandSelected(undefined);
+      setAssetSelected(undefined);
       setConfirmDelete(false);
     } catch (error) {
-      enqueueSnackbar(poiBrandSelected?.name + ' ' + t('common.errorText'), { variant: 'error' });
+      enqueueSnackbar(assetSelected?.name + ' ' + t('common.errorText'), { variant: 'error' });
     }
   };
 
   return (
-    <Page title={t('poi.poiBrand')}>
+    <Page title={t('asset.title')}>
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={t('poi.poiBrandList')}
+          heading={t('asset.list')}
           links={[
             { name: t('content.dashboard'), href: PATH_DASHBOARD.root },
 
-            { name: t('poi.poiBrandList') }
+            { name: t('asset.list') }
           ]}
           action={
             <Button
               variant="contained"
               component={RouterLink}
-              to={PATH_DASHBOARD.poiBrand.add}
+              to={PATH_DASHBOARD.asset.add}
               startIcon={<Icon icon={plusFill} />}
             >
-              {t('poi.addPoiBrandTitle')}
+              {t('asset.btnAdd')}
             </Button>
           }
         />
 
         <Card>
-          <PoiBrandFilter
+          <AssetFilter
             filter={filter}
             onSearchChange={handelSearchDebounce}
             onChange={handelFilterChange}
@@ -187,17 +190,14 @@ export default function PoiBrandList() {
 
                   {rs.results.map((e, idx) => (
                     <TableRow key={e.id}>
-                      <TableCell width={80} component="th" scope="row" padding="none">
-                        {idx + 1}
+                      <TableCell width={400} align="left">
+                        {e.id}
                       </TableCell>
                       <TableCell align="left">{e.name}</TableCell>
-                      <TableCell align="left">{e.brandPoiCode}</TableCell>
-                      <TableCell align="left">{e.alias}</TableCell>
-                      <TableCell align="left">{e.poiTypeName}</TableCell>
-                      <TableCell>
-                        <Box color={statusMap[e.statusPoiBrand].color} fontWeight="bold">
-                          {statusMap[e.statusPoiBrand].name}
-                        </Box>
+
+                      <TableCell align="left">{e.storeName}</TableCell>
+                      <TableCell align="left">
+                        <Box fontWeight="bold">{typeAssetMap[e.type].name}</Box>
                       </TableCell>
                       <TableCell width={250}>
                         <Box style={{ display: 'flex', justifyContent: 'center' }}>
@@ -243,7 +243,7 @@ export default function PoiBrandList() {
         <DialogTitle>{t('common.titleConfirm')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {'Poi: ' + poiBrandSelected?.name + ' ' + t('store.removeTitleEnd')}
+            {'Poi: ' + assetSelected?.name + ' ' + t('store.removeTitleEnd')}
             <br />
             {t('common.canRevert')}
           </DialogContentText>

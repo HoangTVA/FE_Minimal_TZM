@@ -18,6 +18,16 @@ export const splitWktToLatLng = (wkt: string) => {
     const latLng: LatLngExpression = [Number(rs[1]), Number(rs[0])];
     return latLng
 }
+
+export const splitPointToLatLng = (wkt: string) => {
+    const start = wkt.indexOf('(');
+    const end = wkt.indexOf(')');
+    const sub = wkt.substring(start + 1, end);
+    const rs = sub.split(' ');
+    const latLng: LatLngExpression = [Number(rs[1]), Number(rs[0])];
+    return latLng
+}
+
 export const splitWktTopPostLatLng = (wkt: string) => {
     const start = wkt.indexOf('(');
     const end = wkt.indexOf(')');

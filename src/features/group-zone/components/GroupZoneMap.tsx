@@ -1,15 +1,17 @@
 import { makeStyles } from '@material-ui/styles';
+import { useAppSelector } from 'app/hooks';
 import LocationMarker from 'components/map/LocateControl';
-import { IconStores, IconMyStore, IconPois } from 'components/map/MarkerStyles';
+import { IconMyStore, IconPois, IconStores } from 'components/map/MarkerStyles';
 import { LayerActive } from 'constants/layer';
-import L from 'leaflet';
+import L, { LatLngExpression } from 'leaflet';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js';
 import { GeoJSONMarker } from 'models';
-import * as React from 'react';
-import { useEffect } from 'react';
+import { Feature, GroupZone } from 'models/dto/groupZone';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  GeoJSON,
   LayersControl,
   MapContainer,
   Marker,
@@ -18,18 +20,22 @@ import {
   useMap,
   useMapEvents
 } from 'react-leaflet';
-import { convertBounds } from 'utils/common';
+import { convertBounds, splitPointToLatLng } from 'utils/common';
+import { selectGroupZoneList } from '../groupZoneSlice';
 import './style.css';
 
 interface MapProps {
   stores?: GeoJSONMarker;
   pois?: GeoJSONMarker;
   myStore?: GeoJSONMarker;
+  selectedGroupZoneId?: number;
+  centerGzSelected?: string;
   onChangeBounds: (bounds: string) => void;
   onActiveLayer: (active: LayerActive, bounds: string) => void;
   onCloseLayer: (active: LayerActive) => void;
+  onIsShowAll?: (value: boolean) => void;
 }
-function MapAction({ onChangeBounds, onActiveLayer, onCloseLayer }: MapProps) {
+function MapAction({ onChangeBounds, onActiveLayer, onCloseLayer, onIsShowAll }: MapProps) {
   const map = useMap();
 
   const { t } = useTranslation();
@@ -37,7 +43,7 @@ function MapAction({ onChangeBounds, onActiveLayer, onCloseLayer }: MapProps) {
   const mapEvents = useMapEvents({
     moveend: () => {
       const zoom = mapEvents.getZoom();
-      if (zoom > 16) {
+      if (zoom > 13) {
         const bounds = convertBounds(mapEvents.getBounds());
         if (onChangeBounds) onChangeBounds(bounds);
       }
@@ -63,6 +69,10 @@ function MapAction({ onChangeBounds, onActiveLayer, onCloseLayer }: MapProps) {
           onActiveLayer(LayerActive.MyStore, bounds);
           break;
         }
+        case t('groupZone.showAll'): {
+          if (onIsShowAll) onIsShowAll(true);
+          break;
+        }
       }
     });
     map.on('overlayremove', (e: any) => {
@@ -76,6 +86,10 @@ function MapAction({ onChangeBounds, onActiveLayer, onCloseLayer }: MapProps) {
         case t('map.myStore'):
           onCloseLayer(LayerActive.MyStore);
           break;
+        case t('groupZone.showAll'): {
+          if (onIsShowAll) onIsShowAll(false);
+          break;
+        }
       }
     });
   }, []);
@@ -86,20 +100,36 @@ const useStyle = makeStyles((theme) => ({
   root: {
     height: '75vh',
     borderRadius: '10px',
-    overflow: 'hidden',
-    marginTop: '-39px'
+    overflow: 'hidden'
   }
 }));
-export default function Map({
+const gzNormalStyle = {
+  fill: true,
+  color: 'blue',
+  fillColor: 'green',
+  opacity: 0.6
+};
+const gzSelectedStyle = {
+  fill: true,
+  color: 'blue',
+  fillColor: 'orange',
+  opacity: 0.6
+};
+
+export default function GroupZoneMap({
   stores,
   onChangeBounds,
   onActiveLayer,
   onCloseLayer,
   myStore,
+  selectedGroupZoneId,
+  centerGzSelected,
   pois
 }: MapProps) {
   const classes = useStyle();
   const { t } = useTranslation();
+  const [showAll, setShowAll] = useState(false);
+  const rs = useAppSelector(selectGroupZoneList);
   const handelBoundsChange = (bounds: string) => {
     if (onChangeBounds) onChangeBounds(bounds);
   };
@@ -109,11 +139,24 @@ export default function Map({
   const handelClose = (active: LayerActive) => {
     if (onCloseLayer) onCloseLayer(active);
   };
+  const renderSelected = (selected: Feature) => {
+    return (
+      <GeoJSON
+        key={selected?.properties.f4}
+        data={selected?.geometry as any}
+        style={gzSelectedStyle}
+        onEachFeature={(feature, layer) => {
+          layer.bindPopup(selected?.properties.f1 || '');
+        }}
+      />
+    );
+  };
+
+  const centerGz = splitPointToLatLng(centerGzSelected || '');
   return (
     <MapContainer
-      style={{ marginTop: '-23px' }}
-      center={{ lat: 10.772461, lng: 106.698055 }}
-      zoom={16}
+      center={centerGz !== undefined ? centerGz : { lat: 10.772461, lng: 106.698055 }}
+      zoom={13}
       scrollWheelZoom={true}
       className={classes.root}
       whenCreated={(map) => {
@@ -151,12 +194,16 @@ export default function Map({
         <LayersControl.Overlay name={t('map.myStore')}>
           <Marker position={{ lat: -83.440326, lng: 4.111396 }} icon={IconStores}></Marker>
         </LayersControl.Overlay>
+        <LayersControl.Overlay name={t('groupZone.showAll')}>
+          <Marker position={{ lat: -83.440326, lng: 4.111396 }} icon={IconStores}></Marker>
+        </LayersControl.Overlay>
       </LayersControl>
       <LocationMarker />
       <MapAction
         onChangeBounds={handelBoundsChange}
         onActiveLayer={handelActive}
         onCloseLayer={handelClose}
+        onIsShowAll={(value) => setShowAll(value)}
       />
       {stores?.features.map((e) => (
         <Marker
@@ -194,6 +241,30 @@ export default function Map({
           <Popup>{e.properties.f2}</Popup>
         </Marker>
       ))}
+      {showAll
+        ? rs?.features.map((element) => (
+            <GeoJSON
+              key={element.properties.f4}
+              data={element.geometry as any}
+              style={
+                element.properties.f4 === selectedGroupZoneId ? gzSelectedStyle : gzNormalStyle
+              }
+              onEachFeature={(feature, layer) => {
+                //   layer.on('click', (e) => {
+                //     console.log(e.target.feature);
+                //     // new Field().doesIntersect(e.target.feature);
+                //     e.target.setStyle({
+                //       fillColor: 'yellow'
+                //     });
+                //   });
+
+                layer.bindPopup(element.properties.f1);
+              }}
+            />
+          ))
+        : rs?.features.map(
+            (el: Feature) => el.properties.f4 === selectedGroupZoneId && renderSelected(el)
+          )}
     </MapContainer>
   );
 }

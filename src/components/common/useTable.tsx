@@ -57,7 +57,6 @@ export function useTable({
       order === 'desc' ? (order = 'asc') : (order = 'desc');
       const isAsc = colName === cellId && order === 'asc';
       const sort = isAsc ? SORT_TYPE_ASC : SORT_TYPE_DESC;
-      console.log(sort, cellId);
       onSortChange(cellId, sort);
     };
     return (

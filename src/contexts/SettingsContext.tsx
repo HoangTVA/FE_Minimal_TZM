@@ -121,7 +121,7 @@ function SettingsProvider({ children }: SettingsProviderProps) {
     themeMode: 'light',
     themeDirection: 'ltr',
     themeColor: 'default',
-    themeStretch: false
+    themeStretch: true
   });
 
   const onChangeMode = (event: React.ChangeEvent<HTMLInputElement>) => {
