@@ -1,4 +1,4 @@
-import { Box, Container, Grid, LinearProgress } from '@material-ui/core';
+import { Autocomplete, Box, Container, Grid, LinearProgress, TextField } from '@material-ui/core';
 import groupZoneApi from 'api/groupZoneApi';
 import mapApi from 'api/mapApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
@@ -18,7 +18,12 @@ import { PATH_DASHBOARD } from 'routes/paths';
 import AddGroupZoneMap from '../components/AddGroupZoneMap';
 import GroupZoneForm from '../components/GroupZoneForm';
 import GroupZoneMap from '../components/GroupZoneMap';
-import { groupZoneActions, selectGroupZoneList, selectLoading } from '../groupZoneSlice';
+import {
+  groupZoneActions,
+  selectFreeZoneOptions,
+  selectGroupZoneList,
+  selectLoading
+} from '../groupZoneSlice';
 
 export default function AddEditGroupZonePage() {
   const { groupZoneId } = useParams();
@@ -35,6 +40,9 @@ export default function AddEditGroupZonePage() {
   const [storesLayer, setStoreLayer] = useState<GeoJSONMarker>();
   const [listSelected, setListSelected] = useState<number[]>([]);
   const [listPost, setListPost] = useState<number[]>([]);
+  const fzOptions = useAppSelector(selectFreeZoneOptions);
+  const selectedBox = fzOptions.filter(({ id }) => listPost.includes(id));
+  //dateFilterOptions.filter(({ id }) => dateSelected.includes(id));
 
   const loading = useAppSelector(selectLoading);
   const freeWardOptions = [
@@ -42,7 +50,6 @@ export default function AddEditGroupZonePage() {
     { id: 2, name: t('groupZone.district') }
   ];
   const [selectMode, setSelectMode] = useState(2);
-  console.log(listPost);
   useEffect(() => {
     if (!groupZoneId) return;
 
@@ -207,8 +214,8 @@ export default function AddEditGroupZonePage() {
                 <Grid item xs={12} md={6} lg={6}>
                   <SelectMUI
                     isAll={false}
-                    label={t('common.status')}
-                    labelId="filterByPoiStatus"
+                    label={t('groupZone.mode')}
+                    labelId="filterByMode"
                     options={freeWardOptions}
                     onChange={(value) => {
                       setSelectMode(value);
@@ -228,7 +235,20 @@ export default function AddEditGroupZonePage() {
               </Grid>
             </Grid>
             <Grid item xs={12} md={12}>
-              <Box>{loading && <LinearProgress color="primary" />}</Box>
+              <Autocomplete
+                fullWidth
+                multiple
+                limitTags={10}
+                id="multiple-limit-tags"
+                options={fzOptions}
+                getOptionLabel={(option) => option.name}
+                defaultValue={[]}
+                value={selectedBox}
+                renderInput={(params) => (
+                  <TextField {...params} variant="outlined" label={t('groupZone.selected')} />
+                )}
+              />
+              <Box mt={3}>{loading && <LinearProgress color="primary" />}</Box>
               {isEdit ? (
                 (!isEdit || Boolean(groupZone)) && (
                   <GroupZoneMap

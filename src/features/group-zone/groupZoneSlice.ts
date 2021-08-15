@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from 'app/store';
 import { FreeZone } from "models/dto/freeZone";
 import { GroupZone } from "models/dto/groupZone";
@@ -58,6 +58,16 @@ export const groupZoneActions = groupZoneSlice.actions;
 export const selectLoading = (state: RootState) => state.groupZone.loading;
 export const selectGroupZoneList = (state: RootState) => state.groupZone.groupZones;
 export const selectFreeZoneList = (state: RootState) => state.groupZone.freeZones;
+
+export const selectGroupZoneOptions = createSelector(selectGroupZoneList, (gzs) => gzs.features.map((gz) => ({
+    name: gz.properties.f1,
+    id: gz.properties.f4
+})));
+export const selectFreeZoneOptions = createSelector(selectFreeZoneList, (fzs) => fzs.features.map((fz) => ({
+    name: fz.properties.f2,
+    id: fz.properties.f3
+})));
+
 //reducers
 const groupZoneReducer = groupZoneSlice.reducer;
 export default groupZoneReducer;

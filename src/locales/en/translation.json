@@ -129,7 +129,8 @@
   "adminLevel": {
     "province": "Province/City",
     "district": "District",
-    "ward": "Ward"
+    "ward": "Ward",
+    "calendarTz": "Calendar current version active"
   },
   "asset": {
     "code": "Asset code",
@@ -165,7 +166,21 @@
     "errorName": "Group zone name is required!!!",
     "errorSelected": "Select zones, Pls!!!",
     "addSuccess": "Successfully add a new group zone",
-    "invalidGroupZone": "Group zone must be adjacent to each other in order to be valid."
+    "invalidGroupZone": "Group zone must be adjacent to each other in order to be valid.",
+    "selected": "Zones selected"
+  },
+  "tz": {
+    "calendar": "Calendar active version",
+    "tzVersion": "Trade zone version list",
+    "tzList": "Trade zone list",
+    "add": "Add new version",
+    "calendarTz": "Calendar active",
+    "tzVerName": "Version name",
+    "storesApply": "Stores apply",
+    "dateFilter": "Date apply",
+    "timeFilter": "Time apply",
+    "active": "Activated",
+    "unActive": "Not activated"
   },
   "common": {
     "status": "Status",
@@ -189,7 +204,8 @@
     "editInfo": "Edit",
     "select": "Select",
     "view": "View",
-    "other": "Other"
+    "other": "Other",
+    "description": "Description"
   },
   "login": {
     "welcome": "Welcone to Trade zone map",

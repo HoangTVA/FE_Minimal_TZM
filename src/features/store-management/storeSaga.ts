@@ -31,7 +31,6 @@ function* fetchStoreTemplate(action: PayloadAction<PaginationRequest>) {
     }
 }
 function* searchWithDebounce(action: PayloadAction<PaginationRequest>) {
-    console.log(action.payload);
     yield put(storeActions.setFilter(action.payload));
 }
 function* searchWithDebounceTemplate(action: PayloadAction<PaginationRequest>) {
