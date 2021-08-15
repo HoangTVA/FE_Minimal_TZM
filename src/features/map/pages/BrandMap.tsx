@@ -1,5 +1,5 @@
 // material
-import { Box, Container } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import mapApi from 'api/mapApi';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 // components
@@ -10,7 +10,7 @@ import useSettings from 'hooks/useSettings';
 import 'leaflet/dist/leaflet.css';
 import { GeoJSONMarker, RequestBounds } from 'models';
 import { useSnackbar } from 'notistack5';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 // routes
 import { PATH_DASHBOARD } from 'routes/paths';

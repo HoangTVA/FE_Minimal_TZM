@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/styles';
 import LocationMarker from 'components/map/LocateControl';
-import { IconMarker, IconMyStore, IconPois } from 'components/map/MarkerStyles';
+import { IconStores, IconMyStore, IconPois } from 'components/map/MarkerStyles';
 import { LayerActive } from 'constants/layer';
 import L from 'leaflet';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
@@ -143,13 +143,13 @@ export default function Map({
           />
         </LayersControl.BaseLayer>
         <LayersControl.Overlay name={t('map.stores')}>
-          <Marker position={{ lat: -83.440326, lng: 4.111396 }} icon={IconMarker}></Marker>
+          <Marker position={{ lat: -83.440326, lng: 4.111396 }} icon={IconStores}></Marker>
         </LayersControl.Overlay>
         <LayersControl.Overlay name={t('map.pois')}>
-          <Marker position={{ lat: -83.440326, lng: 4.111396 }} icon={IconMarker}></Marker>
+          <Marker position={{ lat: -83.440326, lng: 4.111396 }} icon={IconStores}></Marker>
         </LayersControl.Overlay>
         <LayersControl.Overlay name={t('map.myStore')}>
-          <Marker position={{ lat: -83.440326, lng: 4.111396 }} icon={IconMarker}></Marker>
+          <Marker position={{ lat: -83.440326, lng: 4.111396 }} icon={IconStores}></Marker>
         </LayersControl.Overlay>
       </LayersControl>
       <LocationMarker />
@@ -165,7 +165,7 @@ export default function Map({
             lat: Number(e.geometry.coordinates[1]),
             lng: Number(e.geometry.coordinates[0])
           }}
-          icon={IconMarker}
+          icon={IconStores}
         >
           <Popup>{e.properties.f2}</Popup>
         </Marker>

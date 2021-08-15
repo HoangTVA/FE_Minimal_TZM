@@ -1,16 +1,3 @@
-import Login from 'features/auth/Login';
-import BrandMap from 'features/map/pages/BrandMap';
-import AddEditPoiBrandPage from 'features/pois-brand/pages/AddEditPoiBrandPage';
-import PoiBrandList from 'features/pois-brand/pages/PoiBrandList';
-import AddEditPoiPage from 'features/pois/pages/AddEditPoiPage';
-import PoiList from 'features/pois/pages/PoiList';
-import AddEditStorePage from 'features/store-management/pages/AddEditStorePage';
-import EditAttrsPage from 'features/store-management/pages/EditAttrsPage';
-import StoreList from 'features/store-management/pages/StoreList';
-import StoreTemplatePage from 'features/store-management/pages/StoreTemplatePage';
-import StoreViewPage from 'features/store-management/pages/StoreView';
-import Template from 'features/template/pages/Template';
-import ComingSoon from 'pages/ComingSoon';
 import { lazy, Suspense } from 'react';
 import { Navigate, useLocation, useRoutes } from 'react-router-dom';
 // components
@@ -64,17 +51,23 @@ export default function Router() {
             { path: 'details/:storeId', element: <StoreViewPage /> },
             { path: 'details/edit-info/:storeId', element: <AddEditStorePage /> },
             { path: 'details/edit-attrs/:storeId/:storeTypeId', element: <EditAttrsPage /> },
-            { path: 'details/edit-templates/:storeId', element: <StoreTemplatePage /> }
+            { path: 'details/edit-templates/:storeId/:isStoreView', element: <StoreTemplatePage /> }
           ]
         },
         { path: 'brand-map', element: <BrandMap /> },
-        { path: 'templates', element: <Template /> },
+        {
+          path: 'templates',
+          children: [
+            { path: '/', element: <Template /> },
+            { path: 'edit-templates/:storeId/:isStoreView', element: <StoreTemplatePage /> }
+          ]
+        },
         {
           path: 'pois',
           children: [
             { path: '/', element: <PoiList /> },
             { path: 'add', element: <AddEditPoiPage /> },
-            { path: 'details/:poiId', element: <AddEditPoiPage /> }
+            { path: 'edit/:poiId', element: <AddEditPoiPage /> }
           ]
         },
         {
@@ -82,11 +75,35 @@ export default function Router() {
           children: [
             { path: '/', element: <PoiBrandList /> },
             { path: 'add', element: <AddEditPoiBrandPage /> },
-            { path: 'details/:poiId', element: <AddEditPoiBrandPage /> }
+            { path: 'edit/:poiId', element: <AddEditPoiBrandPage /> }
           ]
         },
         { path: 'coming-soon', element: <ComingSoon /> },
-        { path: 'asset', element: <ComingSoon /> }
+        {
+          path: 'manage-assets',
+          children: [
+            { path: 'list', element: <AssetList /> },
+            { path: 'violation/list', element: <ComingSoon /> },
+            { path: 'add', element: <AddEditAssetPage /> },
+            { path: 'edit/:assetId', element: <AddEditAssetPage /> }
+          ]
+        },
+        {
+          path: 'group-zones',
+          children: [
+            { path: '/', element: <GroupZoneListPage /> },
+            { path: 'add', element: <AddEditGroupZonePage /> },
+            { path: 'edit/:groupZoneId', element: <AddEditGroupZonePage /> }
+          ]
+        },
+        {
+          path: 'trade-zones',
+          children: [
+            { path: 'calendar', element: <CalendarTradeZoneVersion /> },
+            { path: 'versions-list', element: <TzVersionList /> },
+            { path: 'details/:tradeZoneVersionId', element: <AddEditAssetPage /> }
+          ]
+        }
       ]
     },
 
@@ -116,3 +133,36 @@ export default function Router() {
 const NotFound = Loadable(lazy(() => import('../pages/Page404')));
 // Main
 const LandingPage = Loadable(lazy(() => import('../pages/LandingPage')));
+const GroupZoneListPage = Loadable(lazy(() => import('features/group-zone/pages/GroupZoneList')));
+const AddEditAssetPage = Loadable(
+  lazy(() => import('features/manage-assets/pages/AddEditAssetPage'))
+);
+const AddEditGroupZonePage = Loadable(
+  lazy(() => import('features/group-zone/pages/AddEditGroupZonePage'))
+);
+const AddEditPoiBrandPage = Loadable(
+  lazy(() => import('features/pois-brand/pages/AddEditPoiBrandPage'))
+);
+const BrandMap = Loadable(lazy(() => import('features/map/pages/BrandMap')));
+const AssetList = Loadable(lazy(() => import('features/manage-assets/pages/AssetList')));
+const Login = Loadable(lazy(() => import('features/auth/Login')));
+const PoiBrandList = Loadable(lazy(() => import('features/pois-brand/pages/PoiBrandList')));
+const AddEditPoiPage = Loadable(lazy(() => import('features/pois/pages/AddEditPoiPage')));
+const PoiList = Loadable(lazy(() => import('features/pois/pages/PoiList')));
+const AddEditStorePage = Loadable(
+  lazy(() => import('features/store-management/pages/AddEditStorePage'))
+);
+const EditAttrsPage = Loadable(lazy(() => import('features/store-management/pages/EditAttrsPage')));
+const StoreList = Loadable(lazy(() => import('features/store-management/pages/StoreList')));
+const StoreTemplatePage = Loadable(
+  lazy(() => import('features/store-management/pages/StoreTemplatePage'))
+);
+const CalendarTradeZoneVersion = Loadable(
+  lazy(() => import('features/trade-zone-version/pages/CalendarTradeZoneVersion'))
+);
+const StoreViewPage = Loadable(lazy(() => import('features/store-management/pages/StoreView')));
+const Template = Loadable(lazy(() => import('features/template/pages/Template')));
+const TzVersionList = Loadable(
+  lazy(() => import('features/trade-zone-version/pages/TzVersionList'))
+);
+const ComingSoon = Loadable(lazy(() => import('pages/ComingSoon')));

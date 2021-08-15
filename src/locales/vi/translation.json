@@ -132,6 +132,57 @@
     "district": "Quận/Huyện",
     "ward": "Xã/Phường"
   },
+  "asset": {
+    "code": "Mã tài sản",
+    "name": "Tên tài sản",
+    "type": "Loại tài sản",
+    "storeName": "Tên cửa hàng",
+    "btnAdd": "Tạo tài sản",
+    "title": "Quản lí tài sản",
+    "list": "Danh sách tài sản",
+    "violationLogs": "Lỗi ghi nhận",
+    "motorcycle": "Xe máy",
+    "truck": " Xe tải",
+    "addSuccess": "thêm mới tài sản thành công",
+    "updateSuccessStart": "Tài sản hàng: ",
+    "updateSuccessEnd": "đã được cập nhật",
+    "editTitle": "Chỉnh sửa tài sản",
+    "addTitle": "Thêm mới tài sản",
+    "infoAsset": "Thông thông tài sản",
+    "errorName": "Vui lòng nhập tên tài sản",
+    "errorType": "Vui lòng chọn loại tài sản",
+    "errorStore": "Vui lòng chọn cửa hàng"
+  },
+  "groupZone": {
+    "name": "Tên group zone",
+    "title": "Group zone",
+    "add": "Thêm mới group zone",
+    "list": "Danh sách group zone",
+    "viewOnMap": "Xem trên bản đồ",
+    "showAll": "Hiển thị tất cả group zone",
+    "edit": "Chỉnh sửa group zone",
+    "ward": "Cấp độ phường",
+    "district": "Cấp độ quận",
+    "mode": "Cấp độ",
+    "errorName": "Vui lòng nhập tên group zone",
+    "errorSelected": "Vui lòng chọn vùng",
+    "addSuccess": "Thêm mới thành công",
+    "invalidGroupZone": "Các group zone phải liền kề nhau.",
+    "selected": "Vùng đã chọn"
+  },
+  "tz": {
+    "calendar": "Lịch áp dụng version",
+    "tzVersion": "Danh sách version",
+    "tzList": "Danh sách trade zone",
+    "add": "Thêm mới version",
+    "calendarTz": "Lịch các phiên bản được sử dụng",
+    "tzVerName": "Tên version",
+    "storesApply": "Cửa hàng áp dụng",
+    "dateFilter": "Ngày áp dụng",
+    "timeFilter": "Giờ áp dụng",
+    "active": "Đang kích hoạt",
+    "unActive": "Chưa kích hoạt"
+  },
   "common": {
     "status": "Trạng thái",
     "remove": "Xóa",
@@ -153,7 +204,9 @@
     "searchNotFound": "Không có kết quả trùng khớp!!!. Thử kiểm tra lỗi chính tả hoặc sử dụng các từ hoàn chỉnh.",
     "editInfo": "Chỉnh sửa",
     "select": "Chọn",
-    "view": "Xem"
+    "view": "Xem",
+    "other": "Khác",
+    "description": "Mô tả"
   },
   "login": {
     "welcome": "Chào mừng bạn đến với Trade zone map",

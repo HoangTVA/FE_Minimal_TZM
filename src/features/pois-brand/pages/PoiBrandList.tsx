@@ -121,7 +121,7 @@ export default function PoiBrandList() {
     onSortChange
   });
   const handelDetailsClick = (poi: Poi) => {
-    navigate(`${PATH_DASHBOARD.poiBrand.details}/${poi.id}`);
+    navigate(`${PATH_DASHBOARD.poiBrand.edit}/${poi.id}`);
   };
   const handelRemoveClick = (poi: Poi) => {
     setPoiBrandSelected(poi);
@@ -204,14 +204,14 @@ export default function PoiBrandList() {
                           <Button
                             color="info"
                             onClick={() => handelDetailsClick(e)}
-                            startIcon={<Icon icon={editFill} color="#1890FF" />}
+                            startIcon={<Icon icon={editFill} />}
                           >
-                            {t('common.details')}
+                            {t('common.editInfo')}
                           </Button>
                           <Button
                             color="error"
                             onClick={() => handelRemoveClick(e)}
-                            startIcon={<Icon icon={trash2Outline} color="red" />}
+                            startIcon={<Icon icon={trash2Outline} />}
                           >
                             {t('common.remove')}
                           </Button>
