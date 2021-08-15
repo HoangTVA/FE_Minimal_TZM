@@ -269,7 +269,7 @@ export default function GroupZoneList() {
         </DialogActions>
       </Dialog>
       <Dialog open={popupOpen} onClose={() => setPopupOpen(false)} maxWidth="lg" fullWidth>
-        <DialogTitle>{t('common.titleConfirm')}</DialogTitle>
+        <DialogTitle>{t('common.details')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
             <GroupZoneMap

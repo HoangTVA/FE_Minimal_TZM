@@ -167,7 +167,21 @@
     "errorName": "Vui lòng nhập tên group zone",
     "errorSelected": "Vui lòng chọn vùng",
     "addSuccess": "Thêm mới thành công",
-    "invalidGroupZone": "Các group zone phải liền kề nhau."
+    "invalidGroupZone": "Các group zone phải liền kề nhau.",
+    "selected": "Vùng đã chọn"
+  },
+  "tz": {
+    "calendar": "Lịch áp dụng version",
+    "tzVersion": "Danh sách version",
+    "tzList": "Danh sách trade zone",
+    "add": "Thêm mới version",
+    "calendarTz": "Lịch các phiên bản được sử dụng",
+    "tzVerName": "Tên version",
+    "storesApply": "Cửa hàng áp dụng",
+    "dateFilter": "Ngày áp dụng",
+    "timeFilter": "Giờ áp dụng",
+    "active": "Đang kích hoạt",
+    "unActive": "Chưa kích hoạt"
   },
   "common": {
     "status": "Trạng thái",
@@ -191,7 +205,8 @@
     "editInfo": "Chỉnh sửa",
     "select": "Chọn",
     "view": "Xem",
-    "other": "Khác"
+    "other": "Khác",
+    "description": "Mô tả"
   },
   "login": {
     "welcome": "Chào mừng bạn đến với Trade zone map",

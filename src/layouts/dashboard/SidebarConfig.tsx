@@ -54,7 +54,13 @@ export default function SidebarConfig() {
           title: t('content.templates'),
           path: PATH_DASHBOARD.template.root,
           icon: ICONS.template
-        },
+        }
+      ]
+    },
+    {
+      subheader: t('content.system'),
+      items: [
+        { title: t('poi.sPoi'), path: PATH_DASHBOARD.poi.root, icon: ICONS.poi },
         {
           title: 'Group zone',
           path: PATH_DASHBOARD.groupZone.root,
@@ -63,13 +69,14 @@ export default function SidebarConfig() {
         {
           title: 'Trade zone',
           path: PATH_DASHBOARD.tradeZone.root,
-          icon: ICONS.tradeZone
+          icon: ICONS.tradeZone,
+          children: [
+            { title: t('tz.calendar'), path: PATH_DASHBOARD.tradeZone.tradeZoneCalendar },
+            { title: t('tz.tzVersion'), path: PATH_DASHBOARD.tradeZone.tradeZoneVersion },
+            { title: t('tz.tzList'), path: PATH_DASHBOARD.tradeZone.detailsTradeZone }
+          ]
         }
       ]
-    },
-    {
-      subheader: t('content.system'),
-      items: [{ title: t('poi.sPoi'), path: PATH_DASHBOARD.poi.root, icon: ICONS.poi }]
     }
   ];
   return sidebarConfig;

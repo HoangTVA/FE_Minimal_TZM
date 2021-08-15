@@ -6,6 +6,7 @@ import assetReducer from 'features/manage-assets/assetSlice';
 import poiBrandReducer from 'features/pois-brand/poiBrandSlice';
 import poiReducer from 'features/pois/poiSlice';
 import storeReducer from 'features/store-management/storeSlice';
+import tzVersionReducer from 'features/trade-zone-version/tzVersionSlice';
 
 
 import createSagaMiddleware from 'redux-saga';
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   poiBrands: poiBrandReducer,
   asset: assetReducer,
   groupZone: groupZoneReducer,
+  tzVersion: tzVersionReducer
 })
 
 const sagaMiddleware = createSagaMiddleware();
