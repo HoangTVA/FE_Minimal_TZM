@@ -3,7 +3,7 @@ import { LatLngBounds, LatLngExpression } from 'leaflet';
 import { TzVersion, User } from "models";
 import { GetConstantTimeFilter, OptionsTimeFilter, TimeObj, TimeObjNum, TimeOfDay } from 'models/dto/timeFilter';
 
-const { dateFilter, timeFilter } = GetConstantTimeFilter();
+const { timeFilter } = GetConstantTimeFilter();
 
 export const getCurrentUser = () => {
     try {
@@ -160,11 +160,16 @@ export const convertTzVersionToEvents = (list: TzVersion[]) => {
                         start: parseDateFilter(i, el.start),
                         end: parseDateFilter(i, el.end),
                         textColor: '#00AB55',
-                        id: e.id.toString()
+                        id: e.id.toString(),
+                        description: e.description
                     })
                 }
             }
         });
     })
     return rs;
+}
+export const selectEvent = (list: EventInput[], id: number) => {
+    if (id === -1) return null;
+    return list.find((x) => x.id === id.toString());
 }

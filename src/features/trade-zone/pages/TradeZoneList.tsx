@@ -1,12 +1,13 @@
+import checkmarkCircle2Fill from '@iconify/icons-eva/checkmark-circle-2-fill';
 import editFill from '@iconify/icons-eva/edit-fill';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import checkmarkCircle2Fill from '@iconify/icons-eva/checkmark-circle-2-fill';
 import { Icon } from '@iconify/react';
 // material
 import {
   Button,
   Card,
+  Chip,
   Container,
   Dialog,
   DialogActions,
@@ -23,20 +24,31 @@ import {
   Tooltip,
   Typography
 } from '@material-ui/core';
+import StorefrontIcon from '@material-ui/icons/Storefront';
 // material
 import { Box } from '@material-ui/system';
+import mapApi from 'api/mapApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { useTableNotPaging } from 'components/common/useTableNotPaging';
+import { useTable } from 'components/common';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Label from 'components/Label';
 // @types
 // components
 import Page from 'components/Page';
 import Scrollbar from 'components/Scrollbar';
+import { LayerActive } from 'constants/layer';
+import GroupZoneMap from 'features/group-zone/components/GroupZoneMap';
 import { groupZoneActions } from 'features/group-zone/groupZoneSlice';
+import { tzVersionActions } from 'features/trade-zone-version/tzVersionSlice';
 // hooks
 import useSettings from 'hooks/useSettings';
-import { TzVersion, TzVersionRequest } from 'models';
+import {
+  GeoJSONMarker,
+  RequestBounds,
+  TradeZone,
+  TradeZonePagingRequest,
+  TzVersionRequest
+} from 'models';
 import { GetConstantTimeFilter } from 'models/dto/timeFilter';
 import { useSnackbar } from 'notistack5';
 import { useEffect, useState } from 'react';
@@ -46,96 +58,201 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // routes
 import { PATH_DASHBOARD } from 'routes/paths';
 import { convertTimeFilter, parseDateFilterDisplay } from 'utils/common';
-import TzVersionFilter from '../components/TzVersionFilter';
+import TradeZoneFilter from '../components/TradeZoneFilter';
+import ViewTradeZoneMap from '../components/TradeZoneViewMap';
 import {
   selectFilter,
   selectLoading,
-  selectTzVersionList,
-  tzVersionActions
-} from '../tzVersionSlice';
-import TzVersionViewEditForm from '../components/TzVersionViewEditForm';
-import tzVersionApi from 'api/tradeZoneVersionApi';
+  selectTradeZoneList,
+  tradeZoneActions
+} from '../tradeZoneSlice';
 
-// ----------------------------------------------------------------------
-
-export default function TzVersionList() {
+export default function TradeZoneList() {
   const { themeStretch } = useSettings();
   const dispatch = useAppDispatch();
   const filter = useAppSelector(selectFilter);
   const loading = useAppSelector(selectLoading);
-  const rs = useAppSelector(selectTzVersionList);
+  const rs = useAppSelector(selectTradeZoneList);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const [tzVersionSelected, setTzVersionSelected] = useState<TzVersion>();
   const { dateFilter } = GetConstantTimeFilter();
   const [popupOpen, setPopupOpen] = useState(false);
+  const [tradeZoneSelected, setTradeZoneSelected] = useState<TradeZone>();
+  const [poisLayer, setPoisLayer] = useState<GeoJSONMarker>();
+  const [myStoreLayer, setMyStoreLayer] = useState<GeoJSONMarker>();
+  const [storesLayer, setStoreLayer] = useState<GeoJSONMarker>();
 
   //effect
   useEffect(() => {
-    dispatch(tzVersionActions.fetchTzVersionList({ ...filter, storeId: 0 }));
-  }, [dispatch, filter]);
-  useEffect(() => {
+    dispatch(
+      tzVersionActions.fetchTzVersionList({
+        dateFilter: '1111111',
+        timeSlot: '111111111111111111111111',
+        groupZoneId: 0
+      } as TzVersionRequest)
+    );
     dispatch(groupZoneActions.fetchGroupZoneList());
   }, [dispatch]);
+  useEffect(() => {
+    dispatch(tradeZoneActions.fetchTradeZoneList(filter));
+  }, [dispatch, filter]);
   //functions
-  const handelFilterChange = (newFilter: TzVersionRequest) => {
-    dispatch(tzVersionActions.setFilterWithDebounce(newFilter));
+  const handelFilterChange = (newFilter: TradeZonePagingRequest) => {
+    dispatch(tradeZoneActions.setFilterWithDebounce(newFilter));
   };
   //header
   const { t } = useTranslation();
 
   const headCells = [
     { id: '#', label: '#', disableSorting: true },
-    { id: 'name', label: t('tz.tzVerName'), disableSorting: true },
+    { id: 'name', label: t('tz.name') },
     { id: 'date', label: t('tz.dateFilter'), disableSorting: true },
     { id: 'time', label: t('tz.timeFilter'), disableSorting: true },
     { id: 'storeName', label: t('tz.storesApply'), disableSorting: true },
+    { id: 'tzVersionName', label: t('tz.tzVerName'), disableSorting: true },
     { id: 'gz', label: t('groupZone.name'), disableSorting: true },
-    { id: 'status', label: t('common.status'), disableSorting: true },
     { id: 'action', label: t('common.actions'), disableSorting: true, align: 'center' }
   ];
-  const { TblHead } = useTableNotPaging({
-    headCells
+  const onPageChange = (page: number) => {
+    dispatch(
+      tradeZoneActions.setFilter({
+        ...filter,
+        page: page + 1
+      })
+    );
+  };
+  const onRowPerPageChange = (perPage: number) => {
+    dispatch(
+      tradeZoneActions.setFilter({
+        ...filter,
+        pageSize: perPage
+      })
+    );
+  };
+  const onSortChange = (colName: string, sortType: number) => {
+    dispatch(
+      tradeZoneActions.setFilter({
+        ...filter,
+        colName: colName,
+        sortType: sortType
+      })
+    );
+  };
+  const handelSearchDebounce = (newFilter: TradeZonePagingRequest) => {
+    dispatch(tradeZoneActions.setFilterWithDebounce(newFilter));
+  };
+  const { TblHead, TblPagination } = useTable({
+    rs,
+    headCells,
+    filter,
+    onPageChange,
+    onRowPerPageChange,
+    onSortChange
   });
-  const handelDetailsClick = (tzVersion: TzVersion) => {
-    setTzVersionSelected(tzVersion);
+  const handelDetailsClick = (tz: TradeZone) => {
+    setTradeZoneSelected(tz);
     setPopupOpen(true);
   };
-  const handelRemoveClick = (asset: TzVersion) => {
-    setTzVersionSelected(asset);
+  const handelRemoveClick = (tz: TradeZone) => {
+    setTradeZoneSelected(tz);
     setConfirmDelete(true);
   };
   const handelConfirmRemoveClick = async () => {
     try {
-      await tzVersionApi.remove(Number(tzVersionSelected?.id) || 0);
-      const newFilter = { ...filter };
-      dispatch(tzVersionActions.setFilter(newFilter));
-      enqueueSnackbar(tzVersionSelected?.name + ' ' + t('store.deleteSuccess'), {
-        variant: 'success'
-      });
-      setTzVersionSelected(undefined);
-      setConfirmDelete(false);
+      //   await tzVersionApi.remove(Number(tzVersionSelected?.id) || 0);
+      //   const newFilter = { ...filter };
+      //   dispatch(tzVersionActions.setFilter(newFilter));
+      //   enqueueSnackbar(tzVersionSelected?.name + ' ' + t('store.deleteSuccess'), {
+      //     variant: 'success'
+      //   });
+      //   setTzVersionSelected(undefined);
+      //   setConfirmDelete(false);
     } catch (error) {
-      enqueueSnackbar(tzVersionSelected?.name + ' ' + t('common.errorText'), { variant: 'error' });
+      enqueueSnackbar(tradeZoneSelected?.name + ' ' + t('common.errorText'), { variant: 'error' });
     }
   };
-
+  const handelOnChangeBounds = async (bounds: string) => {
+    if (storesLayer) {
+      getStoresLayer(bounds);
+    }
+    if (poisLayer) {
+      getPoisLayer(bounds);
+    }
+  };
+  const handelLayerActive = async (active: LayerActive, boundsBox: string) => {
+    switch (active) {
+      case LayerActive.Pois:
+        getPoisLayer(boundsBox);
+        return;
+      case LayerActive.Stores: {
+        getStoresLayer(boundsBox);
+        return;
+      }
+      case LayerActive.MyStore: {
+        getMyStoreLayer();
+        return;
+      }
+    }
+  };
+  const handelRemoveLayer = (active: LayerActive) => {
+    switch (active) {
+      case LayerActive.Pois:
+        setPoisLayer(undefined);
+        return;
+      case LayerActive.Stores: {
+        setStoreLayer(undefined);
+        return;
+      }
+      case LayerActive.MyStore: {
+        setMyStoreLayer(undefined);
+        return;
+      }
+    }
+  };
+  const getPoisLayer = async (boundsBox: string) => {
+    try {
+      const data: GeoJSONMarker = await mapApi.getPois({
+        coordinateString: boundsBox
+      } as RequestBounds);
+      setPoisLayer(data);
+    } catch (error) {
+      enqueueSnackbar(t('common.errorText'), { variant: 'error' });
+    }
+  };
+  const getStoresLayer = async (boundsBox: string) => {
+    try {
+      const data: GeoJSONMarker = await mapApi.getStores({
+        coordinateString: boundsBox
+      } as RequestBounds);
+      setStoreLayer(data);
+    } catch (error) {
+      enqueueSnackbar(t('common.errorText'), { variant: 'error' });
+    }
+  };
+  const getMyStoreLayer = async () => {
+    try {
+      const data: GeoJSONMarker = await mapApi.getMyStores();
+      setMyStoreLayer(data);
+    } catch (error) {
+      enqueueSnackbar(t('common.errorText'), { variant: 'error' });
+    }
+  };
   return (
-    <Page title={t('asset.title')}>
+    <Page title={t('tz.tzList')}>
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={t('tz.tzVersion')}
+          heading={t('tz.tzList')}
           links={[
             { name: t('content.dashboard'), href: PATH_DASHBOARD.root },
 
-            { name: t('tz.tzVersion') }
+            { name: t('tz.tzList') }
           ]}
           action={
             <Button
               variant="contained"
               component={RouterLink}
-              to={PATH_DASHBOARD.tradeZone.add}
+              to={PATH_DASHBOARD.tradeZone.addTz}
               startIcon={<Icon icon={plusFill} width={20} height={20} />}
             >
               {t('tz.add')}
@@ -144,7 +261,7 @@ export default function TzVersionList() {
         />
 
         <Card>
-          <TzVersionFilter filter={filter} onChange={handelFilterChange} />
+          <TradeZoneFilter onChange={handelFilterChange} onSearchChange={handelSearchDebounce} />
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -159,7 +276,7 @@ export default function TzVersionList() {
                     </TableRow>
                   )}
 
-                  {rs.map((e, idx) => (
+                  {rs.results.map((e, idx) => (
                     <TableRow key={e.id}>
                       <TableCell align="left">{idx + 1}</TableCell>
                       <TableCell align="left">{e.name}</TableCell>
@@ -179,34 +296,26 @@ export default function TzVersionList() {
                         ))}
                       </TableCell>
                       <TableCell align="center">
-                        {/* {e.storesName.length === 0
+                        {e.storesName.length === 0
                           ? t('store.none')
                           : e.storesName.map((f) => (
                               <Chip
-                                key={f}
+                                key={f.id}
                                 variant="outlined"
                                 icon={<StorefrontIcon />}
-                                label={f}
+                                label={f.name}
                                 color="primary"
                               />
-                            ))} */}
-                        {e.storesName.length}
+                            ))}
+                      </TableCell>
+                      <TableCell align="left">
+                        {e.tradeZoneVersionName === '' ? t('store.none') : e.tradeZoneVersionName}
                       </TableCell>
                       <TableCell align="left">
                         {e.groupZoneName === '' ? t('store.none') : e.groupZoneName}
                       </TableCell>
                       <TableCell>
-                        <Box color={e.isActive ? 'green' : 'red'} fontWeight="bold">
-                          {e.isActive ? t('tz.active') : t('tz.unActive')}
-                        </Box>
-                      </TableCell>
-                      <TableCell>
                         <Box style={{ display: 'flex', justifyContent: 'center' }}>
-                          <Tooltip key={`btnDetails-${e.id}`} title={t('tz.btnActive') || ''}>
-                            <IconButton color="success" disabled={e.isActive}>
-                              <Icon icon={checkmarkCircle2Fill} />
-                            </IconButton>
-                          </Tooltip>
                           <Tooltip key={`btnDetails-${e.id}`} title={t('common.details') || ''}>
                             <IconButton color="info" onClick={() => handelDetailsClick(e)}>
                               <Icon icon={editFill} />
@@ -221,7 +330,7 @@ export default function TzVersionList() {
                       </TableCell>
                     </TableRow>
                   ))}
-                  {rs.length === 0 && (
+                  {rs.results.length === 0 && (
                     <TableRow style={{ height: 53 * 10 }}>
                       <TableCell colSpan={20}>
                         <Typography gutterBottom align="center" variant="subtitle1">
@@ -237,13 +346,14 @@ export default function TzVersionList() {
               </Table>
             </TableContainer>
           </Scrollbar>
+          <TblPagination />
         </Card>
       </Container>
       <Dialog open={confirmDelete} onClose={() => setConfirmDelete(false)}>
         <DialogTitle>{t('common.titleConfirm')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {'Version: ' + tzVersionSelected?.name + ' ' + t('store.removeTitleEnd')}
+            {'Version: ' + tradeZoneSelected?.name + ' ' + t('store.removeTitleEnd')}
             <br />
             {t('common.canRevert')}
           </DialogContentText>
@@ -261,29 +371,29 @@ export default function TzVersionList() {
         <DialogTitle>{t('common.details')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {Boolean(tzVersionSelected) && (
-              <TzVersionViewEditForm
-                initialValue={tzVersionSelected as TzVersion}
-                isView={true}
-                isEdit={false}
-              />
-            )}
+            <ViewTradeZoneMap
+              onChangeBounds={handelOnChangeBounds}
+              stores={storesLayer || undefined}
+              myStore={myStoreLayer || undefined}
+              pois={poisLayer || undefined}
+              onActiveLayer={handelLayerActive}
+              onCloseLayer={handelRemoveLayer}
+              selectedTradeZone={tradeZoneSelected}
+            />
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button color="inherit" onClick={() => setPopupOpen(false)}>
             {t('content.btnClose')}
           </Button>
-          {!tzVersionSelected?.isActive && (
-            <Button
-              onClick={() => {
-                navigate(`${PATH_DASHBOARD.tradeZone.tzVersionEdit}/${tzVersionSelected?.id}`);
-              }}
-              autoFocus
-            >
-              {t('common.editInfo')}
-            </Button>
-          )}
+          <Button
+            onClick={() => {
+              navigate(`${PATH_DASHBOARD.tradeZone.editTz}/${tradeZoneSelected?.id}`);
+            }}
+            autoFocus
+          >
+            {t('common.editInfo')}
+          </Button>
         </DialogActions>
       </Dialog>
     </Page>

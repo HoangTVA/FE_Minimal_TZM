@@ -7,7 +7,6 @@ import { Box, Stack, AppBar, Toolbar, IconButton } from '@material-ui/core';
 import useCollapseDrawer from '../../hooks/useCollapseDrawer';
 //
 import { MHidden } from '../../components/@material-extend';
-import Searchbar from './Searchbar';
 import AccountPopover from './AccountPopover';
 import LanguagePopover from './LanguagePopover';
 

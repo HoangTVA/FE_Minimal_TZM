@@ -1,14 +1,18 @@
 import { makeStyles } from '@material-ui/styles';
+import { useAppSelector } from 'app/hooks';
 import LocationMarker from 'components/map/LocateControl';
-import { IconStores, IconMyStore, IconPois } from 'components/map/MarkerStyles';
+import { IconMyStore, IconPois, IconStores } from 'components/map/MarkerStyles';
 import { LayerActive } from 'constants/layer';
+import GeoJsonWithUpdates from 'features/group-zone/components/GeoJsonUpdate';
 import L from 'leaflet';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js';
 import { GeoJSONMarker } from 'models';
+import { Feature } from 'models/dto/groupZone';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  GeoJSON,
   LayersControl,
   MapContainer,
   Marker,
@@ -18,16 +22,22 @@ import {
   useMapEvents
 } from 'react-leaflet';
 import { convertBounds } from 'utils/common';
+import { selectFreeZoneList, selectTradeZoneList } from '../tradeZoneSlice';
 import './style.css';
 
 interface MapProps {
   stores?: GeoJSONMarker;
   pois?: GeoJSONMarker;
   myStore?: GeoJSONMarker;
+  listSelected?: number[];
+  tzVersionSelected?: number;
   onChangeBounds: (bounds: string) => void;
   onActiveLayer: (active: LayerActive, bounds: string) => void;
   onCloseLayer: (active: LayerActive) => void;
+  onFreeZoneClick?: (value: Feature) => void;
+  onFreeZoneRemove?: (value: Feature) => void;
 }
+
 function MapAction({ onChangeBounds, onActiveLayer, onCloseLayer }: MapProps) {
   const map = useMap();
 
@@ -36,7 +46,7 @@ function MapAction({ onChangeBounds, onActiveLayer, onCloseLayer }: MapProps) {
   const mapEvents = useMapEvents({
     moveend: () => {
       const zoom = mapEvents.getZoom();
-      if (zoom > 16) {
+      if (zoom > 13) {
         const bounds = convertBounds(mapEvents.getBounds());
         if (onChangeBounds) onChangeBounds(bounds);
       }
@@ -83,22 +93,40 @@ function MapAction({ onChangeBounds, onActiveLayer, onCloseLayer }: MapProps) {
 
 const useStyle = makeStyles((theme) => ({
   root: {
-    height: '75vh',
+    height: '68vh',
     borderRadius: '10px',
-    overflow: 'hidden',
-    marginTop: '-39px'
+    overflow: 'hidden'
   }
 }));
-export default function Map({
+const gzNormalStyle = {
+  fill: true,
+  color: 'blue',
+  fillColor: 'green',
+  opacity: 0.6
+};
+const gzSelectedStyle = {
+  fill: true,
+  color: 'gray',
+  fillColor: 'gray',
+  opacity: 0.6
+};
+
+export default function MapEditTradeZone({
   stores,
   onChangeBounds,
   onActiveLayer,
   onCloseLayer,
   myStore,
-  pois
+  pois,
+  onFreeZoneClick,
+  listSelected,
+  onFreeZoneRemove,
+  tzVersionSelected
 }: MapProps) {
   const classes = useStyle();
   const { t } = useTranslation();
+  const rs = useAppSelector(selectTradeZoneList);
+  const freeZone = useAppSelector(selectFreeZoneList);
   const handelBoundsChange = (bounds: string) => {
     if (onChangeBounds) onChangeBounds(bounds);
   };
@@ -108,11 +136,11 @@ export default function Map({
   const handelClose = (active: LayerActive) => {
     if (onCloseLayer) onCloseLayer(active);
   };
+
   return (
     <MapContainer
-      style={{ marginTop: '-23px' }}
       center={{ lat: 10.772461, lng: 106.698055 }}
-      zoom={16}
+      zoom={13}
       scrollWheelZoom={true}
       className={classes.root}
       whenCreated={(map) => {
@@ -193,6 +221,55 @@ export default function Map({
           <Popup>{e.properties.f2}</Popup>
         </Marker>
       ))}
+      {tzVersionSelected &&
+        rs.results.map((x) => (
+          <GeoJSON
+            key={x.id}
+            data={x.geom as any}
+            style={gzSelectedStyle}
+            onEachFeature={(feature, layer) => {
+              //   layer.on('click', (e) => {
+              //     console.log(e.target.feature);
+              //     // new Field().doesIntersect(e.target.feature);
+              //     e.target.setStyle({
+              //       fillColor: 'yellow'
+              //     });
+              //   });
+              layer.bindPopup(x.name);
+            }}
+          />
+        ))}
+
+      {freeZone.features.length > 0 && (
+        <GeoJsonWithUpdates
+          data={freeZone.features as any}
+          style={gzNormalStyle}
+          onEachFeature={(feature, layer) => {
+            layer.on('click', (e) => {
+              let flag = false;
+              // eslint-disable-next-line array-callback-return
+              listSelected?.map((item) => {
+                if (item === e.target.feature.properties.f3) {
+                  flag = true;
+                }
+              });
+              if (!flag) {
+                e.target.setStyle({
+                  fillColor: 'orange'
+                });
+                if (onFreeZoneClick) onFreeZoneClick(e.target.feature);
+              } else {
+                e.target.setStyle({
+                  fillColor: 'green'
+                });
+                if (onFreeZoneRemove) onFreeZoneRemove(e.target.feature);
+              }
+            });
+
+            layer.bindPopup(feature.properties.f2);
+          }}
+        />
+      )}
     </MapContainer>
   );
 }

@@ -1,6 +1,3 @@
-import homeFill from '@iconify/icons-eva/home-fill';
-import personFill from '@iconify/icons-eva/person-fill';
-import settings2Fill from '@iconify/icons-eva/settings-2-fill';
 import { Avatar, Box, Button, Divider, Typography } from '@material-ui/core';
 // material
 import { alpha } from '@material-ui/core/styles';

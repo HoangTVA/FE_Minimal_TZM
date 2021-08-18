@@ -2,7 +2,7 @@ import { Box, Card, Container, Grid, Stack, Typography } from '@material-ui/core
 import { styled } from '@material-ui/core/styles';
 import storeApi from 'api/storeApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { SearchAddress } from 'components/common';
+import { MapDraggable, SearchAddress } from 'components/common';
 import MapWithMarker from 'components/common/MapWithMarker';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Page from 'components/Page';
@@ -127,6 +127,11 @@ export default function AddEditStorePage(props: AddEditStorePageProps) {
   const handelSelectLocation = (address: Address) => {
     setLocation(address?.latlng);
   };
+  const handelOnDragMarker = (point: any) => {
+    // setLocationSelected(point['lng'].toString() + ' ' + point['lat'].toString());
+    const latLng: LatLngExpression = [point.lat, point.lng];
+    setLocation(latLng);
+  };
   const handelImageChange = (value: string) => {
     setImglink(value);
   };
@@ -194,7 +199,7 @@ export default function AddEditStorePage(props: AddEditStorePageProps) {
                   <Box>
                     <SearchAddress onChangeAddress={handelSelectLocation} />
                     <Box mt={3}>
-                      <MapWithMarker position={location} />
+                      <MapDraggable location={location} onDraggable={handelOnDragMarker} />
                     </Box>
                   </Box>
                 </Stack>

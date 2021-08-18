@@ -180,7 +180,24 @@
     "dateFilter": "Date apply",
     "timeFilter": "Time apply",
     "active": "Activated",
-    "unActive": "Not activated"
+    "unActive": "Not activated",
+    "info": "Information",
+    "btnActive": "Active",
+    "errorName": "Version name is required!!!",
+    "errorDate": "Select date, Pls!!!",
+    "errorTime": "Select time, Pls!!!",
+    "editTitle": "Edit trade zone version",
+    "addTitle": "Add new trade zone version",
+    "name": "Trade zone name",
+    "editTitleTz": "Edit trade zone",
+    "addTitleTz": "Add new trade zone",
+    "infoTz": "Trade zone information",
+    "errorNameTz": "Trade zone name is required!!!",
+    "errorZoneTz": "Select zones, Pls!!!",
+    "errorStoreTz": "Select store, Pls!!!",
+    "zonesEmpty": "Not found matching zones.",
+    "errorGz": "Select group zone, Pls!!!",
+    "addSuccess": "Successfully add a new trade zone"
   },
   "common": {
     "status": "Status",
@@ -205,7 +222,8 @@
     "select": "Select",
     "view": "View",
     "other": "Other",
-    "description": "Description"
+    "description": "Description",
+    "systemZone": "System zone"
   },
   "login": {
     "welcome": "Welcone to Trade zone map",

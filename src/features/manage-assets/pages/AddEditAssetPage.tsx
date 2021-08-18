@@ -7,7 +7,6 @@ import { poiBrandActions as assetActions, selectFilter } from 'features/pois-bra
 import useSettings from 'hooks/useSettings';
 import { Asset } from 'models';
 import { useSnackbar } from 'notistack5';
-import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';

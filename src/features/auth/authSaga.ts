@@ -1,7 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import authApi from 'api/authApi';
 import { AuthRequest, User } from 'models';
-import { call, delay, fork, put, take } from "redux-saga/effects";
+import { call, fork, put, take } from "redux-saga/effects";
 import { authAction } from './authSlice';
 import jwtDecode, { JwtPayload } from "jwt-decode";
 

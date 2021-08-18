@@ -1,40 +1,48 @@
-import FullCalendar, { DateSelectArg, EventClickArg, EventDropArg } from '@fullcalendar/react'; // => request placed at the top
-import listPlugin from '@fullcalendar/list';
+import FullCalendar, { EventClickArg } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import listPlugin from '@fullcalendar/list';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import timelinePlugin from '@fullcalendar/timeline';
-import interactionPlugin, { EventResizeDoneArg } from '@fullcalendar/interaction';
-import { Icon } from '@iconify/react';
-import { useSnackbar } from 'notistack5';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { useState, useRef, useEffect } from 'react';
+import { Icon } from '@iconify/react';
+import {
+  Box,
+  Button,
+  Card,
+  Container,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  useMediaQuery
+} from '@material-ui/core';
 // material
 import { useTheme } from '@material-ui/core/styles';
-import { Card, Button, Container, DialogTitle, useMediaQuery } from '@material-ui/core';
-
-// routes
-import { PATH_DASHBOARD } from 'routes/paths';
-// hooks
-import useSettings from 'hooks/useSettings';
-// @types
-import { CalendarView } from '../../../@types/calendar';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { DialogAnimate } from 'components/animate';
+import { CalendarStyle, CalendarToolbar } from 'components/dashboard/calendar';
+import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 // components
 import Page from 'components/Page';
-import { DialogAnimate } from 'components/animate';
-import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
-import { CalendarForm, CalendarStyle, CalendarToolbar } from 'components/dashboard/calendar';
+import { storeActions } from 'features/store-management/storeSlice';
+// hooks
+import useSettings from 'hooks/useSettings';
+import { TzVersionRequest } from 'models';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { Link as RouterLink } from 'react-router-dom';
+// routes
+import { PATH_DASHBOARD } from 'routes/paths';
+// @types
+import { CalendarView } from '../../../@types/calendar';
 import {
+  selectedEventSelector,
+  selectedOpenModal,
   selectFilter,
-  selectLoading,
   selectTzVersionEvents,
   tzVersionActions
 } from '../tzVersionSlice';
-import { getCurrentWeek } from 'utils/common';
-import { TimeOfDay } from 'models/dto/timeFilter';
-import { storeActions } from 'features/store-management/storeSlice';
-import { TzVersionRequest } from 'models';
 
 // ----------------------------------------------------------------------
 
@@ -44,15 +52,15 @@ export default function CalendarTradeZoneVersion() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const calendarRef = useRef<FullCalendar>(null);
-  const { enqueueSnackbar } = useSnackbar();
   const [date, setDate] = useState(new Date());
   const [view, setView] = useState<CalendarView>(isMobile ? 'listWeek' : 'timeGridWeek');
   const dispatch = useAppDispatch();
   const events = useAppSelector(selectTzVersionEvents);
-  const loading = useAppSelector(selectLoading);
   const language = localStorage.getItem('language');
   const { t } = useTranslation();
   const filter = useAppSelector(selectFilter);
+  const selectedEvent = useAppSelector(selectedEventSelector);
+  const isOpenModal = useAppSelector(selectedOpenModal);
 
   useEffect(() => {
     dispatch(storeActions.fetchStores({}));
@@ -76,15 +84,6 @@ export default function CalendarTradeZoneVersion() {
     }
   }, [isMobile]);
 
-  const handleClickToday = () => {
-    const calendarEl = calendarRef.current;
-    if (calendarEl) {
-      const calendarApi = calendarEl.getApi();
-      calendarApi.today();
-      setDate(calendarApi.getDate());
-    }
-  };
-
   const handleChangeView = (newView: CalendarView) => {
     const calendarEl = calendarRef.current;
     if (calendarEl) {
@@ -94,75 +93,12 @@ export default function CalendarTradeZoneVersion() {
     }
   };
 
-  const handleClickDatePrev = () => {
-    const calendarEl = calendarRef.current;
-    if (calendarEl) {
-      const calendarApi = calendarEl.getApi();
-      calendarApi.prev();
-      setDate(calendarApi.getDate());
-    }
-  };
-
-  const handleClickDateNext = () => {
-    const calendarEl = calendarRef.current;
-    if (calendarEl) {
-      const calendarApi = calendarEl.getApi();
-      calendarApi.next();
-      setDate(calendarApi.getDate());
-    }
-  };
-
-  const handleSelectRange = (arg: DateSelectArg) => {
-    const calendarEl = calendarRef.current;
-    if (calendarEl) {
-      const calendarApi = calendarEl.getApi();
-      calendarApi.unselect();
-    }
-    //dispatch(selectRange(arg.start, arg.end));
-  };
-
   const handleSelectEvent = (arg: EventClickArg) => {
-    //dispatch(selectEvent(arg.event.id));
-  };
-
-  const handleResizeEvent = async ({ event }: EventResizeDoneArg) => {
-    try {
-      // dispatch(
-      //   updateEvent(event.id, {
-      //     allDay: event.allDay,
-      //     start: event.start,
-      //     end: event.end
-      //   })
-      // );
-      enqueueSnackbar('Update event success', { variant: 'success' });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleDropEvent = async ({ event }: EventDropArg) => {
-    try {
-      // dispatch(
-      //   updateEvent(event.id, {
-      //     allDay: event.allDay,
-      //     start: event.start,
-      //     end: event.end
-      //   })
-      // );
-      enqueueSnackbar('Update event success', {
-        variant: 'success'
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleAddEvent = () => {
-    //dispatch(openModal());
+    dispatch(tzVersionActions.selectEvent(arg.event.id));
   };
 
   const handleCloseModal = () => {
-    //dispatch(closeModal());
+    dispatch(tzVersionActions.closeModal());
   };
   const handelFilterChange = (newFilter: TzVersionRequest) => {
     dispatch(tzVersionActions.setFilterWithDebounce(newFilter));
@@ -181,8 +117,9 @@ export default function CalendarTradeZoneVersion() {
           action={
             <Button
               variant="contained"
+              component={RouterLink}
+              to={PATH_DASHBOARD.tradeZone.add}
               startIcon={<Icon icon={plusFill} width={20} height={20} />}
-              onClick={handleAddEvent}
             >
               {t('tz.add')}
             </Button>
@@ -194,9 +131,6 @@ export default function CalendarTradeZoneVersion() {
             <CalendarToolbar
               date={date}
               view={view}
-              onNextDate={handleClickDateNext}
-              onPrevDate={handleClickDatePrev}
-              onToday={handleClickToday}
               onChangeView={handleChangeView}
               onChange={handelFilterChange}
             />
@@ -214,11 +148,8 @@ export default function CalendarTradeZoneVersion() {
               eventDisplay="block"
               headerToolbar={false}
               allDayMaintainDuration
-              eventResizableFromStart
-              select={handleSelectRange}
-              eventDrop={handleDropEvent}
               eventClick={handleSelectEvent}
-              eventResize={handleResizeEvent}
+              eventResizableFromStart
               height={isMobile ? 'auto' : 720}
               allDaySlot={false}
               firstDay={1}
@@ -239,15 +170,47 @@ export default function CalendarTradeZoneVersion() {
           </CalendarStyle>
         </Card>
 
-        {/* <DialogAnimate open={false} onClose={handleCloseModal}>
-          <DialogTitle>{selectedEvent ? 'Edit Event' : 'Add Event'}</DialogTitle>
+        <DialogAnimate open={isOpenModal} onClose={handleCloseModal}>
+          <DialogTitle>{t('tz.info')}</DialogTitle>
 
-          <CalendarForm
-            event={selectedEvent || {}}
-            range={selectedRange}
-            onCancel={handleCloseModal}
-          />
-        </DialogAnimate> */}
+          <DialogContent sx={{ pb: 0, overflowY: 'unset' }}>
+            <Box mt={2}></Box>
+            <TextField
+              fullWidth
+              label={'#Id'}
+              sx={{ mb: 3 }}
+              value={selectedEvent?.id || ''}
+              disabled
+            />
+            <TextField
+              fullWidth
+              label={t('tz.tzVerName')}
+              sx={{ mb: 3 }}
+              value={selectedEvent?.title || ''}
+              disabled
+            />
+            <TextField
+              fullWidth
+              label={t('common.description')}
+              sx={{ mb: 3 }}
+              value={selectedEvent?.description || ''}
+              disabled
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button type="button" variant="outlined" color="inherit" onClick={handleCloseModal}>
+              {t('content.btnClose')}
+            </Button>
+            {/* <LoadingButton
+              type="submit"
+              variant="contained"
+              loading={isSubmitting}
+              loadingIndicator="Loading..."
+            >
+              Add
+            </LoadingButton> */}
+          </DialogActions>
+        </DialogAnimate>
       </Container>
     </Page>
   );

@@ -6,8 +6,9 @@ import poiBrandsSaga from "features/pois-brand/poiBrandSaga";
 import poiSaga from "features/pois/poiSaga";
 import storeSaga from "features/store-management/storeSaga";
 import tzVersionSaga from "features/trade-zone-version/tzVersionSaga";
+import tradeZoneSaga from "features/trade-zone/tradeZoneSaga";
 import { all } from "redux-saga/effects";
 
 export default function* rootSaga() {
-    yield all([authSaga(), storeSaga(), poiSaga(), adminLevelSaga(), poiBrandsSaga(), assetSaga(), groupZoneSaga(), tzVersionSaga()]);
+    yield all([authSaga(), storeSaga(), poiSaga(), adminLevelSaga(), poiBrandsSaga(), assetSaga(), groupZoneSaga(), tzVersionSaga(), tradeZoneSaga()]);
 }

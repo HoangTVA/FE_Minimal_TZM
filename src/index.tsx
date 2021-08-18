@@ -15,7 +15,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from 'translation/i18n';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import './index.css';
 

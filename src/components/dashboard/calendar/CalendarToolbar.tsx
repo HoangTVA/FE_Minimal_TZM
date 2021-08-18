@@ -1,24 +1,19 @@
-import { Icon } from '@iconify/react';
+import roundViewAgenda from '@iconify/icons-ic/round-view-agenda';
 import roundViewDay from '@iconify/icons-ic/round-view-day';
 import roundViewWeek from '@iconify/icons-ic/round-view-week';
-import roundViewAgenda from '@iconify/icons-ic/round-view-agenda';
-import roundViewModule from '@iconify/icons-ic/round-view-module';
-import arrowIosBackFill from '@iconify/icons-eva/arrow-ios-back-fill';
-import arrowIosForwardFill from '@iconify/icons-eva/arrow-ios-forward-fill';
+import { Icon } from '@iconify/react';
+import { Box, ToggleButton, Tooltip } from '@material-ui/core';
 // material
 import { styled } from '@material-ui/core/styles';
-import { Box, Tooltip, Typography, IconButton, ToggleButton, Button } from '@material-ui/core';
-// utils
-import { fDate } from 'utils/formatTime';
-//
-import { MHidden } from '../../@material-extend';
-import { CalendarView } from '../../../@types/calendar';
 import { useAppSelector } from 'app/hooks';
-import { selectStoresOptions } from 'features/store-management/storeSlice';
 import SelectMUI from 'components/material-ui/SelectMUI';
-import { useTranslation } from 'react-i18next';
+import { selectStoresOptions } from 'features/store-management/storeSlice';
 import { selectFilter } from 'features/trade-zone-version/tzVersionSlice';
 import { TzVersionRequest } from 'models';
+import { useTranslation } from 'react-i18next';
+import { CalendarView } from '../../../@types/calendar';
+//
+import { MHidden } from '../../@material-extend';
 
 // ----------------------------------------------------------------------
 
@@ -46,9 +41,6 @@ const RootStyle = styled('div')(({ theme }) => ({
 type CalendarToolbarProps = {
   date: Date;
   view: CalendarView;
-  onToday: VoidFunction;
-  onNextDate: VoidFunction;
-  onPrevDate: VoidFunction;
   onChangeView: (view: CalendarView) => void;
   onChange?: (newFilter: TzVersionRequest) => void;
 };
@@ -67,6 +59,16 @@ export default function CalendarToolbar({ view, onChangeView, onChange }: Calend
   };
   return (
     <RootStyle>
+      <Box width={300}>
+        <SelectMUI
+          isAll={true}
+          label={t('store.storeName')}
+          labelId="filterByStoreName"
+          options={storesOptions}
+          onChange={handelStoreChange}
+          selected={filter.storeId}
+        />
+      </Box>
       <MHidden width="smDown">
         <Box sx={{ '& > *:not(:last-of-type)': { mr: 1 } }}>
           {VIEW_OPTIONS.map((viewOption) => (
@@ -101,16 +103,6 @@ export default function CalendarToolbar({ view, onChangeView, onChange }: Calend
           <Icon icon={arrowIosForwardFill} width={18} height={18} />
         </IconButton>
       </Box> */}
-      <Box width={300}>
-        <SelectMUI
-          isAll={true}
-          label={t('store.storeName')}
-          labelId="filterByStoreName"
-          options={storesOptions}
-          onChange={handelStoreChange}
-          selected={filter.storeId}
-        />
-      </Box>
     </RootStyle>
   );
 }
