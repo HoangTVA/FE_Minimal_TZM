@@ -181,7 +181,24 @@
     "dateFilter": "Ngày áp dụng",
     "timeFilter": "Giờ áp dụng",
     "active": "Đang kích hoạt",
-    "unActive": "Chưa kích hoạt"
+    "unActive": "Chưa kích hoạt",
+    "info": "Thông tin version",
+    "btnActive": "Kích hoạt",
+    "errorName": "Vui lòng nhập tên version",
+    "errorDate": "Vui lòng chọn ngày áp dụng",
+    "errorTime": "Vui lòng chọn giờ áp dụng",
+    "editTitle": "Chỉnh sửa trade zone version",
+    "addTitle": "Thêm mới trade zone version",
+    "name": "Tên trade zone",
+    "editTitleTz": "Chỉnh sửa trade zone",
+    "addTitleTz": "Thêm mới trade zone",
+    "infoTz": "Thông tin trade zone",
+    "errorNameTz": "Vui lòng nhập tên trade zone",
+    "errorZoneTz": "Vui lòng chọn vùng",
+    "errorStoreTz": "Vui lòng chọn cửa hàng áp dụng",
+    "zonesEmpty": "Không tìm thấy vùng phù hợp.",
+    "errorGz": "Vui lòng chọn group zone",
+    "addSuccess": "Thêm mới trade zone thành công"
   },
   "common": {
     "status": "Trạng thái",
@@ -206,7 +223,8 @@
     "select": "Chọn",
     "view": "Xem",
     "other": "Khác",
-    "description": "Mô tả"
+    "description": "Mô tả",
+    "systemZone": "Vùng hệ thống"
   },
   "login": {
     "welcome": "Chào mừng bạn đến với Trade zone map",

@@ -22,6 +22,7 @@ import {
 } from '@material-ui/core';
 // material
 import { Box } from '@material-ui/system';
+import groupZoneApi from 'api/groupZoneApi';
 import mapApi from 'api/mapApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { useTableNotPaging } from 'components/common/useTableNotPaging';
@@ -33,6 +34,7 @@ import Scrollbar from 'components/Scrollbar';
 import { LayerActive } from 'constants/layer';
 // hooks
 import useSettings from 'hooks/useSettings';
+import 'leaflet/dist/leaflet.css';
 import { GeoJSONMarker, RequestBounds } from 'models';
 import { Feature } from 'models/dto/groupZone';
 import { useSnackbar } from 'notistack5';
@@ -44,9 +46,6 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { PATH_DASHBOARD } from 'routes/paths';
 import GroupZoneMap from '../components/GroupZoneMap';
 import { groupZoneActions, selectGroupZoneList, selectLoading } from '../groupZoneSlice';
-import 'leaflet/dist/leaflet.css';
-import { DialogAnimate } from 'components/animate';
-import groupZoneApi from 'api/groupZoneApi';
 
 // ----------------------------------------------------------------------
 

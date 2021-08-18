@@ -101,6 +101,11 @@ export default function Router() {
           children: [
             { path: 'calendar', element: <CalendarTradeZoneVersion /> },
             { path: 'versions-list', element: <TzVersionList /> },
+            { path: 'list', element: <TradeZoneList /> },
+            { path: 'list/add', element: <AddEditTradeZonePage /> },
+            { path: 'list/edit/:tradeZoneId', element: <AddEditTradeZonePage /> },
+            { path: 'versions-list/edit/:tzVersionId', element: <EditTzVersionPage /> },
+            { path: 'versions-list/add', element: <EditTzVersionPage /> },
             { path: 'details/:tradeZoneVersionId', element: <AddEditAssetPage /> }
           ]
         }
@@ -159,6 +164,13 @@ const StoreTemplatePage = Loadable(
 );
 const CalendarTradeZoneVersion = Loadable(
   lazy(() => import('features/trade-zone-version/pages/CalendarTradeZoneVersion'))
+);
+const EditTzVersionPage = Loadable(
+  lazy(() => import('features/trade-zone-version/pages/EditTzVersionPage'))
+);
+const TradeZoneList = Loadable(lazy(() => import('features/trade-zone/pages/TradeZoneList')));
+const AddEditTradeZonePage = Loadable(
+  lazy(() => import('features/trade-zone/pages/AddEditTradeZonePage'))
 );
 const StoreViewPage = Loadable(lazy(() => import('features/store-management/pages/StoreView')));
 const Template = Loadable(lazy(() => import('features/template/pages/Template')));

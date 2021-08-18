@@ -54,6 +54,10 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_DASHBOARD, '/trade-zones'),
     tradeZoneCalendar: path(ROOTS_DASHBOARD, '/trade-zones/calendar'),
     tradeZoneVersion: path(ROOTS_DASHBOARD, '/trade-zones/versions-list'),
-    detailsTradeZone: path(ROOTS_DASHBOARD, '/trade-zones/details')
+    tzVersionEdit: path(ROOTS_DASHBOARD, '/trade-zones/versions-list/edit'),
+    add: path(ROOTS_DASHBOARD, '/trade-zones/versions-list/add'),
+    tradeZones: path(ROOTS_DASHBOARD, '/trade-zones/list'),
+    addTz: path(ROOTS_DASHBOARD, '/trade-zones/list/add'),
+    editTz: path(ROOTS_DASHBOARD, '/trade-zones/list/edit'),
   }
 };

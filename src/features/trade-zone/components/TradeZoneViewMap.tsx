@@ -1,14 +1,17 @@
 import { makeStyles } from '@material-ui/styles';
+import { useAppSelector } from 'app/hooks';
 import LocationMarker from 'components/map/LocateControl';
-import { IconStores, IconMyStore, IconPois } from 'components/map/MarkerStyles';
+import { IconMyStore, IconPois, IconStores } from 'components/map/MarkerStyles';
 import { LayerActive } from 'constants/layer';
-import L from 'leaflet';
+import L, { LatLngExpression } from 'leaflet';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js';
-import { GeoJSONMarker } from 'models';
-import { useEffect } from 'react';
+import { GeoJSONMarker, TradeZone } from 'models';
+import { Feature, GroupZone } from 'models/dto/groupZone';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  GeoJSON,
   LayersControl,
   MapContainer,
   Marker,
@@ -17,18 +20,20 @@ import {
   useMap,
   useMapEvents
 } from 'react-leaflet';
-import { convertBounds } from 'utils/common';
+import { convertBounds, splitPointToLatLng } from 'utils/common';
 import './style.css';
 
 interface MapProps {
   stores?: GeoJSONMarker;
   pois?: GeoJSONMarker;
   myStore?: GeoJSONMarker;
+  selectedTradeZone?: TradeZone;
   onChangeBounds: (bounds: string) => void;
   onActiveLayer: (active: LayerActive, bounds: string) => void;
   onCloseLayer: (active: LayerActive) => void;
+  onIsShowAll?: (value: boolean) => void;
 }
-function MapAction({ onChangeBounds, onActiveLayer, onCloseLayer }: MapProps) {
+function MapAction({ onChangeBounds, onActiveLayer, onCloseLayer, onIsShowAll }: MapProps) {
   const map = useMap();
 
   const { t } = useTranslation();
@@ -36,7 +41,7 @@ function MapAction({ onChangeBounds, onActiveLayer, onCloseLayer }: MapProps) {
   const mapEvents = useMapEvents({
     moveend: () => {
       const zoom = mapEvents.getZoom();
-      if (zoom > 16) {
+      if (zoom > 13) {
         const bounds = convertBounds(mapEvents.getBounds());
         if (onChangeBounds) onChangeBounds(bounds);
       }
@@ -85,16 +90,23 @@ const useStyle = makeStyles((theme) => ({
   root: {
     height: '75vh',
     borderRadius: '10px',
-    overflow: 'hidden',
-    marginTop: '-39px'
+    overflow: 'hidden'
   }
 }));
-export default function Map({
+const gzSelectedStyle = {
+  fill: true,
+  color: 'blue',
+  fillColor: 'orange',
+  opacity: 0.6
+};
+
+export default function ViewTradeZoneMap({
   stores,
   onChangeBounds,
   onActiveLayer,
   onCloseLayer,
   myStore,
+  selectedTradeZone,
   pois
 }: MapProps) {
   const classes = useStyle();
@@ -108,11 +120,24 @@ export default function Map({
   const handelClose = (active: LayerActive) => {
     if (onCloseLayer) onCloseLayer(active);
   };
+  const renderSelected = (selected: TradeZone) => {
+    return (
+      <GeoJSON
+        key={selected?.id + ''}
+        data={selected?.geom as any}
+        style={gzSelectedStyle}
+        onEachFeature={(feature, layer) => {
+          layer.bindPopup(selected?.name || '');
+        }}
+      />
+    );
+  };
+
+  const centerGz = splitPointToLatLng(selectedTradeZone?.center || '');
   return (
     <MapContainer
-      style={{ marginTop: '-23px' }}
-      center={{ lat: 10.772461, lng: 106.698055 }}
-      zoom={16}
+      center={centerGz !== undefined ? centerGz : { lat: 10.772461, lng: 106.698055 }}
+      zoom={13}
       scrollWheelZoom={true}
       className={classes.root}
       whenCreated={(map) => {
@@ -193,6 +218,7 @@ export default function Map({
           <Popup>{e.properties.f2}</Popup>
         </Marker>
       ))}
+      {selectedTradeZone && renderSelected(selectedTradeZone)}
     </MapContainer>
   );
 }

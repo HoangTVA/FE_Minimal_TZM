@@ -21,7 +21,6 @@ import Map from '../components/Map';
 export default function BrandMap() {
   const { themeStretch } = useSettings();
   const { t } = useTranslation();
-  // const [bound, setBound] = useState();
   const [poisLayer, setPoisLayer] = useState<GeoJSONMarker>();
   const [myStoreLayer, setMyStoreLayer] = useState<GeoJSONMarker>();
   const [storesLayer, setStoreLayer] = useState<GeoJSONMarker>();

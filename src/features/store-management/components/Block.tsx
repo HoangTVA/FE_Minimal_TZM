@@ -1,9 +1,8 @@
-import { ReactNode } from 'react';
+import { Box, CardHeader, Typography } from '@material-ui/core';
 // material
 import { Theme } from '@material-ui/core/styles';
-import { Card, CardHeader, Box, Typography } from '@material-ui/core';
 import { SxProps } from '@material-ui/system';
-import { snapshotViewportBox } from 'framer-motion';
+import { ReactNode } from 'react';
 
 // ----------------------------------------------------------------------
 
