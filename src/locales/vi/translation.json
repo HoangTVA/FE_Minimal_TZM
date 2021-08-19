@@ -144,7 +144,7 @@
     "motorcycle": "Xe máy",
     "truck": " Xe tải",
     "addSuccess": "thêm mới tài sản thành công",
-    "updateSuccessStart": "Tài sản hàng: ",
+    "updateSuccessStart": "Tài sản: ",
     "updateSuccessEnd": "đã được cập nhật",
     "editTitle": "Chỉnh sửa tài sản",
     "addTitle": "Thêm mới tài sản",
@@ -198,7 +198,12 @@
     "errorStoreTz": "Vui lòng chọn cửa hàng áp dụng",
     "zonesEmpty": "Không tìm thấy vùng phù hợp.",
     "errorGz": "Vui lòng chọn group zone",
-    "addSuccess": "Thêm mới trade zone thành công"
+    "addSuccess": "Thêm mới trade zone thành công",
+    "invalidZone": "Trade zone phải liền kề nhau, Các cửa hàng áp dụng phải nằm trong trade zone!!!",
+    "activeTitleStart": "Áp dụng version: ",
+    "unActiveTitleStart": "Hủy áp dụng version: ",
+    "btnUnActive": "Hủy kích hoạt",
+    "activeSuccessEnd": "thành công"
   },
   "common": {
     "status": "Trạng thái",

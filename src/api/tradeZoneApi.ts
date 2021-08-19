@@ -14,10 +14,10 @@ const tradeZoneApi = {
         const url = `/trade-zones/${id}`;
         return axiosClient.get(url);
     },
-    // update(id: string, data: PutTzVersion): Promise<TradeZone> {
-    //     const url = `/trade-zones/${id}`;
-    //     return axiosClient.put(url, data);
-    // },
+    update(id: string, data: PostTradeZone): Promise<TradeZone> {
+        const url = `/trade-zones/${id}`;
+        return axiosClient.put(url, data);
+    },
     add(data: PostTradeZone): Promise<TradeZone> {
         const url = '/trade-zones';
         return axiosClient.post(url, data);

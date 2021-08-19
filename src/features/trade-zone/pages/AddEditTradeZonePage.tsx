@@ -1,5 +1,4 @@
 import { Box, Container, Grid } from '@material-ui/core';
-import assetApi from 'api/assetApi';
 import mapApi from 'api/mapApi';
 import tradeZoneApi from 'api/tradeZoneApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
@@ -7,9 +6,11 @@ import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import SelectMUI from 'components/material-ui/SelectMUI';
 import Page from 'components/Page';
 import { LayerActive } from 'constants/layer';
+import { storeActions } from 'features/store-management/storeSlice';
 import { selectTzVersionOptions } from 'features/trade-zone-version/tzVersionSlice';
 import useSettings from 'hooks/useSettings';
-import { TradeZone, PostTradeZone, GeoJSONMarker, RequestBounds } from 'models';
+import { GeoJSONMarker, PostTradeZone, RequestBounds, TradeZone } from 'models';
+import { Feature } from 'models/dto/groupZone';
 import { useSnackbar } from 'notistack5';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,9 +18,7 @@ import { useNavigate, useParams } from 'react-router';
 import { PATH_DASHBOARD } from 'routes/paths';
 import MapEditTradeZone from '../components/MapEditTradeZone';
 import TradeZoneForm from '../components/TradeZoneForm';
-import { selectFilter, selectFreeZoneOptions, tradeZoneActions } from '../tradeZoneSlice';
-import { Feature, GroupZoneDetails, PostGroupZone } from 'models/dto/groupZone';
-import { storeActions } from 'features/store-management/storeSlice';
+import { selectFilter, tradeZoneActions } from '../tradeZoneSlice';
 
 export default function AddEditTradeZonePage() {
   const { tradeZoneId } = useParams();
@@ -30,7 +29,7 @@ export default function AddEditTradeZonePage() {
   const [tradeZone, setTradeZone] = useState<TradeZone>();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
-  const [selectMode, setSelectMode] = useState(2);
+  const [selectMode, setSelectMode] = useState(1);
   const [tzVersion, setTzVersion] = useState(-1);
   const tzVersionOptions = useAppSelector(selectTzVersionOptions);
   const [poisLayer, setPoisLayer] = useState<GeoJSONMarker>();
@@ -47,7 +46,15 @@ export default function AddEditTradeZonePage() {
     (async () => {
       try {
         const data: TradeZone = await tradeZoneApi.getById(tradeZoneId);
+        setTzVersion(data.tradeZoneVersionId || 0);
         setTradeZone(data);
+        dispatch(
+          tradeZoneActions.fetchFreeZoneList({
+            type: selectMode,
+            tzVersionId: data.tradeZoneVersionId,
+            tzId: Number(tradeZoneId) || 0
+          })
+        );
       } catch (error) {}
     })();
   }, [tradeZoneId]);
@@ -67,28 +74,46 @@ export default function AddEditTradeZonePage() {
         }
         formValues.tradeZoneVersionId = tzVersion;
         formValues.type = selectMode;
-
-        await tradeZoneApi.add(formValues);
+        await tradeZoneApi.add(formValues).catch((err) => {
+          if (err.response.status === 409) {
+            enqueueSnackbar(t('tz.invalidZone'), { variant: 'error' });
+          }
+          throw err;
+        });
         enqueueSnackbar(formValues?.name + ' ' + t('tz.addSuccess'), { variant: 'success' });
+        const newFilter = { ...filter };
+        dispatch(tradeZoneActions.setFilter(newFilter));
+        navigate(PATH_DASHBOARD.tradeZone.tradeZones);
+      } catch (e) {
+        enqueueSnackbar(formValues?.name + ' ' + t('common.errorText'), { variant: 'error' });
+      }
+    } else {
+      try {
+        if (formValues.listZoneId.length === 0) {
+          enqueueSnackbar(t('tz.errorZoneTz'), { variant: 'warning' });
+          return;
+        }
+        if (formValues.stores.length === 0) {
+          enqueueSnackbar(t('tz.errorStoreTz'), { variant: 'warning' });
+          return;
+        }
+        formValues.tradeZoneVersionId = tzVersion;
+        formValues.type = selectMode;
+        await tradeZoneApi.update(tradeZoneId, formValues).catch((err) => {
+          if (err.response.status === 409) {
+            enqueueSnackbar(t('tz.invalidZone'), { variant: 'error' });
+          }
+          throw err;
+        });
+        enqueueSnackbar('Trade zone: ' + formValues.name + ' ' + t('asset.updateSuccessEnd'), {
+          variant: 'success'
+        });
         const newFilter = { ...filter };
         dispatch(tradeZoneActions.setFilter(newFilter));
         navigate(PATH_DASHBOARD.tradeZone.tradeZones);
       } catch (error) {
         enqueueSnackbar(formValues?.name + ' ' + t('common.errorText'), { variant: 'error' });
       }
-    } else {
-      //   try {
-      //     await assetApi.update(tradeZoneId, formValues);
-      //     enqueueSnackbar(
-      //       t('asset.updateSuccessStart') + formValues.name + ' ' + t('asset.updateSuccessEnd'),
-      //       { variant: 'success' }
-      //     );
-      //     const newFilter = { ...filter };
-      //     dispatch(assetActions.setFilter(newFilter));
-      //     navigate(PATH_DASHBOARD.asset.assets);
-      //   } catch (error) {
-      //     enqueueSnackbar(formValues?.name + ' ' + t('common.errorText'), { variant: 'error' });
-      //   }
     }
   };
   const initialValues: PostTradeZone = {
@@ -189,7 +214,8 @@ export default function AddEditTradeZonePage() {
     dispatch(
       tradeZoneActions.fetchFreeZoneList({
         type: selectMode,
-        tzVersionId: value
+        tzVersionId: value,
+        tzId: Number(tradeZoneId) || 0
       })
     );
     setTzVersion(value);
@@ -199,7 +225,8 @@ export default function AddEditTradeZonePage() {
       dispatch(
         tradeZoneActions.fetchFreeZoneList({
           type: value,
-          tzVersionId: tzVersion
+          tzVersionId: tzVersion,
+          tzId: Number(tradeZoneId) || 0
         })
       );
     }
@@ -247,6 +274,7 @@ export default function AddEditTradeZonePage() {
                         options={tzVersionOptions}
                         onChange={handelTzVersionChange}
                         selected={tzVersion === -1 ? '' : tzVersion}
+                        disabled={isEdit}
                       />
                     </Grid>
                     <Grid item xs={12} md={6} lg={6}>

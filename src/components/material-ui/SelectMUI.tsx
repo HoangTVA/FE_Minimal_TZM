@@ -10,6 +10,7 @@ interface SelectMUIProps {
   selected?: any;
   isAll: boolean;
   options: any[];
+  disabled?: boolean;
   onChange?: (id: number) => void;
 }
 
@@ -19,7 +20,8 @@ export default function SelectMUI({
   options,
   onChange,
   label,
-  labelId
+  labelId,
+  disabled
 }: SelectMUIProps) {
   const { t } = useTranslation();
   const handelChangeEvent = (e: ChangeEvent<{ name?: string; value: unknown }>) => {
@@ -30,7 +32,13 @@ export default function SelectMUI({
   return (
     <FormControl variant="outlined" size="medium" fullWidth>
       <InputLabel id={labelId}>{label}</InputLabel>
-      <Select labelId={labelId} value={selected || ''} onChange={handelChangeEvent} label={label}>
+      <Select
+        labelId={labelId}
+        value={selected || ''}
+        onChange={handelChangeEvent}
+        label={label}
+        disabled={disabled}
+      >
         {isAll && (
           <MenuItem value="">
             <em>{t('common.all')}</em>

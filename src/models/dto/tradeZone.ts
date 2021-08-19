@@ -60,5 +60,6 @@ export interface PostTradeZone {
     type: number;
     groupZoneId: number;
     stores: StoresName[];
+    storesName: StoresName[];
     tradeZoneVersionId: number;
 }

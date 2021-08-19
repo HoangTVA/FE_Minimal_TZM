@@ -15,7 +15,8 @@ export interface TradeZoneState {
 }
 export interface FreeZonesRequest {
     type: number,
-    tzVersionId: number
+    tzVersionId: number,
+    tzId: number
 }
 const initialState: TradeZoneState = {
     loading: false,
@@ -34,6 +35,10 @@ const initialState: TradeZoneState = {
         features: [],
         type: ''
     }
+}
+export interface FreeZoneTzVersionRequest {
+    id: number,
+    tzId: number
 }
 const tradeZoneSlice = createSlice({
     name: 'tradeZone',

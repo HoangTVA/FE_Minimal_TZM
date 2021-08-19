@@ -24,13 +24,13 @@ function* filterWithDebounce(action: PayloadAction<TradeZonePagingRequest>) {
 function* fetchFreeZoneList(action: PayloadAction<FreeZonesRequest>) {
     try {
         if (action.payload.type === FreeWardStyle.District) {
-            const rs: FreeZone = yield call(tzVersionApi.getFreeDistrict, action.payload.tzVersionId);
+            const rs: FreeZone = yield call(tzVersionApi.getFreeDistrict, action.payload);
             yield put(tradeZoneActions.fetchFreeZoneSuccess(rs));
         } else if (action.payload.type === FreeWardStyle.Ward) {
-            const rs: FreeZone = yield call(tzVersionApi.getFreeWard, action.payload.tzVersionId)
+            const rs: FreeZone = yield call(tzVersionApi.getFreeWard, action.payload)
             yield put(tradeZoneActions.fetchFreeZoneSuccess(rs));
         } else if (action.payload.type === FreeWardStyle.SystemZone) {
-            const rs: FreeZone = yield call(tzVersionApi.getFreeSystemZone, action.payload.tzVersionId)
+            const rs: FreeZone = yield call(tzVersionApi.getFreeSystemZone, action.payload)
             yield put(tradeZoneActions.fetchFreeZoneSuccess(rs));
         }
     } catch (error) {
