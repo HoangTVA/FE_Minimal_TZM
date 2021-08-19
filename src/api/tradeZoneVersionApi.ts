@@ -1,3 +1,4 @@
+import { FreeZonesRequest } from 'features/trade-zone/tradeZoneSlice';
 import { TzVersion } from 'models';
 import { FreeZone } from 'models/dto/freeZone';
 import { PutTzVersion, TzVersionRequest } from './../models/dto/tradeZone';
@@ -24,17 +25,25 @@ const tzVersionApi = {
         const url = '/trade-zone-versions';
         return axiosClient.post(url, data);
     },
-    getFreeWard(id: number): Promise<FreeZone> {
-        const url = `/trade-zone-versions/${id}/free-wards`;
+    getFreeWard(rq: FreeZonesRequest): Promise<FreeZone> {
+        const url = `/trade-zone-versions/${rq.tzVersionId}/free-wards?tz-id${rq.tzId}`;
         return axiosClient.get(url);
     },
-    getFreeDistrict(id: number): Promise<FreeZone> {
-        const url = `/trade-zone-versions/${id}/free-districts`;
+    getFreeDistrict(rq: FreeZonesRequest): Promise<FreeZone> {
+        const url = `/trade-zone-versions/${rq.tzVersionId}/free-districts?tz-id${rq.tzId}`;
         return axiosClient.get(url);
     },
-    getFreeSystemZone(id: number): Promise<FreeZone> {
-        const url = `/trade-zone-versions/${id}/free-systemzones`;
+    getFreeSystemZone(rq: FreeZonesRequest): Promise<FreeZone> {
+        const url = `/trade-zone-versions/${rq.tzVersionId}/free-systemzones?tz-id${rq.tzId}`;
         return axiosClient.get(url);
+    },
+    active(id: string): Promise<TzVersion> {
+        const url = `/trade-zone-versions/${id}/active`;
+        return axiosClient.put(url);
+    },
+    unActive(id: string): Promise<TzVersion> {
+        const url = `/trade-zone-versions/${id}/unactive`;
+        return axiosClient.put(url);
     },
 }
 export default tzVersionApi;

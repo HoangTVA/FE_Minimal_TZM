@@ -28,6 +28,7 @@ import StorefrontIcon from '@material-ui/icons/Storefront';
 // material
 import { Box } from '@material-ui/system';
 import mapApi from 'api/mapApi';
+import tradeZoneApi from 'api/tradeZoneApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { useTable } from 'components/common';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
@@ -160,14 +161,14 @@ export default function TradeZoneList() {
   };
   const handelConfirmRemoveClick = async () => {
     try {
-      //   await tzVersionApi.remove(Number(tzVersionSelected?.id) || 0);
-      //   const newFilter = { ...filter };
-      //   dispatch(tzVersionActions.setFilter(newFilter));
-      //   enqueueSnackbar(tzVersionSelected?.name + ' ' + t('store.deleteSuccess'), {
-      //     variant: 'success'
-      //   });
-      //   setTzVersionSelected(undefined);
-      //   setConfirmDelete(false);
+      await tradeZoneApi.remove(Number(tradeZoneSelected?.id) || 0);
+      const newFilter = { ...filter };
+      dispatch(tradeZoneActions.setFilter(newFilter));
+      enqueueSnackbar(tradeZoneSelected?.name + ' ' + t('store.deleteSuccess'), {
+        variant: 'success'
+      });
+      setTradeZoneSelected(undefined);
+      setConfirmDelete(false);
     } catch (error) {
       enqueueSnackbar(tradeZoneSelected?.name + ' ' + t('common.errorText'), { variant: 'error' });
     }
@@ -295,7 +296,7 @@ export default function TradeZoneList() {
                           <Label key={f.start + ''} color="warning">{`${f.start}->${f.end}`}</Label>
                         ))}
                       </TableCell>
-                      <TableCell align="center">
+                      <TableCell align="left">
                         {e.storesName.length === 0
                           ? t('store.none')
                           : e.storesName.map((f) => (
@@ -353,7 +354,7 @@ export default function TradeZoneList() {
         <DialogTitle>{t('common.titleConfirm')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {'Version: ' + tradeZoneSelected?.name + ' ' + t('store.removeTitleEnd')}
+            {'Trade zone: ' + tradeZoneSelected?.name + ' ' + t('store.removeTitleEnd')}
             <br />
             {t('common.canRevert')}
           </DialogContentText>

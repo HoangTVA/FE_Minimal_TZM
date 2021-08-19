@@ -48,8 +48,8 @@ export default function TradeZoneForm({
   const fzOptions = useAppSelector(selectFreeZoneOptions);
   const selectedBox = fzOptions.filter(({ id }) => listPost.includes(id));
   const storesOptions = useAppSelector(selectStoresOptions);
-  const [storeSelect, setStoreSelect] = useState<StoresName[]>([]);
-  console.log(storeSelect);
+  console.log(initialValue.storesName);
+  const [storeSelect, setStoreSelect] = useState<StoresName[]>(initialValue.storesName || []);
 
   const handelFormSubmit = (formValues: PostTradeZone) => {
     formValues.listZoneId = [...selectedBox.map((e) => e.id)];
@@ -91,7 +91,7 @@ export default function TradeZoneForm({
               onChange={handelStoreSelected}
               options={storesOptions}
               getOptionLabel={(option) => option.name}
-              defaultValue={[]}
+              defaultValue={storeSelect || []}
               //value={selectedBox}
               renderInput={(params) => (
                 <TextField {...params} variant="outlined" label={t('tz.storesApply')} />

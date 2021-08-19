@@ -2,6 +2,7 @@ import editFill from '@iconify/icons-eva/edit-fill';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import checkmarkCircle2Fill from '@iconify/icons-eva/checkmark-circle-2-fill';
+import slashFill from '@iconify/icons-eva/slash-fill';
 import { Icon } from '@iconify/react';
 // material
 import {
@@ -70,6 +71,8 @@ export default function TzVersionList() {
   const [tzVersionSelected, setTzVersionSelected] = useState<TzVersion>();
   const { dateFilter } = GetConstantTimeFilter();
   const [popupOpen, setPopupOpen] = useState(false);
+  const [activeBox, setActiveBox] = useState(false);
+  const [unActiveBox, setUnActiveBox] = useState(false);
 
   //effect
   useEffect(() => {
@@ -120,9 +123,51 @@ export default function TzVersionList() {
       enqueueSnackbar(tzVersionSelected?.name + ' ' + t('common.errorText'), { variant: 'error' });
     }
   };
+  const handelConfirmActive = (tzVersion: TzVersion) => {
+    setTzVersionSelected(tzVersion);
+    setActiveBox(true);
+  };
+  const handelConfirmUnActive = (tzVersion: TzVersion) => {
+    setTzVersionSelected(tzVersion);
+    setUnActiveBox(true);
+  };
+  const handelActiveClick = async () => {
+    try {
+      await tzVersionApi.active(tzVersionSelected?.id.toString() || '');
+      const newFilter = { ...filter };
+      dispatch(tzVersionActions.setFilter(newFilter));
+      enqueueSnackbar(tzVersionSelected?.name + ' ' + t('tz.activeSuccessEnd'), {
+        variant: 'success'
+      });
+      setTzVersionSelected(undefined);
+      setActiveBox(false);
+    } catch (error) {
+      enqueueSnackbar(
+        t('tz.activeTitleStart') + tzVersionSelected?.name + ' ' + t('common.errorText'),
+        { variant: 'error' }
+      );
+    }
+  };
+  const handelUnActiveClick = async () => {
+    try {
+      await tzVersionApi.unActive(tzVersionSelected?.id.toString() || '');
+      const newFilter = { ...filter };
+      dispatch(tzVersionActions.setFilter(newFilter));
+      enqueueSnackbar(
+        t('tz.unActiveTitleStart') + tzVersionSelected?.name + ' ' + t('tz.activeSuccessEnd'),
+        {
+          variant: 'success'
+        }
+      );
+      setTzVersionSelected(undefined);
+      setUnActiveBox(false);
+    } catch (error) {
+      enqueueSnackbar(tzVersionSelected?.name + ' ' + t('common.errorText'), { variant: 'error' });
+    }
+  };
 
   return (
-    <Page title={t('asset.title')}>
+    <Page title={t('tz.tzVersion')}>
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading={t('tz.tzVersion')}
@@ -178,20 +223,7 @@ export default function TzVersionList() {
                           <Label key={f.start + ''} color="warning">{`${f.start}->${f.end}`}</Label>
                         ))}
                       </TableCell>
-                      <TableCell align="center">
-                        {/* {e.storesName.length === 0
-                          ? t('store.none')
-                          : e.storesName.map((f) => (
-                              <Chip
-                                key={f}
-                                variant="outlined"
-                                icon={<StorefrontIcon />}
-                                label={f}
-                                color="primary"
-                              />
-                            ))} */}
-                        {e.storesName.length}
-                      </TableCell>
+                      <TableCell align="center">{e.storesName.length}</TableCell>
                       <TableCell align="left">
                         {e.groupZoneName === '' ? t('store.none') : e.groupZoneName}
                       </TableCell>
@@ -202,11 +234,20 @@ export default function TzVersionList() {
                       </TableCell>
                       <TableCell>
                         <Box style={{ display: 'flex', justifyContent: 'center' }}>
-                          <Tooltip key={`btnDetails-${e.id}`} title={t('tz.btnActive') || ''}>
-                            <IconButton color="success" disabled={e.isActive}>
-                              <Icon icon={checkmarkCircle2Fill} />
-                            </IconButton>
-                          </Tooltip>
+                          {e.isActive ? (
+                            <Tooltip key={`btnDetails-${e.id}`} title={t('tz.btnActive') || ''}>
+                              <IconButton color="warning" onClick={() => handelConfirmUnActive(e)}>
+                                <Icon icon={slashFill} />
+                              </IconButton>
+                            </Tooltip>
+                          ) : (
+                            <Tooltip key={`btnDetails-${e.id}`} title={t('tz.btnActive') || ''}>
+                              <IconButton color="success" onClick={() => handelConfirmActive(e)}>
+                                <Icon icon={checkmarkCircle2Fill} />
+                              </IconButton>
+                            </Tooltip>
+                          )}
+
                           <Tooltip key={`btnDetails-${e.id}`} title={t('common.details') || ''}>
                             <IconButton color="info" onClick={() => handelDetailsClick(e)}>
                               <Icon icon={editFill} />
@@ -242,7 +283,7 @@ export default function TzVersionList() {
       <Dialog open={confirmDelete} onClose={() => setConfirmDelete(false)}>
         <DialogTitle>{t('common.titleConfirm')}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText>
             {'Version: ' + tzVersionSelected?.name + ' ' + t('store.removeTitleEnd')}
             <br />
             {t('common.canRevert')}
@@ -284,6 +325,38 @@ export default function TzVersionList() {
               {t('common.editInfo')}
             </Button>
           )}
+        </DialogActions>
+      </Dialog>
+      <Dialog open={activeBox} onClose={() => setActiveBox(false)}>
+        <DialogTitle>{t('common.titleConfirm')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {t('tz.activeTitleStart') + tzVersionSelected?.name}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button color="inherit" onClick={() => setActiveBox(false)}>
+            {t('content.btnClose')}
+          </Button>
+          <Button onClick={handelActiveClick} autoFocus>
+            {t('tz.btnActive')}
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={unActiveBox} onClose={() => setUnActiveBox(false)}>
+        <DialogTitle>{t('common.titleConfirm')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {t('tz.unActiveTitleStart') + tzVersionSelected?.name}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button color="inherit" onClick={() => setUnActiveBox(false)}>
+            {t('content.btnClose')}
+          </Button>
+          <Button onClick={handelUnActiveClick} autoFocus>
+            {t('tz.btnUnActive')}
+          </Button>
         </DialogActions>
       </Dialog>
     </Page>

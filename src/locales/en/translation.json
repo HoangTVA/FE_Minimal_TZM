@@ -197,7 +197,12 @@
     "errorStoreTz": "Select store, Pls!!!",
     "zonesEmpty": "Not found matching zones.",
     "errorGz": "Select group zone, Pls!!!",
-    "addSuccess": "Successfully add a new trade zone"
+    "addSuccess": "Successfully add a new trade zone",
+    "invalidZone": "Trade zone must be adjacent to each other in order to be valid, the applicable stores must be located in the trade zone.!!!",
+    "activeTitleStart": "Apply version name: ",
+    "unActiveTitleStart": "Cancel apply version version: ",
+    "btnUnActive": "Deactivate",
+    "activeSuccessEnd": "success"
   },
   "common": {
     "status": "Status",
