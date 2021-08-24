@@ -1,4 +1,4 @@
-import { Card, Stack, Typography } from '@material-ui/core';
+import { Box, Card, Stack, Typography } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
 import { useAppSelector } from 'app/hooks';
 import InputField from 'components/FormField/InputField';
@@ -109,13 +109,15 @@ export default function StoreForm({
               control={control}
               disabled={isView}
             />
-            <SelectField
-              name="storeTypeId"
-              label={t('store.storeTypeName') + '*'}
-              control={control}
-              options={storeTypeOptions}
-              disabled={isView}
-            />
+            <Box mt={2}>
+              <SelectField
+                name="storeTypeId"
+                label={t('store.storeTypeName') + '*'}
+                control={control}
+                options={storeTypeOptions}
+                disabled={isView}
+              />
+            </Box>
           </Stack>
         </Card>
         {isView ? (

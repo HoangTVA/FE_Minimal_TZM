@@ -5,14 +5,11 @@ import { Box, Grid, InputAdornment, OutlinedInput } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 import { useAppSelector } from 'app/hooks';
 import SelectMUI from 'components/material-ui/SelectMUI';
-import { selectGroupZoneOptions } from 'features/group-zone/groupZoneSlice';
-import { selectTzVersionOptions } from 'features/trade-zone-version/tzVersionSlice';
-import { PoiPagingRequest, TradeZonePagingRequest } from 'models';
+import { selectStoresOptions } from 'features/store-management/storeSlice';
+import { selectTeamsOptions } from 'features/team/teamSlice';
+import { AgentPagingRequest, GetStatusMap } from 'models';
 import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { selectFilter } from '../tradeZoneSlice';
-
-// ----------------------------------------------------------------------
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   width: 240,
@@ -29,16 +26,17 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-type TradeZoneFilterProps = {
-  onChange?: (newFilter: PoiPagingRequest) => void;
-  onSearchChange?: (newFilter: PoiPagingRequest) => void;
+type AgentFilterProps = {
+  filter: AgentPagingRequest;
+  onChange?: (newFilter: AgentPagingRequest) => void;
+  onSearchChange?: (newFilter: AgentPagingRequest) => void;
 };
 
-export default function TradeZoneFilter({ onChange, onSearchChange }: TradeZoneFilterProps) {
+export default function AgentFilter({ filter, onChange, onSearchChange }: AgentFilterProps) {
   const { t } = useTranslation();
-  const groupZoneOptions = useAppSelector(selectGroupZoneOptions);
-  const tzVersionOptions = useAppSelector(selectTzVersionOptions);
-  const filter = useAppSelector(selectFilter);
+  const { statusFilterAgent } = GetStatusMap();
+
+  const teamOptions = useAppSelector(selectTeamsOptions);
 
   const handelSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!onSearchChange) return;
@@ -48,28 +46,28 @@ export default function TradeZoneFilter({ onChange, onSearchChange }: TradeZoneF
     };
     onSearchChange(newFilter);
   };
-  const handelTzVersionChange = (selectedId: number) => {
+  const handelTeamFilterChange = (selectedId: number) => {
     if (!onChange) return;
-    const newFilter: TradeZonePagingRequest = {
+    const newFilter: AgentPagingRequest = {
       ...filter,
-      tradeZoneVersionId: selectedId
+      teamId: selectedId
     };
     onChange(newFilter);
   };
-  const handelGzChange = (selectedId: number) => {
+  const handelStatusChange = (selectedId: number) => {
     if (!onChange) return;
-    const newFilter: TradeZonePagingRequest = {
+    const newFilter: AgentPagingRequest = {
       ...filter,
-      groupZoneId: selectedId
+      status: selectedId
     };
     onChange(newFilter);
   };
   return (
     <Grid container spacing={2} padding={1}>
-      <Grid item xs={12} md={6} lg={6}>
+      <Grid item xs={6} md={8}>
         <SearchStyle
           onChange={handelSearchChange}
-          placeholder={t('tz.search')}
+          placeholder={t('store.search')}
           startAdornment={
             <InputAdornment position="start">
               <Box component={Icon} icon={searchFill} sx={{ color: 'text.disabled' }} />
@@ -77,24 +75,24 @@ export default function TradeZoneFilter({ onChange, onSearchChange }: TradeZoneF
           }
         />
       </Grid>
-      <Grid item xs={6} md={3} lg={3}>
+      <Grid item xs={6} md={2}>
         <SelectMUI
           isAll={true}
-          label={t('tz.tzVerName')}
-          labelId="filterByTz"
-          options={tzVersionOptions}
-          onChange={handelTzVersionChange}
-          selected={filter.tradeZoneVersionId}
+          label={t('team.name')}
+          labelId="filterByTeamName"
+          options={teamOptions}
+          onChange={handelTeamFilterChange}
+          selected={filter.teamId}
         />
       </Grid>
-      <Grid item xs={6} md={3} lg={3}>
+      <Grid item xs={6} md={2}>
         <SelectMUI
           isAll={true}
-          label={t('groupZone.title')}
-          labelId="filterByGZ"
-          options={groupZoneOptions}
-          onChange={handelGzChange}
-          selected={filter.groupZoneId}
+          label={t('common.status')}
+          labelId="filterByStatus"
+          options={statusFilterAgent}
+          onChange={handelStatusChange}
+          selected={filter.status}
         />
       </Grid>
     </Grid>

@@ -20,27 +20,34 @@ const ICONS = {
   settings: getIcon('ic-setting'),
   template: getIcon('ic-template'),
   groupZone: getIcon('ic-gz'),
-  tradeZone: getIcon('ic-tz')
+  tradeZone: getIcon('ic-tz'),
+  task: getIcon('ic-task1'),
+  team: getIcon('ic-team'),
+  agent: getIcon('ic-agent1')
 };
 export default function SidebarConfig() {
   const { t } = useTranslation();
 
   const sidebarConfig = [
     {
-      subheader: t('content.business'),
+      subheader: t('common.general'),
       items: [
         {
           title: t('content.dashboard'),
           path: PATH_DASHBOARD.general.comingSoon,
           icon: ICONS.dashboard
         },
+        { title: t('content.map'), path: PATH_DASHBOARD.general.brandMap, icon: ICONS.map },
         {
           title: t('content.stores'),
           path: PATH_DASHBOARD.store.root,
           icon: ICONS.store
         },
-        { title: t('poi.poi'), path: PATH_DASHBOARD.poiBrand.root, icon: ICONS.poiBrand },
-        { title: t('content.map'), path: PATH_DASHBOARD.general.brandMap, icon: ICONS.map },
+        {
+          title: t('content.templates'),
+          path: PATH_DASHBOARD.template.root,
+          icon: ICONS.template
+        },
         {
           title: t('content.asset'),
           path: PATH_DASHBOARD.asset.root,
@@ -49,34 +56,53 @@ export default function SidebarConfig() {
             { title: t('asset.list'), path: PATH_DASHBOARD.asset.assets },
             { title: t('asset.violationLogs'), path: PATH_DASHBOARD.asset.violations }
           ]
-        },
-        {
-          title: t('content.templates'),
-          path: PATH_DASHBOARD.template.root,
-          icon: ICONS.template
         }
       ]
     },
     {
-      subheader: t('content.system'),
+      subheader: t('common.delivery'),
       items: [
-        { title: t('poi.sPoi'), path: PATH_DASHBOARD.poi.root, icon: ICONS.poi },
         {
-          title: 'Group zone',
+          title: t('common.task'),
+          path: PATH_DASHBOARD.task.root,
+          icon: ICONS.task
+        },
+        {
+          title: t('common.team'),
+          path: PATH_DASHBOARD.team.root,
+          icon: ICONS.team
+        },
+        {
+          title: t('common.agent'),
+          path: PATH_DASHBOARD.agent.root,
+          icon: ICONS.agent
+        }
+      ]
+    },
+    {
+      subheader: t('common.businessArea'),
+      items: [
+        {
+          title: t('common.groupZone'),
           path: PATH_DASHBOARD.groupZone.root,
           icon: ICONS.groupZone
         },
         {
-          title: 'Trade zone',
+          title: t('common.tradeZone'),
           path: PATH_DASHBOARD.tradeZone.root,
           icon: ICONS.tradeZone,
           children: [
             { title: t('tz.calendar'), path: PATH_DASHBOARD.tradeZone.tradeZoneCalendar },
-            { title: t('tz.tzVersion'), path: PATH_DASHBOARD.tradeZone.tradeZoneVersion },
+            { title: t('common.tradeZone'), path: PATH_DASHBOARD.tradeZone.tradeZoneVersion },
             { title: t('tz.tzList'), path: PATH_DASHBOARD.tradeZone.tradeZones }
           ]
-        }
+        },
+        { title: t('poi.poi'), path: PATH_DASHBOARD.poiBrand.root, icon: ICONS.poiBrand }
       ]
+    },
+    {
+      subheader: t('content.system'),
+      items: [{ title: t('poi.sPoi'), path: PATH_DASHBOARD.poi.root, icon: ICONS.poi }]
     }
   ];
   return sidebarConfig;

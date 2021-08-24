@@ -100,7 +100,7 @@ export default function PoiBrandFilter({ filter, onChange, onSearchChange }: Poi
       <Grid item xs={6} md={2}>
         <SearchStyle
           onChange={handelSearchChange}
-          placeholder={t('store.search')}
+          placeholder={t('poi.search')}
           startAdornment={
             <InputAdornment position="start">
               <Box component={Icon} icon={searchFill} sx={{ color: 'text.disabled' }} />

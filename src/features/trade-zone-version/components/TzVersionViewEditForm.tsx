@@ -130,13 +130,15 @@ export default function TzVersionViewEditForm({
               />
             )}
           />
-          <SelectField
-            name="groupZoneId"
-            label={t('groupZone.name') + '*'}
-            control={control}
-            options={groupZoneOptions}
-            disabled={isView}
-          />
+          <Box mt={2}>
+            <SelectField
+              name="groupZoneId"
+              label={t('groupZone.name') + '*'}
+              control={control}
+              options={groupZoneOptions}
+              disabled={isView}
+            />
+          </Box>
 
           {isView && (
             <>

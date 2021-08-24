@@ -1,4 +1,3 @@
-import checkmarkCircle2Fill from '@iconify/icons-eva/checkmark-circle-2-fill';
 import editFill from '@iconify/icons-eva/edit-fill';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
@@ -38,7 +37,6 @@ import Label from 'components/Label';
 import Page from 'components/Page';
 import Scrollbar from 'components/Scrollbar';
 import { LayerActive } from 'constants/layer';
-import GroupZoneMap from 'features/group-zone/components/GroupZoneMap';
 import { groupZoneActions } from 'features/group-zone/groupZoneSlice';
 import { tzVersionActions } from 'features/trade-zone-version/tzVersionSlice';
 // hooks

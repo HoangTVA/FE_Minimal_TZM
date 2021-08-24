@@ -4,6 +4,7 @@ import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import { Icon } from '@iconify/react';
 // material
 import {
+  Avatar,
   Button,
   Card,
   Container,
@@ -14,6 +15,7 @@ import {
   DialogTitle,
   IconButton,
   LinearProgress,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -24,7 +26,7 @@ import {
 } from '@material-ui/core';
 // material
 import { Box } from '@material-ui/system';
-import storeApi from 'api/storeApi';
+import agentApi from 'api/agentApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { useTable } from 'components/common';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
@@ -32,9 +34,12 @@ import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 // components
 import Page from 'components/Page';
 import Scrollbar from 'components/Scrollbar';
+import { teamActions } from 'features/team/teamSlice';
 // hooks
 import useSettings from 'hooks/useSettings';
-import { GetStatusMap, PaginationRequest, Store } from 'models';
+import { Agent, AgentPagingRequest, GetStatusMap } from 'models';
+import { GetAgentTypeMap } from 'models/dto/agentType';
+import { GetTransportTypeMap } from 'models/dto/transportType';
 import { useSnackbar } from 'notistack5';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -42,31 +47,41 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // redux
 // routes
 import { PATH_DASHBOARD } from 'routes/paths';
-import StoreFilter from '../components/StoreFilter';
-import { selectFilter, selectLoading, selectStoresResponse, storeActions } from '../storeSlice';
+import { agentActions, selectAgentList, selectFilter, selectLoading } from '../agentSlice';
+import AgentFilter from '../components/AgentFilter';
+import AgentForm from '../components/AgentForm';
 
 // ----------------------------------------------------------------------
 
-export default function StoreList() {
+export default function AgentList() {
   const { themeStretch } = useSettings();
-  const [confirmDelete, setConfirmDelete] = useState(false);
-  const [storeSelected, setStoreSelected] = useState<Store>();
   const dispatch = useAppDispatch();
   const filter = useAppSelector(selectFilter);
-  const rs = useAppSelector(selectStoresResponse);
   const loading = useAppSelector(selectLoading);
-  const { statusMap } = GetStatusMap();
+  const rs = useAppSelector(selectAgentList);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [agent, setAgent] = useState<Agent>();
+  const [popupOpen, setPopupOpen] = useState(false);
+  const { t } = useTranslation();
+  const { agentTypeMap } = GetAgentTypeMap();
+  const { transportTypeMap } = GetTransportTypeMap();
+  const { statusMapAgent } = GetStatusMap();
   //effect
   useEffect(() => {
-    dispatch(storeActions.fetchStores(filter));
+    dispatch(agentActions.fetchAgentList(filter));
   }, [dispatch, filter]);
-
+  useEffect(() => {
+    dispatch(teamActions.fetchTeamList({}));
+  }, [dispatch]);
+  //functions
+  const handelFilterChange = (newFilter: AgentPagingRequest) => {
+    dispatch(agentActions.setFilter(newFilter));
+  };
   const onPageChange = (page: number) => {
     dispatch(
-      storeActions.setFilter({
+      agentActions.setFilter({
         ...filter,
         page: page + 1
       })
@@ -74,7 +89,7 @@ export default function StoreList() {
   };
   const onRowPerPageChange = (perPage: number) => {
     dispatch(
-      storeActions.setFilter({
+      agentActions.setFilter({
         ...filter,
         pageSize: perPage
       })
@@ -82,46 +97,23 @@ export default function StoreList() {
   };
   const onSortChange = (colName: string, sortType: number) => {
     dispatch(
-      storeActions.setFilter({
+      agentActions.setFilter({
         ...filter,
         colName: colName,
         sortType: sortType
       })
     );
   };
-  const handelSearchDebounce = (newFilter: PaginationRequest) => {
-    dispatch(storeActions.setFilterWithDebounce(newFilter));
-  };
-
-  const handelRemoveClick = (store: Store) => {
-    setStoreSelected(store);
-    setConfirmDelete(true);
-  };
-  const handelConfirmRemoveClick = async () => {
-    try {
-      await storeApi.remove(storeSelected?.id || 0);
-      const newFilter = { ...filter };
-      dispatch(storeActions.setFilter(newFilter));
-      enqueueSnackbar(storeSelected?.name + ' ' + t('store.deleteSuccess'), { variant: 'success' });
-
-      setStoreSelected(undefined);
-      setConfirmDelete(false);
-    } catch (error) {
-      enqueueSnackbar(storeSelected?.name + ' ' + t('common.errorText'), { variant: 'error' });
-    }
-  };
-
   //header
-  const { t } = useTranslation();
   const headCells = [
-    { id: 'no', label: '#' },
-    { id: 'name', label: t('store.storeName') },
-    { id: 'address', label: t('store.address') },
-    { id: 'storeTypeName', label: t('store.storeTypeName') },
-    { id: 'status', label: t('common.status') },
-    { id: 'actions', label: t('common.actions'), disableSorting: true, align: 'center' }
+    { id: '#', label: '#', disableSorting: true },
+    { id: 'username', label: t('login.username') },
+    { id: 'agentType', label: t('agent.agentType') },
+    { id: 'transportType', label: t('agent.transportType') },
+    { id: 'teamName', label: t('team.name'), disableSorting: true },
+    { id: 'status', label: t('common.status'), disableSorting: true },
+    { id: 'action', label: t('common.actions'), disableSorting: true, align: 'center' }
   ];
-
   const { TblHead, TblPagination } = useTable({
     rs,
     headCells,
@@ -130,33 +122,60 @@ export default function StoreList() {
     onRowPerPageChange,
     onSortChange
   });
-  const handelDetailsClick = (store: Store) => {
-    navigate(`${PATH_DASHBOARD.store.details}/${store.id}`);
+  const handelDetailsClick = (tzVersion: Agent) => {
+    setAgent(tzVersion);
+    setPopupOpen(true);
   };
+  const handelRemoveClick = (asset: Agent) => {
+    setAgent(asset);
+    setConfirmDelete(true);
+  };
+  const handelSearchDebounce = (newFilter: AgentPagingRequest) => {
+    dispatch(agentActions.setFilterWithDebounce(newFilter));
+  };
+  const handelConfirmRemoveClick = async () => {
+    try {
+      await agentApi.remove(Number(agent?.id) || 0);
+      const newFilter = { ...filter };
+      dispatch(agentActions.setFilter(newFilter));
+      enqueueSnackbar(agent?.username + ' ' + t('store.deleteSuccess'), {
+        variant: 'success'
+      });
+      setAgent(undefined);
+      setConfirmDelete(false);
+    } catch (error) {
+      enqueueSnackbar(agent?.username + ' ' + t('common.errorText'), { variant: 'error' });
+    }
+  };
+
   return (
-    <Page title={t('store.title')}>
+    <Page title={t('agent.list')}>
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={t('store.listStore')}
+          heading={t('agent.list')}
           links={[
             { name: t('content.dashboard'), href: PATH_DASHBOARD.root },
 
-            { name: t('store.listStore') }
+            { name: t('agent.list') }
           ]}
           action={
             <Button
               variant="contained"
               component={RouterLink}
-              to={PATH_DASHBOARD.store.add}
-              startIcon={<Icon icon={plusFill} />}
+              to={PATH_DASHBOARD.agent.add}
+              startIcon={<Icon icon={plusFill} width={20} height={20} />}
             >
-              {t('store.btnAdd')}
+              {t('agent.titleAdd')}
             </Button>
           }
         />
 
         <Card>
-          <StoreFilter filter={filter} onSearchChange={handelSearchDebounce} />
+          <AgentFilter
+            filter={filter}
+            onSearchChange={handelSearchDebounce}
+            onChange={handelFilterChange}
+          />
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -173,20 +192,24 @@ export default function StoreList() {
 
                   {rs.results.map((e, idx) => (
                     <TableRow key={e.id}>
-                      <TableCell width={80} component="th" scope="row" padding="none">
-                        {idx + 1}
+                      <TableCell align="left">{idx + 1}</TableCell>
+                      <TableCell component="th" scope="row" padding="none">
+                        <Stack direction="row" alignItems="center" spacing={2}>
+                          <Avatar alt={'error'} src={e.image} />
+                          <Typography variant="subtitle2" noWrap>
+                            {e.username}
+                          </Typography>
+                        </Stack>
                       </TableCell>
-                      <TableCell align="left">{e.name}</TableCell>
-                      <TableCell align="left">{e.address}</TableCell>
+                      <TableCell align="left">{agentTypeMap[e.agentType].name}</TableCell>
+                      <TableCell align="left">{transportTypeMap[e.transportType].name}</TableCell>
+                      <TableCell align="left">{e.teamName}</TableCell>
                       <TableCell align="left">
-                        {e.storeTypeName === '' ? t('store.none') : e.storeTypeName}
-                      </TableCell>
-                      <TableCell>
-                        <Box color={statusMap[e.status].color} fontWeight="bold">
-                          {statusMap[e.status].name}
+                        <Box color={statusMapAgent[e.status].color} fontWeight="bold">
+                          {statusMapAgent[e.status].name}
                         </Box>
                       </TableCell>
-                      <TableCell width={250}>
+                      <TableCell>
                         <Box style={{ display: 'flex', justifyContent: 'center' }}>
                           <Tooltip key={`btnDetails-${e.id}`} title={t('common.details') || ''}>
                             <IconButton color="info" onClick={() => handelDetailsClick(e)}>
@@ -218,15 +241,14 @@ export default function StoreList() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
           <TblPagination />
         </Card>
       </Container>
       <Dialog open={confirmDelete} onClose={() => setConfirmDelete(false)}>
         <DialogTitle>{t('common.titleConfirm')}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {t('store.removeTitleStart') + storeSelected?.name + ' ' + t('store.removeTitleEnd')}
+          <DialogContentText>
+            {t('common.agent') + ': ' + agent?.username + ' ' + t('store.removeTitleEnd')}
             <br />
             {t('common.canRevert')}
           </DialogContentText>
@@ -237,6 +259,27 @@ export default function StoreList() {
           </Button>
           <Button onClick={handelConfirmRemoveClick} autoFocus>
             {t('common.confirmBtn')}
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={popupOpen} onClose={() => setPopupOpen(false)} maxWidth="lg" fullWidth>
+        <DialogTitle>{t('common.details')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {agent !== undefined && <AgentForm initialValue={agent} isEdit={false} isView={true} />}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button color="inherit" onClick={() => setPopupOpen(false)}>
+            {t('content.btnClose')}
+          </Button>
+          <Button
+            onClick={() => {
+              navigate(`${PATH_DASHBOARD.agent.edit}/${agent?.id}`);
+            }}
+            autoFocus
+          >
+            {t('common.editInfo')}
           </Button>
         </DialogActions>
       </Dialog>

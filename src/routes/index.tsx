@@ -108,6 +108,22 @@ export default function Router() {
             { path: 'versions-list/add', element: <EditTzVersionPage /> },
             { path: 'details/:tradeZoneVersionId', element: <AddEditAssetPage /> }
           ]
+        },
+        {
+          path: 'teams',
+          children: [
+            { path: '/', element: <TeamList /> },
+            { path: 'add', element: <AddEditTeamPage /> },
+            { path: 'edit/:teamId', element: <AddEditTeamPage /> }
+          ]
+        },
+        {
+          path: 'agents',
+          children: [
+            { path: '/', element: <AgentList /> },
+            { path: 'add', element: <AddEditAgentPage /> },
+            { path: 'edit/:agentId', element: <AddEditAgentPage /> }
+          ]
         }
       ]
     },
@@ -178,3 +194,7 @@ const TzVersionList = Loadable(
   lazy(() => import('features/trade-zone-version/pages/TzVersionList'))
 );
 const ComingSoon = Loadable(lazy(() => import('pages/ComingSoon')));
+const TeamList = Loadable(lazy(() => import('features/team/pages/TeamList')));
+const AgentList = Loadable(lazy(() => import('features/agent/pages/AgentList')));
+const AddEditTeamPage = Loadable(lazy(() => import('features/team/pages/AddEditTeamPage')));
+const AddEditAgentPage = Loadable(lazy(() => import('features/agent/pages/AddEditAgentPage')));

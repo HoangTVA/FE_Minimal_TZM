@@ -26,15 +26,15 @@ const tzVersionApi = {
         return axiosClient.post(url, data);
     },
     getFreeWard(rq: FreeZonesRequest): Promise<FreeZone> {
-        const url = `/trade-zone-versions/${rq.tzVersionId}/free-wards?tz-id${rq.tzId}`;
+        const url = `/trade-zone-versions/${rq.tzVersionId}/free-wards?tz-id=${rq.tzId}`;
         return axiosClient.get(url);
     },
     getFreeDistrict(rq: FreeZonesRequest): Promise<FreeZone> {
-        const url = `/trade-zone-versions/${rq.tzVersionId}/free-districts?tz-id${rq.tzId}`;
+        const url = `/trade-zone-versions/${rq.tzVersionId}/free-districts?tz-id=${rq.tzId}`;
         return axiosClient.get(url);
     },
     getFreeSystemZone(rq: FreeZonesRequest): Promise<FreeZone> {
-        const url = `/trade-zone-versions/${rq.tzVersionId}/free-systemzones?tz-id${rq.tzId}`;
+        const url = `/trade-zone-versions/${rq.tzVersionId}/free-systemzones?tz-id=${rq.tzId}`;
         return axiosClient.get(url);
     },
     active(id: string): Promise<TzVersion> {

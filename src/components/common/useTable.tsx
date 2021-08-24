@@ -90,7 +90,7 @@ export function useTable({
   };
   const TblPagination: any = (props) => (
     <Grid container justifyContent="center" alignContent="center" alignItems="center">
-      <Grid item xs={12} md={6}>
+      {/* <Grid item xs={12} md={6}>
         <Pagination
           color="standard"
           count={totalNumberOfPages}
@@ -99,8 +99,8 @@ export function useTable({
           showLastButton
           onChange={handelPagingNumberChange}
         />
-      </Grid>
-      <Grid item xs={12} md={6}>
+      </Grid> */}
+      <Grid item xs={12} md={12}>
         <TablePagination
           onPageChange={handelPageChange}
           component="div"

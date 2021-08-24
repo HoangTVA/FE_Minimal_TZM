@@ -24,7 +24,7 @@ import {
 } from '@material-ui/core';
 // material
 import { Box } from '@material-ui/system';
-import storeApi from 'api/storeApi';
+import teamApi from 'api/teamApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { useTable } from 'components/common';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
@@ -32,9 +32,10 @@ import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 // components
 import Page from 'components/Page';
 import Scrollbar from 'components/Scrollbar';
+import { storeActions } from 'features/store-management/storeSlice';
 // hooks
 import useSettings from 'hooks/useSettings';
-import { GetStatusMap, PaginationRequest, Store } from 'models';
+import { PaginationRequest, Team } from 'models';
 import { useSnackbar } from 'notistack5';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -42,31 +43,29 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // redux
 // routes
 import { PATH_DASHBOARD } from 'routes/paths';
-import StoreFilter from '../components/StoreFilter';
-import { selectFilter, selectLoading, selectStoresResponse, storeActions } from '../storeSlice';
-
+import TeamFilter from '../components/TeamFilter';
+import { selectFilter, selectLoading, selectTeamList, teamActions } from '../teamSlice';
 // ----------------------------------------------------------------------
 
-export default function StoreList() {
+export default function TeamList() {
   const { themeStretch } = useSettings();
-  const [confirmDelete, setConfirmDelete] = useState(false);
-  const [storeSelected, setStoreSelected] = useState<Store>();
   const dispatch = useAppDispatch();
   const filter = useAppSelector(selectFilter);
-  const rs = useAppSelector(selectStoresResponse);
   const loading = useAppSelector(selectLoading);
-  const { statusMap } = GetStatusMap();
+  const rs = useAppSelector(selectTeamList);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [teamSelected, setTeamSelected] = useState<Team>();
 
   //effect
   useEffect(() => {
-    dispatch(storeActions.fetchStores(filter));
+    dispatch(teamActions.fetchTeamList(filter));
   }, [dispatch, filter]);
-
+  //functions
   const onPageChange = (page: number) => {
     dispatch(
-      storeActions.setFilter({
+      teamActions.setFilter({
         ...filter,
         page: page + 1
       })
@@ -74,7 +73,7 @@ export default function StoreList() {
   };
   const onRowPerPageChange = (perPage: number) => {
     dispatch(
-      storeActions.setFilter({
+      teamActions.setFilter({
         ...filter,
         pageSize: perPage
       })
@@ -82,7 +81,7 @@ export default function StoreList() {
   };
   const onSortChange = (colName: string, sortType: number) => {
     dispatch(
-      storeActions.setFilter({
+      teamActions.setFilter({
         ...filter,
         colName: colName,
         sortType: sortType
@@ -90,38 +89,16 @@ export default function StoreList() {
     );
   };
   const handelSearchDebounce = (newFilter: PaginationRequest) => {
-    dispatch(storeActions.setFilterWithDebounce(newFilter));
+    dispatch(teamActions.setFilterWithDebounce(newFilter));
   };
-
-  const handelRemoveClick = (store: Store) => {
-    setStoreSelected(store);
-    setConfirmDelete(true);
-  };
-  const handelConfirmRemoveClick = async () => {
-    try {
-      await storeApi.remove(storeSelected?.id || 0);
-      const newFilter = { ...filter };
-      dispatch(storeActions.setFilter(newFilter));
-      enqueueSnackbar(storeSelected?.name + ' ' + t('store.deleteSuccess'), { variant: 'success' });
-
-      setStoreSelected(undefined);
-      setConfirmDelete(false);
-    } catch (error) {
-      enqueueSnackbar(storeSelected?.name + ' ' + t('common.errorText'), { variant: 'error' });
-    }
-  };
-
   //header
   const { t } = useTranslation();
-  const headCells = [
-    { id: 'no', label: '#' },
-    { id: 'name', label: t('store.storeName') },
-    { id: 'address', label: t('store.address') },
-    { id: 'storeTypeName', label: t('store.storeTypeName') },
-    { id: 'status', label: t('common.status') },
-    { id: 'actions', label: t('common.actions'), disableSorting: true, align: 'center' }
-  ];
 
+  const headCells = [
+    { id: 'id', label: '#', align: 'center' },
+    { id: 'name', label: t('agent.name'), align: 'center' },
+    { id: 'action', label: t('common.actions'), disableSorting: true, align: 'center' }
+  ];
   const { TblHead, TblPagination } = useTable({
     rs,
     headCells,
@@ -130,33 +107,53 @@ export default function StoreList() {
     onRowPerPageChange,
     onSortChange
   });
-  const handelDetailsClick = (store: Store) => {
-    navigate(`${PATH_DASHBOARD.store.details}/${store.id}`);
+  const handelDetailsClick = (team: Team) => {
+    navigate(`${PATH_DASHBOARD.team.edit}/${team.id}`);
   };
+  const handelRemoveClick = (team: Team) => {
+    setTeamSelected(team);
+    setConfirmDelete(true);
+  };
+  const handelConfirmRemoveClick = async () => {
+    try {
+      await teamApi.remove(Number(teamSelected?.id) || 0);
+      const newFilter = { ...filter };
+      dispatch(teamActions.setFilter(newFilter));
+      enqueueSnackbar(teamSelected?.name + ' ' + t('store.deleteSuccess'), {
+        variant: 'success'
+      });
+
+      setTeamSelected(undefined);
+      setConfirmDelete(false);
+    } catch (error) {
+      enqueueSnackbar(teamSelected?.name + ' ' + t('common.errorText'), { variant: 'error' });
+    }
+  };
+
   return (
-    <Page title={t('store.title')}>
+    <Page title={t('team.list')}>
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={t('store.listStore')}
+          heading={t('team.list')}
           links={[
             { name: t('content.dashboard'), href: PATH_DASHBOARD.root },
 
-            { name: t('store.listStore') }
+            { name: t('team.list') }
           ]}
           action={
             <Button
               variant="contained"
               component={RouterLink}
-              to={PATH_DASHBOARD.store.add}
+              to={PATH_DASHBOARD.team.add}
               startIcon={<Icon icon={plusFill} />}
             >
-              {t('store.btnAdd')}
+              {t('team.titleAdd')}
             </Button>
           }
         />
 
         <Card>
-          <StoreFilter filter={filter} onSearchChange={handelSearchDebounce} />
+          <TeamFilter filter={filter} onSearchChange={handelSearchDebounce} />
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -173,20 +170,9 @@ export default function StoreList() {
 
                   {rs.results.map((e, idx) => (
                     <TableRow key={e.id}>
-                      <TableCell width={80} component="th" scope="row" padding="none">
-                        {idx + 1}
-                      </TableCell>
-                      <TableCell align="left">{e.name}</TableCell>
-                      <TableCell align="left">{e.address}</TableCell>
-                      <TableCell align="left">
-                        {e.storeTypeName === '' ? t('store.none') : e.storeTypeName}
-                      </TableCell>
+                      <TableCell align="center">{idx + 1}</TableCell>
+                      <TableCell align="center">{e.name}</TableCell>
                       <TableCell>
-                        <Box color={statusMap[e.status].color} fontWeight="bold">
-                          {statusMap[e.status].name}
-                        </Box>
-                      </TableCell>
-                      <TableCell width={250}>
                         <Box style={{ display: 'flex', justifyContent: 'center' }}>
                           <Tooltip key={`btnDetails-${e.id}`} title={t('common.details') || ''}>
                             <IconButton color="info" onClick={() => handelDetailsClick(e)}>
@@ -226,7 +212,7 @@ export default function StoreList() {
         <DialogTitle>{t('common.titleConfirm')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {t('store.removeTitleStart') + storeSelected?.name + ' ' + t('store.removeTitleEnd')}
+            {t('team.name') + ': ' + teamSelected?.name + ' ' + t('store.removeTitleEnd')}
             <br />
             {t('common.canRevert')}
           </DialogContentText>
