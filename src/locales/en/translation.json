@@ -31,7 +31,10 @@
     "blackWhiteLayer": "Black and white layer",
     "stores": "Stores",
     "pois": "Pois",
-    "myStore": "Brand's stores"
+    "myStore": "Brand's stores",
+    "layerGreen": "Green map",
+    "layerDark": "Dark map",
+    "basic": "Basic map"
   },
   "store": {
     "storeName": "Store name",
@@ -170,12 +173,12 @@
     "selected": "Zones selected"
   },
   "tz": {
-    "calendar": "Calendar active version",
-    "tzVersion": "Trade zone version list",
+    "calendar": "Schedule apply",
+    "tzVersion": "Schedule list",
     "tzList": "Trade zone list",
-    "add": "Add new version",
+    "add": "schedule",
     "calendarTz": "Calendar active",
-    "tzVerName": "Version name",
+    "tzVerName": "schedule name",
     "storesApply": "Stores apply",
     "dateFilter": "Date apply",
     "timeFilter": "Time apply",
@@ -183,11 +186,11 @@
     "unActive": "Not activated",
     "info": "Information",
     "btnActive": "Active",
-    "errorName": "Version name is required!!!",
+    "errorName": "schedule name is required!!!",
     "errorDate": "Select date, Pls!!!",
     "errorTime": "Select time, Pls!!!",
-    "editTitle": "Edit trade zone version",
-    "addTitle": "Add new trade zone version",
+    "editTitle": "Edit trade zone schedule",
+    "addTitle": "Add new trade zone schedule",
     "name": "Trade zone name",
     "editTitleTz": "Edit trade zone",
     "addTitleTz": "Add new trade zone",
@@ -199,8 +202,8 @@
     "errorGz": "Select group zone, Pls!!!",
     "addSuccess": "Successfully add a new trade zone",
     "invalidZone": "Trade zone must be adjacent to each other in order to be valid, the applicable stores must be located in the trade zone.!!!",
-    "activeTitleStart": "Apply version name: ",
-    "unActiveTitleStart": "Cancel apply version version: ",
+    "activeTitleStart": "Apply schedule name: ",
+    "unActiveTitleStart": "Cancel apply schedule version: ",
     "btnUnActive": "Deactivate",
     "activeSuccessEnd": "success",
     "search": "Search with trade zone name"
@@ -247,7 +250,11 @@
     "updateSuccessStart": "Agent: ",
     "updateSuccessEnd": "updated",
     "addSuccess": "Successfully added a new agent",
-    "info": "Agent information"
+    "info": "Agent information",
+    "leader": "Leader",
+    "member": "Member",
+    "infoTeam": "Team information",
+    "infoVehical": "Vehicle information"
   },
   "common": {
     "status": "Status",
@@ -306,5 +313,35 @@
     "loginSuccess": "You have successfully logged in.",
     "logoutSuccess": "You have successfully logged out.",
     "userPassInvalid": "Username or password is incorrect !!!"
+  },
+  "ldPage": {
+    "title": "TZM | A digital solution for a chain of stores",
+    "slogan": "Trade Zone Map solution for chain stores that is optimized for business areas",
+    "subSlogan": "Location management, region, website, scheduling, delivery solutions, and store agents are all integrated solutions for chain businesses.",
+    "manageStore": "Store management",
+    "manageArea": "Business area management ",
+    "poi": "Points of interest",
+    "manageAgent": "Agent management",
+    "template": "Template for store's website",
+    "delivery": "Delivery management",
+    "storeSub": "Manage the chain's stores easily, and see the overall location on a map.",
+    "poiSub": "Points of interest are presented on a map to provide retailers with a comprehensive perspective.",
+    "agentSub": "Agent management, application for agent in delivery",
+    "templateSub": "Pre-built page templates and a contemporary, readily configurable interface make it simple to create a website for your store.",
+    "areaSub": "Define the business area for each store, and schedule to change the business area of each store according to the time period with the most flexibility possible.",
+    "deliverySub": "Optimize for delivery by setting up collection points, delivering packages, and updating shipping information to reduce reliance on third parties.",
+    "startNow": "Start now",
+    "solution": "Solutions tailored to the retail industry's various businesses",
+    "benefit": "Make your own brand on the platform",
+    "subBenefit": "Boost your business with Trade Zone Map powered tools designed to help you operate a full-fledged enterprise.",
+    "summary": "One platform that is suitable for retail businesses",
+    "subSumnary": "Explore a variety of occupations and choose the one that best suits you",
+    "end": "Trade Zone Map is a great place to start establishing and growing your business!",
+    "signUpNow": "Register now",
+    "chain": "Business in a chain",
+    "chainTitle": "Give a high-level overview of your store's business",
+    "chainSub": "Through mapping tools, selected potential locations, solutions to divide business areas for each store, thereby helping the chain business system to be flexible and optimized",
+    "deliverySupport": "Manage route planning, automatic dispatch, real-time tracking, work allocation for delivery team. Plus, automatically assign orders to delivery groups, based on their geographic location, and more",
+    "deliveryTitle": "With the map platform, you can improve the quality of delivery services"
   }
 }

@@ -96,7 +96,7 @@ export default function BrandMap() {
     <Page title={t('map.title')}>
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={'Create a new user'}
+          heading={t('content.map')}
           links={[
             { name: t('content.dashboard'), href: PATH_DASHBOARD.root },
             { name: t('content.map') }

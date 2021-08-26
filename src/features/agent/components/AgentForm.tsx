@@ -21,6 +21,7 @@ import { selectTeamsOptions } from 'features/team/teamSlice';
 import { GetAgentTypeMap } from 'models/dto/agentType';
 import { GetTransportTypeMap } from 'models/dto/transportType';
 import InputAreaField from 'components/FormField/InputAreaField';
+import RadioGroupField from 'components/FormField/RadioGroupField';
 
 interface AgentFormProps {
   initialValue: Agent;
@@ -55,7 +56,8 @@ export default function AgentForm({ initialValue, onSubmit, isEdit, isView }: Ag
       .number()
       .moreThan(0, t('common.isRequiredOptions'))
       .required(t('common.isRequiredOptions')),
-    previewImage: yup.mixed().notRequired()
+    previewImage: yup.mixed().notRequired(),
+    manufacturer: yup.string().required(t('common.isRequired'))
   });
   const {
     control,
@@ -69,7 +71,7 @@ export default function AgentForm({ initialValue, onSubmit, isEdit, isView }: Ag
   const { isDirty } = useFormState({ control });
   const navigate = useNavigate();
   const teamOptions = useAppSelector(selectTeamsOptions);
-  const { agentTypeFilter } = GetAgentTypeMap();
+  const { agentTypeFilter, agentRoleFilter } = GetAgentTypeMap();
   const { transportTypeFilter } = GetTransportTypeMap();
   const [image, setImage] = useState<any>();
   const [imagePost, setImagePost] = useState<any>();
@@ -189,8 +191,17 @@ export default function AgentForm({ initialValue, onSubmit, isEdit, isView }: Ag
                   disabled={isView}
                 />
               </Stack>
-
-              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
+              <InputAreaField
+                name="address"
+                label={t('store.address') + '*'}
+                control={control}
+                disabled={isView}
+                row={4}
+              />
+              <Typography variant="h6" gutterBottom marginBottom={4}>
+                {t('agent.infoTeam')}
+              </Typography>
+              <Box>
                 <SelectField
                   name="teamId"
                   label={t('team.name') + '*'}
@@ -198,15 +209,46 @@ export default function AgentForm({ initialValue, onSubmit, isEdit, isView }: Ag
                   options={teamOptions}
                   disabled={isView}
                 />
-                <SelectField
+              </Box>
+
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                spacing={{ xs: 3, sm: 2 }}
+                style={{ marginTop: '0px' }}
+              >
+                <Box style={{ width: '50%' }}>
+                  <RadioGroupField
+                    name="agentType"
+                    label={t('agent.agentType') + '*'}
+                    control={control}
+                    options={agentTypeFilter as SelectOptions[]}
+                    disabled={isView}
+                    isRow={true}
+                  />
+                </Box>
+
+                <Box style={{ width: '50%' }}>
+                  <RadioGroupField
+                    name="role"
+                    label={t('agent.role') + '*'}
+                    control={control}
+                    options={agentRoleFilter as SelectOptions[]}
+                    disabled={isView}
+                    isRow={true}
+                  />
+                </Box>
+
+                {/* <SelectField
                   name="agentType"
                   label={t('agent.agentType') + '*'}
                   control={control}
                   options={agentTypeFilter as SelectOptions[]}
                   disabled={isView}
-                />
+                /> */}
               </Stack>
-
+              <Typography variant="h6" gutterBottom marginBottom={4}>
+                {t('agent.infoVehical')}
+              </Typography>
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                 <SelectField
                   name="transportType"
@@ -223,28 +265,17 @@ export default function AgentForm({ initialValue, onSubmit, isEdit, isView }: Ag
                 />
               </Stack>
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
-                <Box style={{ width: '100%' }}>
-                  <Stack spacing={3}>
-                    <InputField
-                      name="color"
-                      label={t('agent.color') + '*'}
-                      control={control}
-                      disabled={isView}
-                    />
-                    <InputField
-                      name="transportDescription"
-                      label={t('agent.transportDescription')}
-                      control={control}
-                      disabled={isView}
-                    />
-                  </Stack>
-                </Box>
-                <InputAreaField
-                  name="address"
-                  label={t('store.address') + '*'}
+                <InputField
+                  name="color"
+                  label={t('agent.color') + '*'}
                   control={control}
                   disabled={isView}
-                  row={4}
+                />
+                <InputField
+                  name="transportDescription"
+                  label={t('agent.transportDescription')}
+                  control={control}
+                  disabled={isView}
                 />
               </Stack>
 

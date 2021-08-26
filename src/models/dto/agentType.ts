@@ -20,5 +20,15 @@ export function GetAgentTypeMap() {
         { id: 2, name: t('agent.freelancer') },
 
     ]
-    return { agentTypeMap, agentTypeFilter };
+    const agentRoleMap: AgentTypeMap = {
+        0: { name: t('status.all') },
+        1: { name: t('agent.leader') },
+        2: { name: t('agent.member') }
+    }
+    const agentRoleFilter: AgentType[] = [
+        { id: 1, name: t('agent.leader') },
+        { id: 2, name: t('agent.member') },
+
+    ]
+    return { agentTypeMap, agentTypeFilter, agentRoleMap, agentRoleFilter };
 }

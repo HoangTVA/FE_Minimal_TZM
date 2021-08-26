@@ -31,7 +31,10 @@
     "blackWhiteLayer": "Bản đồ trắng đen",
     "stores": "Cửa hàng hệ thống",
     "pois": "Địa điểm quan tâm",
-    "myStore": "Cửa hàng của bạn"
+    "myStore": "Cửa hàng của bạn",
+    "layerGreen": "Bản đồ xanh",
+    "layerDark": "Bản đồ tối",
+    "basic": "Bản đồ cơ bản"
   },
   "store": {
     "storeName": "Tên cửa hàng",
@@ -171,11 +174,11 @@
     "selected": "Vùng đã chọn"
   },
   "tz": {
-    "calendar": "Lịch áp dụng version",
+    "calendar": "Lịch áp dụng",
     "tzVersion": "Danh sách lập lịch",
     "tzList": "Danh sách trade zone",
-    "add": "Thêm lịch",
-    "calendarTz": "Lịch các phiên bản được sử dụng",
+    "add": "Lập lịch",
+    "calendarTz": "Lập lịch được sử dụng",
     "tzVerName": "Tên lập lịch",
     "storesApply": "Cửa hàng áp dụng",
     "dateFilter": "Ngày áp dụng",
@@ -240,15 +243,19 @@
     "busy": "Đang bận",
     "inActive": "Chưa hoạt động",
     "search": "Tìm kiếm bằng tên đăng nhập tài xế",
-    "captive": "Thuộc cửa hàng",
-    "freelancer": "Tự do",
+    "captive": "Nội bộ",
+    "freelancer": "Bên ngoài",
     "truck": "Xe tải",
     "motorcycle": "Xe máy",
     "oto": "ô tô",
     "updateSuccessStart": "Tài xế: ",
     "updateSuccessEnd": "đã được cập nhật",
     "addSuccess": "Thêm mới tài xế thành công",
-    "info": "Thông tin tài xế"
+    "info": "Thông tin tài xế",
+    "leader": "Đội trưởng",
+    "member": "Thành viên",
+    "infoTeam": "Thông tin đội giao hàng",
+    "infoVehical": "Thông tin phương tiện"
   },
   "common": {
     "status": "Trạng thái",
@@ -307,5 +314,35 @@
     "loginSuccess": "Bạn đã đăng nhập thành công.",
     "logoutSuccess": "Bạn đã đăng xuất thành công.",
     "userPassInvalid": "Tên đăng nhập hoặc mật khẩu không chính xác !!!"
+  },
+  "ldPage": {
+    "title": "TZM | Giải pháp cho hệ thống chuỗi",
+    "slogan": "Trade Zone Map giải pháp cho hệ thống chuỗi cửa hàng tối ưu hóa khu vực kinh doanh",
+    "subSlogan": "Tích hợp các giải pháp cho kinh doanh theo chuỗi, quản lí vị trí, thông tin, trang web cửa hàng.Lập lịch khu vực kinh doanh, các giải pháp giao hàng, quản lí tài xế cho cửa hàng",
+    "manageStore": "Quản lí cửa hàng",
+    "manageArea": "Quản lí khu vực kinh doanh",
+    "poi": "Địa điểm tiềm năng",
+    "manageAgent": "Quản lí tài xế",
+    "template": "Trang web cho cửa hàng",
+    "delivery": "Quản lí giao hàng",
+    "storeSub": "Dễ dàng quản lí các cửa hàng trong chuỗi, xem tổng thể vị trí trên bản đồ",
+    "poiSub": "Các địa điểm tiềm năng phù hợp cho nhàng bán lẽ, hiển thị thông qua bản đồ cho các chủ thương thuong cái nhìn tổng quan",
+    "agentSub": "Quản lí tài xế, ứng dụng phục vụ cho tài xế trong việc giao hàng",
+    "templateSub": "Dễ dàng xây dựng trang web cho cửa hàng thông qua các mẫu trang được xây dựng sẵn với giao diện hiện đâị, đễ dàng tùy biến",
+    "areaSub": "Xác định vùng kinh doanh, lập lịch để thay đổi vùng kinh doanh từng cửa hàng theo khung thơi gian 1 cách linh động tối ưu",
+    "deliverySub": "Tối ưu cho việc giao hàng, tạo các điểm lấy hàng, giao hàng, cập nhật thông tin chuyến hàng tránh lệ thuộc các bên thứ ba",
+    "startNow": "Bắt đầu ngay",
+    "solution": "Các giải pháp được kế cho mọi doanh nghiệp trong ngành bán lẻ",
+    "benefit": "Sử dụng nền tảng với thương hiệu do bạn làm chủ",
+    "subBenefit": "Thúc đẩy cho doanh nghiệp của bạn với nhiều tính năng do Trade Zone Map cung cấp phù hợp để bạn điều hành một công việc kinh doanh toàn diện.",
+    "summary": "Một nền tảng cho mọi ngành kinh doanh",
+    "subSumnary": "Khám phá nhiều ngành nghề và chọn nghề phù hợp nhất với bạn",
+    "end": "Bắt đầu xây dựng và phát triển kinh doanh ngay bây giờ với Trade Zone Map!",
+    "signUpNow": "Đăng ký ngay",
+    "chain": "Kinh doanh theo chuỗi",
+    "chainTitle": "Cho cái nhìn tổng quan về hệ thống cửa hàng của bạn",
+    "chainSub": "Thông qua công cụ bản đồ, các địa điểm tiềm năng được chọn lọc, các giải pháp phân chia khu vực kinh doanh cho từng cửa hàng, qua đó giúp hệ thống kinh doanh chuỗi được linh hoạt và tối ưu",
+    "deliverySupport": "Quản lý lập kế hoạch lộ trình, điều động tự động, theo dõi thời gian thực. Ngoài ra, tự động chỉ định đơn đặt hàng cho các nhóm giao hàng, dựa trên vị trí địa lý của họ và hơn thế nữa",
+    "deliveryTitle": "Nâng cao chất lượng dịch vụ vận chuyển bằng nền tảng bản đồ"
   }
 }

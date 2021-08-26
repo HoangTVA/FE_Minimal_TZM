@@ -72,7 +72,7 @@ export default function AddEditAgentPage() {
   };
   const initialValues: Agent = {
     address: '',
-    agentType: 0,
+    agentType: 1,
     color: '',
     email: '',
     firstName: '',
@@ -82,7 +82,7 @@ export default function AddEditAgentPage() {
     password: '',
     status: '',
     phone: '',
-    role: 1,
+    role: 2,
     teamId: 0,
     transportDescription: '',
     transportType: 0,

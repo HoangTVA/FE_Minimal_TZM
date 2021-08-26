@@ -43,6 +43,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { PATH_DASHBOARD } from 'routes/paths';
 import { assetActions, selectAssetList, selectFilter, selectLoading } from '../assetSlice';
 import AssetFilter from '../components/AssetFilter';
+import AssetForm from '../components/AssetForm';
 
 // ----------------------------------------------------------------------
 
@@ -57,6 +58,7 @@ export default function AssetList() {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [assetSelected, setAssetSelected] = useState<Asset>();
   const { typeAssetMap } = GetAssetType();
+  const [popupOpen, setPopupOpen] = useState(false);
 
   //effect
   useEffect(() => {
@@ -124,7 +126,9 @@ export default function AssetList() {
     onSortChange
   });
   const handelDetailsClick = (asset: Asset) => {
-    navigate(`${PATH_DASHBOARD.asset.edit}/${asset.id}`);
+    setAssetSelected(asset);
+    setPopupOpen(true);
+    //navigate(`${PATH_DASHBOARD.asset.edit}/${asset.id}`);
   };
   const handelRemoveClick = (asset: Asset) => {
     setAssetSelected(asset);
@@ -254,6 +258,29 @@ export default function AssetList() {
           </Button>
           <Button onClick={handelConfirmRemoveClick} autoFocus>
             {t('common.confirmBtn')}
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={popupOpen} onClose={() => setPopupOpen(false)} maxWidth="lg" fullWidth>
+        <DialogTitle>{t('common.details')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {assetSelected !== undefined && (
+              <AssetForm initialValue={assetSelected} isEdit={false} isView={true} />
+            )}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button color="inherit" onClick={() => setPopupOpen(false)}>
+            {t('content.btnClose')}
+          </Button>
+          <Button
+            onClick={() => {
+              navigate(`${PATH_DASHBOARD.asset.edit}/${assetSelected?.id}`);
+            }}
+            autoFocus
+          >
+            {t('common.editInfo')}
           </Button>
         </DialogActions>
       </Dialog>

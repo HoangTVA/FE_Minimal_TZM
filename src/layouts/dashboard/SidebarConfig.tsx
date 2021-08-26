@@ -93,7 +93,7 @@ export default function SidebarConfig() {
           icon: ICONS.tradeZone,
           children: [
             { title: t('tz.calendar'), path: PATH_DASHBOARD.tradeZone.tradeZoneCalendar },
-            { title: t('common.tradeZone'), path: PATH_DASHBOARD.tradeZone.tradeZoneVersion },
+            { title: t('tz.tzVersion'), path: PATH_DASHBOARD.tradeZone.tradeZoneVersion },
             { title: t('tz.tzList'), path: PATH_DASHBOARD.tradeZone.tradeZones }
           ]
         },

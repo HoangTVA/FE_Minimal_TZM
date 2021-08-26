@@ -10,6 +10,7 @@ export interface TzVersion {
     groupZoneId: number;
     groupZoneName: string;
     storesName: StoresName[];
+    tzInfo: TradeZone;
 }
 export interface TzVersionRequest {
     timeSlot: string;

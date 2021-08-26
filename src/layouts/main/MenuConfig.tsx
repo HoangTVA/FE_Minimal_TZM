@@ -1,4 +1,4 @@
-import fileFill from '@iconify/icons-eva/file-fill';
+import appstoreFilled from '@iconify/icons-ant-design/appstore-filled';
 import { Icon } from '@iconify/react';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
@@ -16,7 +16,11 @@ const menuConfig = [
   //   path: '/',
   //   icon: <Icon icon={homeFill} {...ICON_SIZE} />
   // },
-  { title: 'Dashboard', path: PATH_DASHBOARD.root, icon: <Icon icon={fileFill} {...ICON_SIZE} /> }
+  {
+    title: 'Dashboard',
+    path: PATH_DASHBOARD.root,
+    icon: <Icon icon={appstoreFilled} {...ICON_SIZE} />
+  }
 ];
 
 export default menuConfig;

@@ -1,6 +1,6 @@
 import { PostAttr } from './../models/dto/attr';
 import { PostStore, Template, PostTemplate } from './../models/dto/store';
-import { PaginationRequest, Response, Store, StoreAttrs, StoreType } from "models";
+import { PaginationRequest, Response, Store, StoreAttrs, StoreType, TradeZone } from "models";
 import axiosClient from "./axiosClient";
 import { AttrResponse } from 'models/dto/attrResponse';
 
@@ -48,6 +48,10 @@ const storeApi = {
     updateAttrs(id: string, data: PostAttr[]) {
         const url = `/stores/${id}/attrs-insert-value`;
         return axiosClient.put(url, data);
-    }
+    },
+    getStoreTradeZones(id: string): Promise<TradeZone[]> {
+        const url = `/stores/${id}/trade-zones`;
+        return axiosClient.get(url);
+    },
 }
 export default storeApi;

@@ -155,14 +155,18 @@ export const convertTzVersionToEvents = (list: TzVersion[]) => {
         listTimeFilter.map((el) => {
             for (var i = 0; i < e.dateFilter.length; i++) {
                 if (e.dateFilter.charAt(i) === '1') {
-                    rs.push({
-                        title: e.name,
-                        start: parseDateFilter(i, el.start),
-                        end: parseDateFilter(i, el.end),
-                        textColor: '#00AB55',
-                        id: e.id.toString(),
-                        description: e.description
-                    })
+                    if (e.tzInfo !== undefined) {
+                        rs.push({
+                            title: e.tzInfo.name,
+                            start: parseDateFilter(i, el.start),
+                            end: parseDateFilter(i, el.end),
+                            textColor: '#00AB55',
+                            id: e.tzInfo.id.toString(),
+                            description: e.description,
+                            tz: e.tzInfo
+                        })
+                    }
+
                 }
             }
         });

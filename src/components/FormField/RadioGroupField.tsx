@@ -15,6 +15,7 @@ interface RadioGroupFieldProps {
   control: Control<any>;
   label?: string;
   disabled?: boolean;
+  isRow?: boolean;
   options: RadioOption[];
 }
 
@@ -23,7 +24,8 @@ export default function RadioGroupField({
   control,
   label,
   disabled,
-  options
+  options,
+  isRow
 }: RadioGroupFieldProps) {
   const {
     field: { value, onChange, onBlur },
@@ -36,7 +38,7 @@ export default function RadioGroupField({
     <FormControl disabled={disabled} margin="normal" component="fieldset" error={invalid}>
       <FormLabel component="legend">{label}</FormLabel>
 
-      <RadioGroup name={name} value={value} onChange={onChange} onBlur={onBlur}>
+      <RadioGroup name={name} value={Number(value)} onChange={onChange} onBlur={onBlur} row={isRow}>
         {options.map((option) => (
           <FormControlLabel
             key={option.id}

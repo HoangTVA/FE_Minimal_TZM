@@ -1,5 +1,7 @@
 // scroll bar
 import 'simplebar/src/simplebar.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 import ReactDOM from 'react-dom';
 import { StrictMode } from 'react';
