@@ -1,16 +1,23 @@
 import { makeStyles } from '@material-ui/styles';
 import LocationMarker from 'components/map/LocateControl';
-import { IconMyStore, IconPois, IconStores } from 'components/map/MarkerStyles';
+import {
+  IconStores,
+  IconMyStore,
+  IconPois,
+  IconDot,
+  IconTruck,
+  IconMoto,
+  IconCar
+} from 'components/map/MarkerStyles';
 import { LayerActive } from 'constants/layer';
 import LayerMap from 'constants/layerMap';
 import L from 'leaflet';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js';
-import { GeoJSONMarker, TradeZone } from 'models';
+import { GeoJSONMarker, TrackingAgent } from 'models';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  GeoJSON,
   LayersControl,
   MapContainer,
   Marker,
@@ -19,28 +26,19 @@ import {
   useMap,
   useMapEvents
 } from 'react-leaflet';
-import { convertBounds, splitPointToLatLng } from 'utils/common';
+import { convertBounds } from 'utils/common';
 import './style.css';
 
 interface MapProps {
   stores?: GeoJSONMarker;
   pois?: GeoJSONMarker;
   myStore?: GeoJSONMarker;
-  selectedTradeZone?: TradeZone;
-  tradeZones?: TradeZone[];
-  listCheck?: Number[];
+  trackings?: TrackingAgent[];
   onChangeBounds: (bounds: string) => void;
   onActiveLayer: (active: LayerActive, bounds: string) => void;
   onCloseLayer: (active: LayerActive) => void;
-  onIsShowAll?: (value: boolean) => void;
 }
-function MapAction({
-  onChangeBounds,
-  onActiveLayer,
-  onCloseLayer,
-  tradeZones,
-  listCheck
-}: MapProps) {
+function MapAction({ onChangeBounds, onActiveLayer, onCloseLayer }: MapProps) {
   const map = useMap();
 
   const { t } = useTranslation();
@@ -48,7 +46,7 @@ function MapAction({
   const mapEvents = useMapEvents({
     moveend: () => {
       const zoom = mapEvents.getZoom();
-      if (zoom > 13) {
+      if (zoom > 16) {
         const bounds = convertBounds(mapEvents.getBounds());
         if (onChangeBounds) onChangeBounds(bounds);
       }
@@ -97,15 +95,10 @@ const useStyle = makeStyles((theme) => ({
   root: {
     height: '75vh',
     borderRadius: '10px',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    marginTop: '0px'
   }
 }));
-const gzSelectedStyle = {
-  fill: true,
-  color: 'blue',
-  fillColor: 'orange',
-  opacity: 0.6
-};
 const colors = [
   'red',
   'maroon',
@@ -120,16 +113,14 @@ const colors = [
   'orange',
   'lightsalmon'
 ];
-export default function ViewTradeZoneMap({
+export default function TrackingMap({
   stores,
   onChangeBounds,
   onActiveLayer,
   onCloseLayer,
   myStore,
-  selectedTradeZone,
   pois,
-  listCheck,
-  tradeZones
+  trackings
 }: MapProps) {
   const classes = useStyle();
   const { t } = useTranslation();
@@ -142,35 +133,55 @@ export default function ViewTradeZoneMap({
   const handelClose = (active: LayerActive) => {
     if (onCloseLayer) onCloseLayer(active);
   };
-
-  const renderSelected = (selected: TradeZone, isCheck: boolean, idx: number) => {
+  const renderTracking = (x: TrackingAgent) => {
     //var randomColor = Math.floor(Math.random() * 16777215).toString(16);
     const colorIndex = Math.floor(Math.random() * colors.length);
-    return (
-      <GeoJSON
-        key={selected?.id + ''}
-        data={selected?.geom as any}
-        style={
-          isCheck
-            ? {
-                fill: true,
-                color: colors[idx] || colors[colorIndex],
-                fillColor: colors[idx] || colors[colorIndex],
-                opacity: 0.6
-              }
-            : gzSelectedStyle
+    let list: any = [];
+    // eslint-disable-next-line array-callback-return
+    x.locations.map((a, idx) => {
+      if (idx === x.locations.length - 1) {
+        let iconMap;
+        if (x.agent.agentType === 1) {
+          iconMap = IconTruck;
         }
-        onEachFeature={(feature, layer) => {
-          layer.bindPopup(selected?.name || '');
-        }}
-      />
-    );
+        if (x.agent.agentType === 2) {
+          iconMap = IconMoto;
+        }
+        if (x.agent.agentType === 3) {
+          iconMap = IconCar;
+        }
+        list.push(
+          <Marker
+            key={`${x.agent.id}-${idx}`}
+            icon={iconMap}
+            position={{
+              lat: Number(a.latitude),
+              lng: Number(a.longitude)
+            }}
+          >
+            <Popup>{x.agent.username}</Popup>
+          </Marker>
+        );
+      } else {
+        list.push(
+          <Marker
+            key={`${x.agent.id}-${idx}`}
+            icon={IconDot}
+            position={{
+              lat: Number(a.latitude),
+              lng: Number(a.longitude)
+            }}
+          ></Marker>
+        );
+      }
+    });
+    return list;
   };
-  const centerGz = splitPointToLatLng(selectedTradeZone?.center || '');
   return (
     <MapContainer
-      center={centerGz !== undefined ? centerGz : { lat: 10.772461, lng: 106.698055 }}
-      zoom={13}
+      style={{ marginTop: '0px' }}
+      center={{ lat: 10.772461, lng: 106.698055 }}
+      zoom={16}
       scrollWheelZoom={true}
       className={classes.root}
       whenCreated={(map) => {
@@ -263,16 +274,21 @@ export default function ViewTradeZoneMap({
           <Popup>{e.properties.f2}</Popup>
         </Marker>
       ))}
-
-      {listCheck?.length !== 0
-        ? listCheck?.map((x, idx) =>
-            tradeZones?.find((e) => e.id === x) !== undefined ? (
-              renderSelected(tradeZones?.find((e) => e.id === x) as TradeZone, true, idx)
-            ) : (
-              <></>
-            )
-          )
-        : selectedTradeZone && renderSelected(selectedTradeZone, false, 0)}
+      {trackings?.map((e) => renderTracking(e))}
+      {/* {trackings
+        ?.find((o) => o.agent.id === 1)
+        ?.locations?.map((e, idx) => (
+          <Marker
+            key={idx}
+            icon={IconPois}
+            position={{
+              lat: Number(e.latitude),
+              lng: Number(e.longitude)
+            }}
+          >
+            <Popup>{'cc'}</Popup>
+          </Marker>
+        )) || <></>} */}
     </MapContainer>
   );
 }

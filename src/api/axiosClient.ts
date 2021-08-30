@@ -1,6 +1,8 @@
 // api/axiosClient.js
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import queryString from 'query-string';
+import { toast } from 'react-toastify';
+import i18n from 'translation/i18n';
 // Set up default config for http requests here
 
 
@@ -27,6 +29,7 @@ axiosClient.interceptors.request.use(async (config: AxiosRequestConfig) => {
             localStorage.removeItem("access_token");
             localStorage.removeItem("user");
             localStorage.removeItem("time_expire");
+            toast.warning(i18n.t('login.sectionTimeout'));
             // eslint-disable-next-line no-restricted-globals
             location.href = '/login';
         }

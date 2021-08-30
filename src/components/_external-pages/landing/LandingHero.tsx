@@ -77,7 +77,7 @@ export default function LandingHero() {
           <HeroImgStyle
             style={{ width: '50%' }}
             alt="hero"
-            src="/static/home/Location search-bro.svg"
+            src="/static/home/LocationSearchBro.svg"
             variants={varFadeInUp}
           />
         </MHidden>

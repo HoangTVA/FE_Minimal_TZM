@@ -1,8 +1,8 @@
-import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from 'app/store';
-import { AgentPagingRequest, Response, Agent } from "models";
+import { Agent, AgentPagingRequest, Response } from "models";
 import { toast } from 'react-toastify';
-import i18n from 'translation/i18n'
+import i18n from 'translation/i18n';
 
 
 

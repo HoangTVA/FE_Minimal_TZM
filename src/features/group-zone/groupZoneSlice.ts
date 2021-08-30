@@ -3,7 +3,7 @@ import { RootState } from 'app/store';
 import { FreeZone } from "models/dto/freeZone";
 import { GroupZone } from "models/dto/groupZone";
 import { toast } from 'react-toastify';
-import i18n from 'translation/i18n'
+import i18n from 'translation/i18n';
 
 
 

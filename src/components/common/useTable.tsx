@@ -7,7 +7,6 @@ import {
   TableRow,
   TableSortLabel
 } from '@material-ui/core';
-import Pagination from '@material-ui/core/Pagination';
 import { PaginationRequest, Response } from 'models';
 import * as React from 'react';
 

@@ -1,6 +1,5 @@
-import { AgentPagingRequest, Response, Agent } from "models";
+import { Agent, AgentPagingRequest, Response } from "models";
 import axiosClient from "./axiosClient";
-import fs from 'fs';
 const agentApi = {
     getAll(params: AgentPagingRequest): Promise<Response<Agent>> {
         const url = '/agents';

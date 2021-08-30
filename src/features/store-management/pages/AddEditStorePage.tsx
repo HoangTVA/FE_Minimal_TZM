@@ -3,7 +3,6 @@ import { styled } from '@material-ui/core/styles';
 import storeApi from 'api/storeApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { MapDraggable, SearchAddress } from 'components/common';
-import MapWithMarker from 'components/common/MapWithMarker';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Page from 'components/Page';
 import Images from 'constants/image';

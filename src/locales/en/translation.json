@@ -206,7 +206,8 @@
     "unActiveTitleStart": "Cancel apply schedule version: ",
     "btnUnActive": "Deactivate",
     "activeSuccessEnd": "success",
-    "search": "Search with trade zone name"
+    "search": "Search with trade zone name",
+    "anotherTz": "Another trade zone"
   },
   "team": {
     "name": "Team name",
@@ -298,7 +299,11 @@
     "photoError": "Image is require!!!",
     "allowImage": "Allowed",
     "maxSize": "max size of ",
-    "errorUsername": "Username í existed!!!"
+    "errorUsername": "Username í existed!!!",
+    "tracking": "Định vị tài xế"
+  },
+  "tracking": {
+    "title": "Tracing agent"
   },
   "login": {
     "welcome": "Welcone to Trade zone map",
@@ -312,12 +317,13 @@
     "errorPassword": "Password is required",
     "loginSuccess": "You have successfully logged in.",
     "logoutSuccess": "You have successfully logged out.",
-    "userPassInvalid": "Username or password is incorrect !!!"
+    "userPassInvalid": "Username or password is incorrect !!!",
+    "sectionTimeout": "Section time out, please login again!!!"
   },
   "ldPage": {
     "title": "TZM | A digital solution for a chain of stores",
-    "slogan": "Trade Zone Map solution for chain stores that is optimized for business areas",
-    "subSlogan": "Location management, region, website, scheduling, delivery solutions, and store agents are all integrated solutions for chain businesses.",
+    "slogan": "Trade Zone Map solution for chain stores that is optimized for business areas - mastering your delivery",
+    "subSlogan": "Using a map tool to manage location, information, and the division of business areas for each store, integrating solutions for chain businesses. Build websites quickly, schedule business areas, delivery solutions - distribute orders for drivers",
     "manageStore": "Store management",
     "manageArea": "Business area management ",
     "poi": "Points of interest",

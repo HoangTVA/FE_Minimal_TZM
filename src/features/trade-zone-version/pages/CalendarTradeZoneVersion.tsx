@@ -4,9 +4,9 @@ import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import timelinePlugin from '@fullcalendar/timeline';
-import editFill from '@iconify/icons-eva/edit-fill';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Icon } from '@iconify/react';
+import tagsFilled from '@iconify/icons-ant-design/tags-filled';
 import {
   Box,
   Button,
@@ -24,6 +24,7 @@ import {
   ListItemSecondaryAction,
   ListItemText,
   TextField,
+  Typography,
   useMediaQuery
 } from '@material-ui/core';
 // material
@@ -82,6 +83,8 @@ export default function CalendarTradeZoneVersion() {
   const { enqueueSnackbar } = useSnackbar();
   const [listTz, setListTz] = useState<TradeZone[]>();
 
+  const [listSelect, setListSelect] = useState<Number[]>([]);
+
   useEffect(() => {
     dispatch(storeActions.fetchStores({}));
   }, [dispatch]);
@@ -120,7 +123,9 @@ export default function CalendarTradeZoneVersion() {
     } catch (error) {
       enqueueSnackbar(t('common.errorText'), { variant: 'error' });
     }
-
+    const newList = [...listSelect];
+    newList.push(Number(arg.event.id));
+    setListSelect(newList);
     dispatch(tzVersionActions.selectEvent(arg.event.id));
   };
 
@@ -196,19 +201,17 @@ export default function CalendarTradeZoneVersion() {
       enqueueSnackbar(t('common.errorText'), { variant: 'error' });
     }
   };
-  const [checked, setChecked] = useState([1]);
 
   const handleToggle = (value: number) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
+    const newList = [...listSelect];
+    const index = newList.findIndex((x) => x === value);
+    if (index !== -1) {
+      newList.splice(index, 1);
+      setListSelect(newList);
     } else {
-      newChecked.splice(currentIndex, 1);
+      newList.push(value);
+      setListSelect(newList);
     }
-
-    setChecked(newChecked);
   };
 
   return (
@@ -298,6 +301,9 @@ export default function CalendarTradeZoneVersion() {
                   value={selectedEvent?.title || ''}
                   disabled
                 />
+                <Typography variant="h6" gutterBottom marginBottom={2}>
+                  {t('tz.storesApply')}
+                </Typography>
                 {selectedEvent?.tz?.storesName?.length === 0
                   ? t('store.none')
                   : selectedEvent?.tz?.storesName.map((f) => (
@@ -309,21 +315,25 @@ export default function CalendarTradeZoneVersion() {
                         color="primary"
                       />
                     ))}
-
+                <Typography variant="h6" gutterBottom marginBottom={2} marginTop={2}>
+                  {t('tz.anotherTz')}
+                </Typography>
                 <List dense>
                   {listTz?.map((value) => {
-                    const labelId = `checkbox-list-secondary-label-${value}`;
+                    const labelId = `checkbox-list-secondary-label-${value.id}`;
                     return (
                       <ListItem key={value.id} button>
                         <ListItemAvatar>
-                          <Icon icon={editFill} />
+                          <Icon icon={tagsFilled} />
                         </ListItemAvatar>
-                        <ListItemText id={labelId} primary={`Line item ${value.name}`} />
+                        <ListItemText id={labelId} primary={`Trade zone: ${value.name}`} />
                         <ListItemSecondaryAction>
                           <Checkbox
                             edge="end"
-                            onChange={() => {}}
-                            checked={checked.indexOf(value.id) !== -1}
+                            onChange={handleToggle(value.id)}
+                            checked={
+                              listSelect.find((x) => x === value.id) !== undefined ? true : false
+                            }
                             inputProps={{ 'aria-labelledby': labelId }}
                           />
                         </ListItemSecondaryAction>
@@ -342,6 +352,8 @@ export default function CalendarTradeZoneVersion() {
                     onActiveLayer={handelLayerActive}
                     onCloseLayer={handelRemoveLayer}
                     selectedTradeZone={selectedEvent?.tz}
+                    listCheck={listSelect}
+                    tradeZones={listTz}
                   />
                 )}
               </Grid>

@@ -1,10 +1,10 @@
 // material
-import { alpha, useTheme, styled } from '@material-ui/core/styles';
-import { Box, Grid, Card, Container, Typography, useMediaQuery, Stack } from '@material-ui/core';
+import { Box, Container, Typography, useMediaQuery } from '@material-ui/core';
+import { alpha, styled, useTheme } from '@material-ui/core/styles';
 import { motion } from 'framer-motion';
 import Slider from 'react-slick';
 //
-import { varFadeInUp, MotionInView, varFadeInDown } from '../../animate';
+import { MotionInView, varFadeInDown, varFadeInUp } from '../../animate';
 
 // ----------------------------------------------------------------------
 

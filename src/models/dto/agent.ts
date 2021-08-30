@@ -27,3 +27,12 @@ export interface AgentPagingRequest extends PaginationRequest {
     teamId?: number;
     status?: number;
 }
+export interface Tracking {
+    latitude: Number;
+    longitude: Number;
+    time: Number;
+}
+export interface TrackingAgent {
+    agent: Agent;
+    locations: Tracking[];
+}

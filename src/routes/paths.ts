@@ -87,4 +87,7 @@ export const PATH_DASHBOARD = {
     add: path(ROOTS_DASHBOARD, '/agents/add'),
     edit: path(ROOTS_DASHBOARD, '/agents/edit'),
   },
+  tracking: {
+    root: path(ROOTS_DASHBOARD, '/trackings'),
+  }
 };

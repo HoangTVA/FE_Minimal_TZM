@@ -1,20 +1,12 @@
-import { useRef } from 'react';
-import Slider from 'react-slick';
-import { Icon } from '@iconify/react';
-import twitterFill from '@iconify/icons-eva/twitter-fill';
-import linkedinFill from '@iconify/icons-eva/linkedin-fill';
-import facebookFill from '@iconify/icons-eva/facebook-fill';
-import roundArrowRightAlt from '@iconify/icons-ic/round-arrow-right-alt';
-import instagramFilled from '@iconify/icons-ant-design/instagram-filled';
+import { Box, Card, Container, Typography } from '@material-ui/core';
 // material
 import { useTheme } from '@material-ui/core/styles';
-import { Box, Card, Button, Container, Typography, IconButton } from '@material-ui/core';
-// utils
-import mockData from 'utils/mock-data';
-//
-import { varFadeIn, varFadeInUp, MotionInView, varFadeInDown } from '../../animate';
-import { CarouselControlsArrowsBasic2 } from '../../carousel';
+import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import Slider from 'react-slick';
+//
+import { MotionInView, varFadeIn, varFadeInUp } from '../../animate';
+import { CarouselControlsArrowsBasic2 } from '../../carousel';
 
 // ----------------------------------------------------------------------
 
@@ -62,7 +54,7 @@ function MemberCard({ member }: MemberCardProps) {
         {role}
       </Typography>
       <Box component="img" src={avatar} sx={{ width: '100%', height: 165, borderRadius: 1.5 }} />
-      <Box py={2}>
+      {/* <Box py={2}>
         <Button
           variant="text"
           endIcon={<Icon icon={roundArrowRightAlt} width={24} height={24} />}
@@ -70,7 +62,7 @@ function MemberCard({ member }: MemberCardProps) {
         >
           Xem thử
         </Button>
-      </Box>
+      </Box> */}
     </Card>
   );
 }

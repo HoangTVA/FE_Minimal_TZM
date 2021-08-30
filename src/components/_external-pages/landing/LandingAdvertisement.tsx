@@ -5,6 +5,8 @@ import { Button, Box, Container, Typography } from '@material-ui/core';
 //
 import { varFadeInDown, varFadeInUp, MotionInView } from '../../animate';
 import { useTranslation } from 'react-i18next';
+import { Link as RouterLink } from 'react-router-dom';
+import { PATH_DASHBOARD } from 'routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -61,8 +63,8 @@ export default function LandingAdvertisement() {
             <Button
               size="large"
               variant="contained"
-              target="_blank"
-              href="https://material-ui.com/store/items/minimal-dashboard/"
+              component={RouterLink}
+              to={PATH_DASHBOARD.root}
               sx={{
                 whiteSpace: 'nowrap',
                 boxShadow: (theme) => theme.customShadows.z8,

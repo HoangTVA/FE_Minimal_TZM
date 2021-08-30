@@ -176,7 +176,7 @@ export default function LandingWhitePlatform() {
                   position="absolute"
                   top="-150px"
                   component="img"
-                  src="/static/home/Site Stats-amico.svg"
+                  src="/static/home/SiteStatsAmico.svg"
                   sx={{
                     width: 540,
                     zIndex: 0,

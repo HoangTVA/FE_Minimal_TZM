@@ -1,3 +1,4 @@
+import TrackingPage from 'features/tracking/pages/TrackingPage';
 import { lazy, Suspense } from 'react';
 import { Navigate, useLocation, useRoutes } from 'react-router-dom';
 // components
@@ -124,6 +125,10 @@ export default function Router() {
             { path: 'add', element: <AddEditAgentPage /> },
             { path: 'edit/:agentId', element: <AddEditAgentPage /> }
           ]
+        },
+        {
+          path: 'trackings',
+          children: [{ path: '/', element: <TrackingPage /> }]
         }
       ]
     },

@@ -4,11 +4,11 @@ import LocationMarker from 'components/map/LocateControl';
 import { IconMyStore, IconPois, IconStores } from 'components/map/MarkerStyles';
 import { LayerActive } from 'constants/layer';
 import LayerMap from 'constants/layerMap';
-import L, { LatLngExpression } from 'leaflet';
+import L from 'leaflet';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js';
 import { GeoJSONMarker } from 'models';
-import { Feature, GroupZone } from 'models/dto/groupZone';
+import { Feature } from 'models/dto/groupZone';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {

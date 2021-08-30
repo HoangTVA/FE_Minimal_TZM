@@ -207,7 +207,8 @@
     "unActiveTitleStart": "Hủy áp dụng lập lịch: ",
     "btnUnActive": "Hủy kích hoạt",
     "activeSuccessEnd": "thành công",
-    "search": "Tìm kiếm bằng tên trade zone"
+    "search": "Tìm kiếm bằng tên trade zone",
+    "anotherTz": "Các trade zone khác cho cửa hàng"
   },
   "team": {
     "name": "Tên đội giao hàng",
@@ -299,7 +300,11 @@
     "photoError": "Vui lòng chọn hình ảnh!!!",
     "allowImage": "Cho phép ",
     "maxSize": "dung lượng tối đa ",
-    "errorUsername": "Tên đăng nhập đã tồn tại"
+    "errorUsername": "Tên đăng nhập đã tồn tại",
+    "tracking": "Theo dõi tài xế"
+  },
+  "tracking": {
+    "title": "Theo dõi tài xế"
   },
   "login": {
     "welcome": "Chào mừng bạn đến với Trade zone map",
@@ -313,12 +318,13 @@
     "errorPassword": "Vui lòng điền mật khẩu",
     "loginSuccess": "Bạn đã đăng nhập thành công.",
     "logoutSuccess": "Bạn đã đăng xuất thành công.",
-    "userPassInvalid": "Tên đăng nhập hoặc mật khẩu không chính xác !!!"
+    "userPassInvalid": "Tên đăng nhập hoặc mật khẩu không chính xác !!!",
+    "sectionTimeout": "Phiên làm việc hết hạn, vui lòng đăng nhập lại!!!"
   },
   "ldPage": {
     "title": "TZM | Giải pháp cho hệ thống chuỗi",
-    "slogan": "Trade Zone Map giải pháp cho hệ thống chuỗi cửa hàng tối ưu hóa khu vực kinh doanh",
-    "subSlogan": "Tích hợp các giải pháp cho kinh doanh theo chuỗi, quản lí vị trí, thông tin, trang web cửa hàng.Lập lịch khu vực kinh doanh, các giải pháp giao hàng, quản lí tài xế cho cửa hàng",
+    "slogan": "Trade Zone Map giải pháp cho hệ thống chuỗi cửa hàng tối ưu hóa khu vực kinh doanh - làm chủ hoạt động giao hàng",
+    "subSlogan": "Tích hợp các giải pháp cho kinh doanh theo chuỗi, thông qua công cụ bản đồ giúp quản lí vị trí, thông tin, chia khu vực kinh doanh cho từng cửa hàng. Xây dựng nhanh trang web, lập lịch khu vực kinh doanh, các giải pháp giao hàng - phân phối đơn hàng cho tài xế",
     "manageStore": "Quản lí cửa hàng",
     "manageArea": "Quản lí khu vực kinh doanh",
     "poi": "Địa điểm tiềm năng",
@@ -326,13 +332,13 @@
     "template": "Trang web cho cửa hàng",
     "delivery": "Quản lí giao hàng",
     "storeSub": "Dễ dàng quản lí các cửa hàng trong chuỗi, xem tổng thể vị trí trên bản đồ",
-    "poiSub": "Các địa điểm tiềm năng phù hợp cho nhàng bán lẽ, hiển thị thông qua bản đồ cho các chủ thương thuong cái nhìn tổng quan",
-    "agentSub": "Quản lí tài xế, ứng dụng phục vụ cho tài xế trong việc giao hàng",
+    "poiSub": "Các địa điểm tiềm năng phù hợp cho nhàng bán lẻ, hiển thị thông qua bản đồ cho các chủ cửa hàng cái nhìn tổng quan",
+    "agentSub": "Ứng dụng di động phục vụ cho tài xế trong việc giao hàng, theo dỗi vị trí của tài xế theo thời gian thực",
     "templateSub": "Dễ dàng xây dựng trang web cho cửa hàng thông qua các mẫu trang được xây dựng sẵn với giao diện hiện đâị, đễ dàng tùy biến",
-    "areaSub": "Xác định vùng kinh doanh, lập lịch để thay đổi vùng kinh doanh từng cửa hàng theo khung thơi gian 1 cách linh động tối ưu",
-    "deliverySub": "Tối ưu cho việc giao hàng, tạo các điểm lấy hàng, giao hàng, cập nhật thông tin chuyến hàng tránh lệ thuộc các bên thứ ba",
+    "areaSub": "Xác định vùng kinh doanh, lập lịch để thay đổi vùng kinh doanh từng cửa hàng theo khung thơi gian một cách linh động và tối ưu",
+    "deliverySub": "Tối ưu cho việc giao hàng, tạo các điểm lấy hàng, giao hàng, phân phối đơn hàng, cập nhật thông tin chuyến hàng tránh lệ thuộc các bên thứ ba",
     "startNow": "Bắt đầu ngay",
-    "solution": "Các giải pháp được kế cho mọi doanh nghiệp trong ngành bán lẻ",
+    "solution": "Các giải pháp được thiết kế cho mọi doanh nghiệp trong ngành bán lẻ",
     "benefit": "Sử dụng nền tảng với thương hiệu do bạn làm chủ",
     "subBenefit": "Thúc đẩy cho doanh nghiệp của bạn với nhiều tính năng do Trade Zone Map cung cấp phù hợp để bạn điều hành một công việc kinh doanh toàn diện.",
     "summary": "Một nền tảng cho mọi ngành kinh doanh",

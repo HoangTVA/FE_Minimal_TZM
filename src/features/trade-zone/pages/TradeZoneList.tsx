@@ -254,7 +254,7 @@ export default function TradeZoneList() {
               to={PATH_DASHBOARD.tradeZone.addTz}
               startIcon={<Icon icon={plusFill} width={20} height={20} />}
             >
-              {t('tz.add')}
+              {t('tz.addTitleTz')}
             </Button>
           }
         />
@@ -378,6 +378,7 @@ export default function TradeZoneList() {
               onActiveLayer={handelLayerActive}
               onCloseLayer={handelRemoveLayer}
               selectedTradeZone={tradeZoneSelected}
+              listCheck={[]}
             />
           </DialogContentText>
         </DialogContent>

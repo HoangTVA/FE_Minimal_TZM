@@ -3,6 +3,7 @@ import { useAppSelector } from 'app/hooks';
 import LocationMarker from 'components/map/LocateControl';
 import { IconMyStore, IconPois, IconStores } from 'components/map/MarkerStyles';
 import { LayerActive } from 'constants/layer';
+import LayerMap from 'constants/layerMap';
 import GeoJsonWithUpdates from 'features/group-zone/components/GeoJsonUpdate';
 import L from 'leaflet';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
@@ -160,13 +161,25 @@ export default function MapEditTradeZone({
         <LayersControl.BaseLayer name={t('map.normalLayer')}>
           <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url="http://3.36.96.192:6281/tile/{z}/{x}/{y}.png"
+            url={LayerMap.Default}
           />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer checked name={t('map.blackWhiteLayer')}>
+        <LayersControl.BaseLayer name={t('map.blackWhiteLayer')}>
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url="https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png"
+            url={LayerMap.BlackWhite}
+          />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer name={t('map.basic')}>
+          <TileLayer
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url={LayerMap.Basic}
+          />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer checked name={t('map.layerDark')}>
+          <TileLayer
+            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url={LayerMap.Dark}
           />
         </LayersControl.BaseLayer>
         <LayersControl.Overlay name={t('map.stores')}>

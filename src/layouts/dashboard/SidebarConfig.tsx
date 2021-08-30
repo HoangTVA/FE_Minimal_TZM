@@ -23,7 +23,8 @@ const ICONS = {
   tradeZone: getIcon('ic-tz'),
   task: getIcon('ic-task1'),
   team: getIcon('ic-team'),
-  agent: getIcon('ic-agent1')
+  agent: getIcon('ic-agent1'),
+  tracking: getIcon('tracking')
 };
 export default function SidebarConfig() {
   const { t } = useTranslation();
@@ -62,6 +63,11 @@ export default function SidebarConfig() {
     {
       subheader: t('common.delivery'),
       items: [
+        {
+          title: t('common.tracking'),
+          path: PATH_DASHBOARD.tracking.root,
+          icon: ICONS.tracking
+        },
         {
           title: t('common.task'),
           path: PATH_DASHBOARD.task.root,

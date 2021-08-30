@@ -1,20 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, Card, Stack, Typography } from '@material-ui/core';
-import { LoadingButton } from '@material-ui/lab';
-import { useAppSelector } from 'app/hooks';
-import InputField from 'components/FormField/InputField';
-import SelectField, { SelectOptions } from 'components/FormField/SelectField';
-import { selectStoresOptions } from 'features/store-management/storeSlice';
-import { Team, GetAssetType } from 'models';
-import * as React from 'react';
-import { useForm, useFormState } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import * as yup from 'yup';
 import arrowCircleLeftOutline from '@iconify/icons-eva/arrow-circle-left-outline';
 import saveFill from '@iconify/icons-eva/save-fill';
 import { Icon } from '@iconify/react';
-import { PATH_DASHBOARD } from 'routes/paths';
+import { Box, Button, Card, Stack, Typography } from '@material-ui/core';
+import { LoadingButton } from '@material-ui/lab';
+import InputField from 'components/FormField/InputField';
+import { Team } from 'models';
+import * as React from 'react';
+import { useForm, useFormState } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
+import { PATH_DASHBOARD } from 'routes/paths';
+import * as yup from 'yup';
 
 interface TeamFormProps {
   initialValue: Team;
