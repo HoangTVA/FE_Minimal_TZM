@@ -257,6 +257,24 @@
     "infoTeam": "Team information",
     "infoVehical": "Vehicle information"
   },
+  "order": {
+    "list": "Order list",
+    "title": "Order management",
+    "titleAdd": "Add new order",
+    "titleEdit": "Edit order",
+    "code": "Order code",
+    "items": "Items",
+    "start": "From station",
+    "end": "To station",
+    "new": "New",
+    "assigned": "Assigned",
+    "removed": "Removed",
+    "stationName": "Station name",
+    "startInfo": "From station information",
+    "endInfo": "To station information",
+    "orderInfo": "Order info",
+    "latLng": "Location"
+  },
   "common": {
     "status": "Status",
     "remove": "Remove",
@@ -300,7 +318,12 @@
     "allowImage": "Allowed",
     "maxSize": "max size of ",
     "errorUsername": "Username í existed!!!",
-    "tracking": "Định vị tài xế"
+    "tracking": "Định vị tài xế",
+    "creatDate": "Create date",
+    "updateDate": "Update date",
+    "order": "Orders",
+    "lat": "Latitude",
+    "lng": "Longitude"
   },
   "tracking": {
     "title": "Tracing agent"

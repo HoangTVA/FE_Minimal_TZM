@@ -24,7 +24,8 @@ const ICONS = {
   task: getIcon('ic-task1'),
   team: getIcon('ic-team'),
   agent: getIcon('ic-agent1'),
-  tracking: getIcon('tracking')
+  tracking: getIcon('tracking'),
+  order: getIcon('box')
 };
 export default function SidebarConfig() {
   const { t } = useTranslation();
@@ -82,6 +83,11 @@ export default function SidebarConfig() {
           title: t('common.agent'),
           path: PATH_DASHBOARD.agent.root,
           icon: ICONS.agent
+        },
+        {
+          title: t('common.order'),
+          path: PATH_DASHBOARD.order.root,
+          icon: ICONS.order
         }
       ]
     },

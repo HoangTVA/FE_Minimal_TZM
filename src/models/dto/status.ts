@@ -39,8 +39,8 @@ export function GetStatusMap() {
     }
     const statusFilterAgent: Status[] = [
         { id: 4, name: t('agent.available') },
-        { id: 2, name: t('agent.available') },
-        { id: 5, name: t('agent.offDuty') },
+        { id: 2, name: t('agent.offDuty') },
+        { id: 5, name: t('agent.busy') },
         { id: 6, name: t('agent.inActive') },
         { id: 3, name: t('status.deleted') },
         { id: 1, name: t('agent.block') }

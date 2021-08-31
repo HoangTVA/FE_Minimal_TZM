@@ -89,5 +89,10 @@ export const PATH_DASHBOARD = {
   },
   tracking: {
     root: path(ROOTS_DASHBOARD, '/trackings'),
+  },
+  order: {
+    root: path(ROOTS_DASHBOARD, '/orders'),
+    add: path(ROOTS_DASHBOARD, '/orders/add'),
+    edit: path(ROOTS_DASHBOARD, '/orders/edit'),
   }
 };

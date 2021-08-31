@@ -10,12 +10,10 @@ import storeReducer from 'features/store-management/storeSlice';
 import teamReducer from 'features/team/teamSlice';
 import tzVersionReducer from 'features/trade-zone-version/tzVersionSlice';
 import tradeZoneReducer from 'features/trade-zone/tradeZoneSlice';
-
-
-
 import createSagaMiddleware from 'redux-saga';
 //import { history } from 'utils';
 import rootSaga from './rootSaga';
+import orderReducer from 'features/order/orderSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -28,7 +26,8 @@ const rootReducer = combineReducers({
   tzVersion: tzVersionReducer,
   tradeZone: tradeZoneReducer,
   team: teamReducer,
-  agent: agentReducer
+  agent: agentReducer,
+  order: orderReducer
 })
 
 const sagaMiddleware = createSagaMiddleware();

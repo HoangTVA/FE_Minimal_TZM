@@ -1,6 +1,6 @@
 import { EventInput } from '@fullcalendar/common';
 import { LatLngBounds, LatLngExpression } from 'leaflet';
-import { TzVersion, User } from "models";
+import { NominatimAddress, TzVersion, User } from "models";
 import { GetConstantTimeFilter, OptionsTimeFilter, TimeObj, TimeObjNum, TimeOfDay } from 'models/dto/timeFilter';
 
 const { timeFilter } = GetConstantTimeFilter();
@@ -177,3 +177,11 @@ export const selectEvent = (list: EventInput[], id: number) => {
     if (id === -1) return null;
     return list.find((x) => x.id === id.toString());
 }
+export const getAddressDataByLatLngUtils = async (lat: number, lng: number) => {
+    const response = await fetch(
+        `${process.env.REACT_APP_API_NOMINATIM || 'http://3.36.96.192:8080'
+        }/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
+    ); // For demo purposes.
+    const data: NominatimAddress = await response.json();
+    return data;
+};

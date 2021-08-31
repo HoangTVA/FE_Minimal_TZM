@@ -1,4 +1,4 @@
-import TrackingPage from 'features/tracking/pages/TrackingPage';
+import AddEditOrderPage from 'features/order/pages/AddEditOrderPage';
 import { lazy, Suspense } from 'react';
 import { Navigate, useLocation, useRoutes } from 'react-router-dom';
 // components
@@ -127,6 +127,14 @@ export default function Router() {
           ]
         },
         {
+          path: 'orders',
+          children: [
+            { path: '/', element: <OrderList /> },
+            { path: 'add', element: <AddEditOrderPage /> },
+            { path: 'edit/:agentId', element: <ComingSoon /> }
+          ]
+        },
+        {
           path: 'trackings',
           children: [{ path: '/', element: <TrackingPage /> }]
         }
@@ -203,3 +211,5 @@ const TeamList = Loadable(lazy(() => import('features/team/pages/TeamList')));
 const AgentList = Loadable(lazy(() => import('features/agent/pages/AgentList')));
 const AddEditTeamPage = Loadable(lazy(() => import('features/team/pages/AddEditTeamPage')));
 const AddEditAgentPage = Loadable(lazy(() => import('features/agent/pages/AddEditAgentPage')));
+const OrderList = Loadable(lazy(() => import('features/order/pages/OrderList')));
+const TrackingPage = Loadable(lazy(() => import('features/tracking/pages/TrackingPage')));

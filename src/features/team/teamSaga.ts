@@ -1,9 +1,8 @@
-import { PaginationRequest, Team } from 'models';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { AssetPagingRequest, Response } from 'models';
+import teamApi from 'api/teamApi';
+import { PaginationRequest, Response, Team } from 'models';
 import { call, debounce, put, takeLatest } from 'redux-saga/effects';
 import { teamActions } from './teamSlice';
-import teamApi from 'api/teamApi';
 
 
 
@@ -15,7 +14,7 @@ function* fetchTeamList(action: PayloadAction<PaginationRequest>) {
         yield put(teamActions.fetchTeamListError());
     }
 }
-function* searchWithDebounce(action: PayloadAction<AssetPagingRequest>) {
+function* searchWithDebounce(action: PayloadAction<PaginationRequest>) {
     yield put(teamActions.setFilter(action.payload));
 }
 export default function* teamSaga() {
