@@ -8,6 +8,10 @@ export interface Asset {
     storeId: number;
     storeName: string;
     isDeleted: boolean;
+    transportDescription: string;
+    licencePlate: string;
+    color: string;
+    manufacturer: string;
 }
 export interface AssetPagingRequest extends PaginationRequest {
     typeAsset?: number;
@@ -39,12 +43,12 @@ export function GetAssetType() {
         0: { name: t('status.all') },
         1: { name: t('asset.motorcycle') },
         2: { name: t('asset.truck') },
-        3: { name: t('common.other') },
+        3: { name: t('agent.oto') },
     }
     const typeAssetFilter: TypeAsset[] = [
         { id: 1, name: t('asset.motorcycle') },
         { id: 2, name: t('asset.truck') },
-        { id: 3, name: t('common.other') },
+        { id: 3, name: t('agent.oto') },
     ]
     return { typeAssetMap, typeAssetFilter };
 }

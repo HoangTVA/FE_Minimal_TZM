@@ -10,6 +10,18 @@ const ROOTS_DASHBOARD = '/dashboard';
 export const PATH_AUTH = {
   homePage: path("", '/')
 };
+export const PATH_PAGE = {
+  comingSoon: '/coming-soon',
+  maintenance: '/maintenance',
+  pricing: '/pricing',
+  payment: '/payment',
+  about: '/about-us',
+  contact: '/contact-us',
+  faqs: '/faqs',
+  page404: '/404',
+  page500: '/500',
+  components: '/components'
+};
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
   general: {
@@ -59,5 +71,28 @@ export const PATH_DASHBOARD = {
     tradeZones: path(ROOTS_DASHBOARD, '/trade-zones/list'),
     addTz: path(ROOTS_DASHBOARD, '/trade-zones/list/add'),
     editTz: path(ROOTS_DASHBOARD, '/trade-zones/list/edit'),
+  },
+  task: {
+    root: path(ROOTS_DASHBOARD, '/tasks'),
+    add: path(ROOTS_DASHBOARD, '/tasks/add'),
+    edit: path(ROOTS_DASHBOARD, '/tasks/edit'),
+  },
+  team: {
+    root: path(ROOTS_DASHBOARD, '/teams'),
+    add: path(ROOTS_DASHBOARD, '/teams/add'),
+    edit: path(ROOTS_DASHBOARD, '/teams/edit'),
+  },
+  agent: {
+    root: path(ROOTS_DASHBOARD, '/agents'),
+    add: path(ROOTS_DASHBOARD, '/agents/add'),
+    edit: path(ROOTS_DASHBOARD, '/agents/edit'),
+  },
+  tracking: {
+    root: path(ROOTS_DASHBOARD, '/trackings'),
+  },
+  order: {
+    root: path(ROOTS_DASHBOARD, '/orders'),
+    add: path(ROOTS_DASHBOARD, '/orders/add'),
+    edit: path(ROOTS_DASHBOARD, '/orders/edit'),
   }
 };

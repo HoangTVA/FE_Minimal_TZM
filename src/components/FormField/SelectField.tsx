@@ -33,6 +33,7 @@ export default function SelectField({ name, control, label, disabled, options }:
       component="fieldset"
       error={invalid}
       size={size === undefined ? 'small' : 'medium'}
+      style={{ marginTop: '0px', marginBottom: '0px' }}
     >
       <InputLabel id={`${name}_label`}>{label}</InputLabel>
 

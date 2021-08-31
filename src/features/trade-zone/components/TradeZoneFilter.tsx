@@ -69,7 +69,7 @@ export default function TradeZoneFilter({ onChange, onSearchChange }: TradeZoneF
       <Grid item xs={12} md={6} lg={6}>
         <SearchStyle
           onChange={handelSearchChange}
-          placeholder={t('store.search')}
+          placeholder={t('tz.search')}
           startAdornment={
             <InputAdornment position="start">
               <Box component={Icon} icon={searchFill} sx={{ color: 'text.disabled' }} />

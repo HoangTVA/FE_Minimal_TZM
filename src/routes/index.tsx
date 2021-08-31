@@ -1,3 +1,4 @@
+import AddEditOrderPage from 'features/order/pages/AddEditOrderPage';
 import { lazy, Suspense } from 'react';
 import { Navigate, useLocation, useRoutes } from 'react-router-dom';
 // components
@@ -108,6 +109,34 @@ export default function Router() {
             { path: 'versions-list/add', element: <EditTzVersionPage /> },
             { path: 'details/:tradeZoneVersionId', element: <AddEditAssetPage /> }
           ]
+        },
+        {
+          path: 'teams',
+          children: [
+            { path: '/', element: <TeamList /> },
+            { path: 'add', element: <AddEditTeamPage /> },
+            { path: 'edit/:teamId', element: <AddEditTeamPage /> }
+          ]
+        },
+        {
+          path: 'agents',
+          children: [
+            { path: '/', element: <AgentList /> },
+            { path: 'add', element: <AddEditAgentPage /> },
+            { path: 'edit/:agentId', element: <AddEditAgentPage /> }
+          ]
+        },
+        {
+          path: 'orders',
+          children: [
+            { path: '/', element: <OrderList /> },
+            { path: 'add', element: <AddEditOrderPage /> },
+            { path: 'edit/:agentId', element: <ComingSoon /> }
+          ]
+        },
+        {
+          path: 'trackings',
+          children: [{ path: '/', element: <TrackingPage /> }]
         }
       ]
     },
@@ -178,3 +207,9 @@ const TzVersionList = Loadable(
   lazy(() => import('features/trade-zone-version/pages/TzVersionList'))
 );
 const ComingSoon = Loadable(lazy(() => import('pages/ComingSoon')));
+const TeamList = Loadable(lazy(() => import('features/team/pages/TeamList')));
+const AgentList = Loadable(lazy(() => import('features/agent/pages/AgentList')));
+const AddEditTeamPage = Loadable(lazy(() => import('features/team/pages/AddEditTeamPage')));
+const AddEditAgentPage = Loadable(lazy(() => import('features/agent/pages/AddEditAgentPage')));
+const OrderList = Loadable(lazy(() => import('features/order/pages/OrderList')));
+const TrackingPage = Loadable(lazy(() => import('features/tracking/pages/TrackingPage')));

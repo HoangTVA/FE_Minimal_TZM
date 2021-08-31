@@ -1,36 +1,18 @@
 // material
 import { alpha, useTheme, styled } from '@material-ui/core/styles';
-import { Box, Grid, Card, Container, Typography, useMediaQuery } from '@material-ui/core';
+import { Box, Grid, Card, Container, Typography, useMediaQuery, Button } from '@material-ui/core';
 //
 import { varFadeInUp, MotionInView, varFadeInDown } from '../../animate';
+import { useTranslation } from 'react-i18next';
 
 // ----------------------------------------------------------------------
-
-const CARDS = [
-  {
-    icon: '/static/icons/ic_design.svg',
-    title: 'UI & UX Design',
-    description:
-      'The set is built on the principles of the atomic design system. It helps you to create projects fastest and easily customized packages for your projects.'
-  },
-  {
-    icon: '/static/icons/ic_code.svg',
-    title: 'Development',
-    description: 'Easy to customize and extend each component, saving you time and money.'
-  },
-  {
-    icon: '/static/brand/logo_single.svg',
-    title: 'Branding',
-    description: 'Consistent design in colors, fonts ... makes brand recognition easy.'
-  }
-];
 
 const shadowIcon = (color: string) => `drop-shadow(2px 2px 2px ${alpha(color, 0.48)})`;
 
 const RootStyle = styled('div')(({ theme }) => ({
-  paddingTop: theme.spacing(15),
+  paddingTop: theme.spacing(14),
   [theme.breakpoints.up('md')]: {
-    paddingBottom: theme.spacing(15)
+    paddingBottom: theme.spacing(14)
   }
 }));
 
@@ -42,47 +24,34 @@ const CardStyle = styled(Card)(({ theme }) => {
 
   return {
     maxWidth: 380,
-    minHeight: 440,
+    minHeight: 400,
+    height: '100%',
     margin: 'auto',
     textAlign: 'center',
-    padding: theme.spacing(10, 5, 0),
+    padding: theme.spacing(4, 2, 4),
     boxShadow: `-40px 40px 80px 0 ${shadowCard(0.48)}`,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     [theme.breakpoints.up('md')]: {
-      boxShadow: 'none',
-      backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800]
+      boxShadow: 'none'
+      // backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800]
     },
-    '&.cardLeft': {
-      [theme.breakpoints.up('md')]: { marginTop: -40 }
-    },
+    '&.cardLeft': {},
     '&.cardCenter': {
       [theme.breakpoints.up('md')]: {
-        marginTop: -80,
         backgroundColor: theme.palette.background.paper,
-        boxShadow: `-40px 40px 80px 0 ${shadowCard(0.4)}`,
-        '&:before': {
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          zIndex: -1,
-          content: "''",
-          margin: 'auto',
-          position: 'absolute',
-          width: 'calc(100% - 40px)',
-          height: 'calc(100% - 40px)',
-          borderRadius: theme.shape.borderRadiusMd,
-          backgroundColor: theme.palette.background.paper,
-          boxShadow: `-20px 20px 40px 0 ${shadowCard(0.12)}`
-        }
+        boxShadow: `0px 40px 80px 0 ${shadowCard(0.4)}`
       }
     }
   };
 });
 
 const CardIconStyle = styled('img')(({ theme }) => ({
-  width: 40,
-  height: 40,
-  margin: 'auto',
+  width: 54,
+  height: 54,
+  margin: '0 auto',
   marginBottom: theme.spacing(10),
   filter: shadowIcon(theme.palette.primary.main)
 }));
@@ -90,6 +59,39 @@ const CardIconStyle = styled('img')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function LandingMinimalHelps() {
+  const { t } = useTranslation();
+  const CARDS = [
+    {
+      icon: '/static/icons/ic_franchise.svg',
+      title: t('ldPage.manageStore'),
+      description: t('ldPage.storeSub')
+    },
+    {
+      icon: '/static/icons/map-location.svg',
+      title: t('ldPage.manageArea'),
+      description: t('ldPage.areaSub')
+    },
+    {
+      icon: '/static/icons/pinpoi.svg',
+      title: t('ldPage.poi'),
+      description: t('ldPage.poiSub')
+    },
+    {
+      icon: '/static/icons/delivery-truck.svg',
+      title: t('ldPage.manageAgent'),
+      description: t('ldPage.agentSub')
+    },
+    {
+      icon: '/static/icons/website.svg',
+      title: t('ldPage.template'),
+      description: t('ldPage.templateSub')
+    },
+    {
+      icon: '/static/icons/product-management.svg',
+      title: t('ldPage.delivery'),
+      description: t('ldPage.deliverySub')
+    }
+  ];
   const theme = useTheme();
   const isLight = theme.palette.mode === 'light';
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
@@ -97,48 +99,55 @@ export default function LandingMinimalHelps() {
   return (
     <RootStyle>
       <Container maxWidth="lg">
-        <Box sx={{ mb: { xs: 10, md: 25 } }}>
-          <MotionInView variants={varFadeInUp}>
-            <Typography
-              component="p"
-              variant="overline"
-              sx={{ mb: 2, color: 'text.secondary', textAlign: 'center' }}
-            >
-              Minimal
-            </Typography>
-          </MotionInView>
-          <MotionInView variants={varFadeInDown}>
-            <Typography variant="h2" sx={{ textAlign: 'center' }}>
-              What minimal helps you?
-            </Typography>
-          </MotionInView>
-        </Box>
+        <Container maxWidth="md">
+          <Box sx={{ mb: { xs: 10, md: 15 }, textAlign: 'center' }}>
+            <MotionInView variants={varFadeInDown}>
+              <Typography variant="h2" sx={{ mb: 2 }}>
+                {t('ldPage.solution')}
+              </Typography>
+            </MotionInView>
+            {/* <MotionInView variants={varFadeInUp}>
+              <Typography
+                sx={{
+                  color: isLight ? 'text.secondary' : 'text.primary'
+                }}
+              >
+                {t('ldPage.subSlogan')}
+              </Typography>
+            </MotionInView> */}
+          </Box>
+        </Container>
 
-        <Grid container spacing={isDesktop ? 10 : 5}>
+        <Grid container spacing={isDesktop ? 5 : 5} alignItems="stretch">
           {CARDS.map((card, index) => (
-            <Grid key={card.title} item xs={12} md={4}>
-              <MotionInView variants={varFadeInUp}>
-                <CardStyle
-                  className={(index === 0 && 'cardLeft') || (index === 1 && 'cardCenter') || ''}
-                >
-                  <CardIconStyle
-                    src={card.icon}
-                    alt={card.title}
-                    sx={{
-                      ...(index === 0 && {
-                        filter: (theme) => shadowIcon(theme.palette.info.main)
-                      }),
-                      ...(index === 1 && {
-                        filter: (theme) => shadowIcon(theme.palette.error.main)
-                      })
-                    }}
-                  />
-                  <Typography variant="h5" paragraph>
-                    {card.title}
-                  </Typography>
-                  <Typography sx={{ color: isLight ? 'text.secondary' : 'common.white' }}>
-                    {card.description}
-                  </Typography>
+            <Grid key={`card-hero-${indexedDB}`} item xs={12} md={4}>
+              <MotionInView sx={{ height: '100%' }} variants={varFadeInUp}>
+                <CardStyle variant="outlined">
+                  <Box textAlign="center">
+                    <CardIconStyle
+                      src={card.icon}
+                      sx={{
+                        ...(index % 3 === 0 && {
+                          filter: (theme) => shadowIcon(theme.palette.warning.main)
+                        }),
+                        ...(index % 3 === 1 && {
+                          filter: (theme) => shadowIcon(theme.palette.error.main)
+                        }),
+                        ...(index % 3 === 2 && {
+                          filter: (theme) => shadowIcon(theme.palette.info.main)
+                        })
+                      }}
+                    />
+                    <Typography variant="h4" paragraph>
+                      {card.title}
+                    </Typography>
+                    <Typography
+                      variant="h5"
+                      sx={{ color: isLight ? 'text.secondary' : 'common.white' }}
+                    >
+                      {card.description}
+                    </Typography>
+                  </Box>
                 </CardStyle>
               </MotionInView>
             </Grid>

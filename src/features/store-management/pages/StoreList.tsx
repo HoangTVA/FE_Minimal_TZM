@@ -12,12 +12,14 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  IconButton,
   LinearProgress,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
+  Tooltip,
   Typography
 } from '@material-ui/core';
 // material
@@ -186,20 +188,16 @@ export default function StoreList() {
                       </TableCell>
                       <TableCell width={250}>
                         <Box style={{ display: 'flex', justifyContent: 'center' }}>
-                          <Button
-                            color="info"
-                            onClick={() => handelDetailsClick(e)}
-                            startIcon={<Icon icon={editFill} color="#1890FF" />}
-                          >
-                            {t('common.details')}
-                          </Button>
-                          <Button
-                            color="error"
-                            onClick={() => handelRemoveClick(e)}
-                            startIcon={<Icon icon={trash2Outline} color="red" />}
-                          >
-                            {t('common.remove')}
-                          </Button>
+                          <Tooltip key={`btnDetails-${e.id}`} title={t('common.details') || ''}>
+                            <IconButton color="info" onClick={() => handelDetailsClick(e)}>
+                              <Icon icon={editFill} />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip key={`btnDelete-${e.id}`} title={t('common.remove') || ''}>
+                            <IconButton color="error" onClick={() => handelRemoveClick(e)}>
+                              <Icon icon={trash2Outline} />
+                            </IconButton>
+                          </Tooltip>
                         </Box>
                       </TableCell>
                     </TableRow>

@@ -1,14 +1,13 @@
 import { makeStyles } from '@material-ui/styles';
-import { useAppSelector } from 'app/hooks';
 import LocationMarker from 'components/map/LocateControl';
 import { IconMyStore, IconPois, IconStores } from 'components/map/MarkerStyles';
 import { LayerActive } from 'constants/layer';
-import L, { LatLngExpression } from 'leaflet';
+import LayerMap from 'constants/layerMap';
+import L from 'leaflet';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js';
 import { GeoJSONMarker, TradeZone } from 'models';
-import { Feature, GroupZone } from 'models/dto/groupZone';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   GeoJSON,
@@ -28,12 +27,20 @@ interface MapProps {
   pois?: GeoJSONMarker;
   myStore?: GeoJSONMarker;
   selectedTradeZone?: TradeZone;
+  tradeZones?: TradeZone[];
+  listCheck?: Number[];
   onChangeBounds: (bounds: string) => void;
   onActiveLayer: (active: LayerActive, bounds: string) => void;
   onCloseLayer: (active: LayerActive) => void;
   onIsShowAll?: (value: boolean) => void;
 }
-function MapAction({ onChangeBounds, onActiveLayer, onCloseLayer, onIsShowAll }: MapProps) {
+function MapAction({
+  onChangeBounds,
+  onActiveLayer,
+  onCloseLayer,
+  tradeZones,
+  listCheck
+}: MapProps) {
   const map = useMap();
 
   const { t } = useTranslation();
@@ -99,7 +106,20 @@ const gzSelectedStyle = {
   fillColor: 'orange',
   opacity: 0.6
 };
-
+const colors = [
+  'red',
+  'maroon',
+  'purple',
+  'fuchsia',
+  'lime',
+  'yellow',
+  'navy',
+  'aqua',
+  'darkgreen',
+  'deeppink',
+  'orange',
+  'lightsalmon'
+];
 export default function ViewTradeZoneMap({
   stores,
   onChangeBounds,
@@ -107,7 +127,9 @@ export default function ViewTradeZoneMap({
   onCloseLayer,
   myStore,
   selectedTradeZone,
-  pois
+  pois,
+  listCheck,
+  tradeZones
 }: MapProps) {
   const classes = useStyle();
   const { t } = useTranslation();
@@ -120,19 +142,30 @@ export default function ViewTradeZoneMap({
   const handelClose = (active: LayerActive) => {
     if (onCloseLayer) onCloseLayer(active);
   };
-  const renderSelected = (selected: TradeZone) => {
+
+  const renderSelected = (selected: TradeZone, isCheck: boolean, idx: number) => {
+    //var randomColor = Math.floor(Math.random() * 16777215).toString(16);
+    const colorIndex = Math.floor(Math.random() * colors.length);
     return (
       <GeoJSON
         key={selected?.id + ''}
         data={selected?.geom as any}
-        style={gzSelectedStyle}
+        style={
+          isCheck
+            ? {
+                fill: true,
+                color: colors[idx] || colors[colorIndex],
+                fillColor: colors[idx] || colors[colorIndex],
+                opacity: 0.6
+              }
+            : gzSelectedStyle
+        }
         onEachFeature={(feature, layer) => {
           layer.bindPopup(selected?.name || '');
         }}
       />
     );
   };
-
   const centerGz = splitPointToLatLng(selectedTradeZone?.center || '');
   return (
     <MapContainer
@@ -157,13 +190,25 @@ export default function ViewTradeZoneMap({
         <LayersControl.BaseLayer name={t('map.normalLayer')}>
           <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url="http://3.36.96.192:6281/tile/{z}/{x}/{y}.png"
+            url={LayerMap.Default}
           />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer checked name={t('map.blackWhiteLayer')}>
+        <LayersControl.BaseLayer name={t('map.blackWhiteLayer')}>
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url="https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png"
+            url={LayerMap.BlackWhite}
+          />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer name={t('map.basic')}>
+          <TileLayer
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url={LayerMap.Basic}
+          />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer checked name={t('map.layerDark')}>
+          <TileLayer
+            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url={LayerMap.Dark}
           />
         </LayersControl.BaseLayer>
         <LayersControl.Overlay name={t('map.stores')}>
@@ -218,7 +263,16 @@ export default function ViewTradeZoneMap({
           <Popup>{e.properties.f2}</Popup>
         </Marker>
       ))}
-      {selectedTradeZone && renderSelected(selectedTradeZone)}
+
+      {listCheck?.length !== 0
+        ? listCheck?.map((x, idx) =>
+            tradeZones?.find((e) => e.id === x) !== undefined ? (
+              renderSelected(tradeZones?.find((e) => e.id === x) as TradeZone, true, idx)
+            ) : (
+              <></>
+            )
+          )
+        : selectedTradeZone && renderSelected(selectedTradeZone, false, 0)}
     </MapContainer>
   );
 }

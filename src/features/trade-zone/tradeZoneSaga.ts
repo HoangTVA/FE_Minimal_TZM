@@ -1,11 +1,11 @@
-import { FreeZonesRequest, tradeZoneActions } from './tradeZoneSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import tradeZoneApi from 'api/tradeZoneApi';
 import tzVersionApi from 'api/tradeZoneVersionApi';
-import { Response, TradeZone, TradeZonePagingRequest, TzVersion, TzVersionRequest } from 'models';
-import { call, debounce, put, takeLatest } from 'redux-saga/effects';
-import { FreeZone } from 'models/dto/freeZone';
 import { FreeWardStyle } from 'constants/freeWardStyle';
+import { Response, TradeZone, TradeZonePagingRequest } from 'models';
+import { FreeZone } from 'models/dto/freeZone';
+import { call, debounce, put, takeLatest } from 'redux-saga/effects';
+import { FreeZonesRequest, tradeZoneActions } from './tradeZoneSlice';
 
 
 

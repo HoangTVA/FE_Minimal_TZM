@@ -6,29 +6,45 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import timelinePlugin from '@fullcalendar/timeline';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Icon } from '@iconify/react';
+import tagsFilled from '@iconify/icons-ant-design/tags-filled';
 import {
   Box,
   Button,
   Card,
+  Checkbox,
+  Chip,
   Container,
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemSecondaryAction,
+  ListItemText,
   TextField,
+  Typography,
   useMediaQuery
 } from '@material-ui/core';
 // material
 import { useTheme } from '@material-ui/core/styles';
+import StorefrontIcon from '@material-ui/icons/Storefront';
+import mapApi from 'api/mapApi';
+import storeApi from 'api/storeApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { DialogAnimate } from 'components/animate';
 import { CalendarStyle, CalendarToolbar } from 'components/dashboard/calendar';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 // components
 import Page from 'components/Page';
+import { LayerActive } from 'constants/layer';
 import { storeActions } from 'features/store-management/storeSlice';
+import ViewTradeZoneMap from 'features/trade-zone/components/TradeZoneViewMap';
 // hooks
 import useSettings from 'hooks/useSettings';
-import { TzVersionRequest } from 'models';
+import { GeoJSONMarker, RequestBounds, TradeZone, TzVersionRequest } from 'models';
+import { useSnackbar } from 'notistack5';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
@@ -61,6 +77,13 @@ export default function CalendarTradeZoneVersion() {
   const filter = useAppSelector(selectFilter);
   const selectedEvent = useAppSelector(selectedEventSelector);
   const isOpenModal = useAppSelector(selectedOpenModal);
+  const [poisLayer, setPoisLayer] = useState<GeoJSONMarker>();
+  const [myStoreLayer, setMyStoreLayer] = useState<GeoJSONMarker>();
+  const [storesLayer, setStoreLayer] = useState<GeoJSONMarker>();
+  const { enqueueSnackbar } = useSnackbar();
+  const [listTz, setListTz] = useState<TradeZone[]>();
+
+  const [listSelect, setListSelect] = useState<Number[]>([]);
 
   useEffect(() => {
     dispatch(storeActions.fetchStores({}));
@@ -93,7 +116,16 @@ export default function CalendarTradeZoneVersion() {
     }
   };
 
-  const handleSelectEvent = (arg: EventClickArg) => {
+  const handleSelectEvent = async (arg: EventClickArg) => {
+    try {
+      const data: TradeZone[] = await storeApi.getStoreTradeZones(filter.storeId.toString());
+      setListTz(data);
+    } catch (error) {
+      enqueueSnackbar(t('common.errorText'), { variant: 'error' });
+    }
+    const newList = [...listSelect];
+    newList.push(Number(arg.event.id));
+    setListSelect(newList);
     dispatch(tzVersionActions.selectEvent(arg.event.id));
   };
 
@@ -102,6 +134,84 @@ export default function CalendarTradeZoneVersion() {
   };
   const handelFilterChange = (newFilter: TzVersionRequest) => {
     dispatch(tzVersionActions.setFilterWithDebounce(newFilter));
+  };
+  const handelOnChangeBounds = async (bounds: string) => {
+    if (storesLayer) {
+      getStoresLayer(bounds);
+    }
+    if (poisLayer) {
+      getPoisLayer(bounds);
+    }
+  };
+  const handelLayerActive = async (active: LayerActive, boundsBox: string) => {
+    switch (active) {
+      case LayerActive.Pois:
+        getPoisLayer(boundsBox);
+        return;
+      case LayerActive.Stores: {
+        getStoresLayer(boundsBox);
+        return;
+      }
+      case LayerActive.MyStore: {
+        getMyStoreLayer();
+        return;
+      }
+    }
+  };
+  const handelRemoveLayer = (active: LayerActive) => {
+    switch (active) {
+      case LayerActive.Pois:
+        setPoisLayer(undefined);
+        return;
+      case LayerActive.Stores: {
+        setStoreLayer(undefined);
+        return;
+      }
+      case LayerActive.MyStore: {
+        setMyStoreLayer(undefined);
+        return;
+      }
+    }
+  };
+  const getPoisLayer = async (boundsBox: string) => {
+    try {
+      const data: GeoJSONMarker = await mapApi.getPois({
+        coordinateString: boundsBox
+      } as RequestBounds);
+      setPoisLayer(data);
+    } catch (error) {
+      enqueueSnackbar(t('common.errorText'), { variant: 'error' });
+    }
+  };
+  const getStoresLayer = async (boundsBox: string) => {
+    try {
+      const data: GeoJSONMarker = await mapApi.getStores({
+        coordinateString: boundsBox
+      } as RequestBounds);
+      setStoreLayer(data);
+    } catch (error) {
+      enqueueSnackbar(t('common.errorText'), { variant: 'error' });
+    }
+  };
+  const getMyStoreLayer = async () => {
+    try {
+      const data: GeoJSONMarker = await mapApi.getMyStores();
+      setMyStoreLayer(data);
+    } catch (error) {
+      enqueueSnackbar(t('common.errorText'), { variant: 'error' });
+    }
+  };
+
+  const handleToggle = (value: number) => () => {
+    const newList = [...listSelect];
+    const index = newList.findIndex((x) => x === value);
+    if (index !== -1) {
+      newList.splice(index, 1);
+      setListSelect(newList);
+    } else {
+      newList.push(value);
+      setListSelect(newList);
+    }
   };
 
   return (
@@ -170,32 +280,84 @@ export default function CalendarTradeZoneVersion() {
           </CalendarStyle>
         </Card>
 
-        <DialogAnimate open={isOpenModal} onClose={handleCloseModal}>
-          <DialogTitle>{t('tz.info')}</DialogTitle>
+        <DialogAnimate open={isOpenModal} onClose={handleCloseModal} maxWidth="lg" fullWidth>
+          <DialogTitle>{t('tz.infoTz')}</DialogTitle>
 
           <DialogContent sx={{ pb: 0, overflowY: 'unset' }}>
-            <Box mt={2}></Box>
-            <TextField
-              fullWidth
-              label={'#Id'}
-              sx={{ mb: 3 }}
-              value={selectedEvent?.id || ''}
-              disabled
-            />
-            <TextField
-              fullWidth
-              label={t('tz.tzVerName')}
-              sx={{ mb: 3 }}
-              value={selectedEvent?.title || ''}
-              disabled
-            />
-            <TextField
-              fullWidth
-              label={t('common.description')}
-              sx={{ mb: 3 }}
-              value={selectedEvent?.description || ''}
-              disabled
-            />
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={4} lg={4}>
+                <Box mt={2}></Box>
+                <TextField
+                  fullWidth
+                  label={'#Id'}
+                  sx={{ mb: 3 }}
+                  value={selectedEvent?.id || ''}
+                  disabled
+                />
+                <TextField
+                  fullWidth
+                  label={t('tz.name')}
+                  sx={{ mb: 3 }}
+                  value={selectedEvent?.title || ''}
+                  disabled
+                />
+                <Typography variant="h6" gutterBottom marginBottom={2}>
+                  {t('tz.storesApply')}
+                </Typography>
+                {selectedEvent?.tz?.storesName?.length === 0
+                  ? t('store.none')
+                  : selectedEvent?.tz?.storesName.map((f) => (
+                      <Chip
+                        key={f.id}
+                        variant="outlined"
+                        icon={<StorefrontIcon />}
+                        label={f.name}
+                        color="primary"
+                      />
+                    ))}
+                <Typography variant="h6" gutterBottom marginBottom={2} marginTop={2}>
+                  {t('tz.anotherTz')}
+                </Typography>
+                <List dense>
+                  {listTz?.map((value) => {
+                    const labelId = `checkbox-list-secondary-label-${value.id}`;
+                    return (
+                      <ListItem key={value.id} button>
+                        <ListItemAvatar>
+                          <Icon icon={tagsFilled} />
+                        </ListItemAvatar>
+                        <ListItemText id={labelId} primary={`Trade zone: ${value.name}`} />
+                        <ListItemSecondaryAction>
+                          <Checkbox
+                            edge="end"
+                            onChange={handleToggle(value.id)}
+                            checked={
+                              listSelect.find((x) => x === value.id) !== undefined ? true : false
+                            }
+                            inputProps={{ 'aria-labelledby': labelId }}
+                          />
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                    );
+                  })}
+                </List>
+              </Grid>
+              <Grid item xs={12} md={8} lg={8}>
+                {Boolean(selectedEvent?.tz) && (
+                  <ViewTradeZoneMap
+                    onChangeBounds={handelOnChangeBounds}
+                    stores={storesLayer || undefined}
+                    myStore={myStoreLayer || undefined}
+                    pois={poisLayer || undefined}
+                    onActiveLayer={handelLayerActive}
+                    onCloseLayer={handelRemoveLayer}
+                    selectedTradeZone={selectedEvent?.tz}
+                    listCheck={listSelect}
+                    tradeZones={listTz}
+                  />
+                )}
+              </Grid>
+            </Grid>
           </DialogContent>
           <DialogActions>
             <Button type="button" variant="outlined" color="inherit" onClick={handleCloseModal}>

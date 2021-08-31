@@ -87,6 +87,7 @@ export default function AddEditAssetPage() {
                   initialValue={initialValues}
                   onSubmit={handelStoreFormSubmit}
                   isEdit={isEdit}
+                  isView={false}
                 />
               )}
             </Grid>

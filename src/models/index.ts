@@ -13,3 +13,7 @@ export * from './dto/geoJonMarker';
 export * from './dto/RequestBounds';
 export * from './dto/asset';
 export * from './dto/tradeZone';
+export * from './dto/team';
+export * from './dto/agent';
+export * from './dto/order';
+export * from './dto/nominatimAddress';

@@ -1,34 +1,33 @@
-import { Icon } from '@iconify/react';
-import { motion } from 'framer-motion';
 import flashFill from '@iconify/icons-eva/flash-fill';
-import { Link as RouterLink } from 'react-router-dom';
+import { Icon } from '@iconify/react';
+import { Button, Container, Stack, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 // material
 import { styled } from '@material-ui/core/styles';
-import { Button, Box, Link, Container, Typography, Stack } from '@material-ui/core';
+import { MHidden } from 'components/@material-extend';
+import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import { Link as RouterLink } from 'react-router-dom';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 //
-import { varFadeIn, varFadeInUp, varWrapEnter, varFadeInRight } from '../../animate';
+import { varFadeInRight, varFadeInUp, varWrapEnter } from '../../animate';
 
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(motion.div)(({ theme }) => ({
   position: 'relative',
-  backgroundColor: theme.palette.grey[400],
+  backgroundColor: theme.palette.background.default,
   [theme.breakpoints.up('md')]: {
-    top: 0,
-    left: 0,
     width: '100%',
     height: '100vh',
     display: 'flex',
-    position: 'fixed',
     alignItems: 'center'
   }
 }));
 
 const ContentStyle = styled((props) => <Stack spacing={5} {...props} />)(({ theme }) => ({
   zIndex: 10,
-  maxWidth: 520,
+  maxWidth: 600,
   margin: 'auto',
   textAlign: 'center',
   position: 'relative',
@@ -40,13 +39,13 @@ const ContentStyle = styled((props) => <Stack spacing={5} {...props} />)(({ them
   }
 }));
 
-const HeroOverlayStyle = styled(motion.img)({
-  zIndex: 9,
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover',
-  position: 'absolute'
-});
+// const HeroOverlayStyle = styled(motion.img)({
+//   zIndex: 9,
+//   width: '100%',
+//   height: '100%',
+//   objectFit: 'cover',
+//   position: 'absolute'
+// });
 
 const HeroImgStyle = styled(motion.img)(({ theme }) => ({
   top: 0,
@@ -56,8 +55,8 @@ const HeroImgStyle = styled(motion.img)(({ theme }) => ({
   width: '100%',
   margin: 'auto',
   position: 'absolute',
-  [theme.breakpoints.up('lg')]: {
-    right: '8%',
+  [theme.breakpoints.up('md')]: {
+    right: '5%',
     width: 'auto',
     height: '48vh'
   }
@@ -66,61 +65,39 @@ const HeroImgStyle = styled(motion.img)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function LandingHero() {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
+  const { t } = useTranslation();
   return (
     <>
       <RootStyle initial="initial" animate="animate" variants={varWrapEnter}>
-        <HeroOverlayStyle alt="overlay" src="/static/overlay.svg" variants={varFadeIn} />
+        {/* <HeroOverlayStyle alt="overlay" src="/static/overlay.svg" variants={varFadeIn} /> */}
 
-        <HeroImgStyle alt="hero" src="/static/home/hero.png" variants={varFadeInUp} />
+        <MHidden width="mdDown">
+          <HeroImgStyle
+            style={{ width: '50%' }}
+            alt="hero"
+            src="/static/home/LocationSearchBro.svg"
+            variants={varFadeInUp}
+          />
+        </MHidden>
 
         <Container maxWidth="lg">
           <ContentStyle>
             <motion.div variants={varFadeInRight}>
-              <Typography variant="h1" sx={{ color: 'common.white' }}>
-                Start a <br />
-                new project <br /> with
-                <Typography component="span" variant="h1" sx={{ color: 'primary.main' }}>
-                  &nbsp;Minimal
-                </Typography>
+              <Typography
+                component="span"
+                variant={isDesktop ? 'h2' : 'h3'}
+                sx={{ color: 'primary.main' }}
+              >
+                {t('ldPage.slogan')}
               </Typography>
             </motion.div>
 
             <motion.div variants={varFadeInRight}>
-              <Typography sx={{ color: 'common.white' }}>
-                The starting point for your next project based on easy-to-customize Material-UI ©
-                helps you build apps faster and better.
+              <Typography fontWeight={500} variant="h4">
+                {t('ldPage.subSlogan')}
               </Typography>
-            </motion.div>
-
-            <Stack
-              component={motion.div}
-              variants={varFadeInRight}
-              direction="row"
-              spacing={1}
-              justifyContent={{ xs: 'center', md: 'flex-start' }}
-            >
-              <img alt="sketch icon" src="/static/home/ic_sketch.svg" width={20} height={20} />
-              <Link
-                underline="always"
-                href="https://www.sketch.com/s/0fa4699d-a3ff-4cd5-a3a7-d851eb7e17f0"
-                target="_blank"
-                color="common.white"
-                sx={{ typography: 'body2' }}
-              >
-                Preview in Sketch Cloud
-              </Link>
-            </Stack>
-
-            <motion.div variants={varFadeInRight}>
-              <Button
-                size="large"
-                variant="contained"
-                component={RouterLink}
-                to={PATH_DASHBOARD.root}
-                startIcon={<Icon icon={flashFill} width={20} height={20} />}
-              >
-                Live Preview
-              </Button>
             </motion.div>
 
             <Stack
@@ -128,17 +105,32 @@ export default function LandingHero() {
               spacing={1.5}
               justifyContent={{ xs: 'center', md: 'flex-start' }}
             >
-              <motion.img variants={varFadeInRight} src="/static/home/ic_m_sketch.svg" />
-              <motion.img variants={varFadeInRight} src="/static/home/ic_m_figma.svg" />
-              <motion.img variants={varFadeInRight} src="/static/home/ic_m_material.svg" />
-              <motion.img variants={varFadeInRight} src="/static/home/ic_m_react.svg" />
-              <motion.img variants={varFadeInRight} src="/static/home/ic_m_js.svg" />
-              <motion.img variants={varFadeInRight} src="/static/home/ic_m_ts.svg" />
+              <motion.div variants={varFadeInRight}>
+                <Button
+                  size="large"
+                  color="info"
+                  variant="contained"
+                  component={RouterLink}
+                  to={PATH_DASHBOARD.root}
+                  startIcon={<Icon icon={flashFill} width={20} height={20} />}
+                >
+                  {t('ldPage.startNow')}
+                </Button>
+              </motion.div>
+              {/* <motion.div variants={varFadeInRight}>
+                <Button
+                  size="large"
+                  variant="outlined"
+                  component={RouterLink}
+                  to={PATH_DASHBOARD.root}
+                >
+                  Xem mẫu
+                </Button>
+              </motion.div> */}
             </Stack>
           </ContentStyle>
         </Container>
       </RootStyle>
-      <Box sx={{ height: { md: '100vh' } }} />
     </>
   );
 }

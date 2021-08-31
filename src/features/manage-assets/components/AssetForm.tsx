@@ -20,15 +20,18 @@ interface AssetFormProps {
   initialValue: Asset;
   onSubmit?: (formValue: Asset) => void;
   isEdit: boolean;
+  isView: boolean;
 }
 
-export default function AssetForm({ initialValue, onSubmit, isEdit }: AssetFormProps) {
+export default function AssetForm({ initialValue, onSubmit, isEdit, isView }: AssetFormProps) {
   const { t } = useTranslation();
   //schema
   const schema = yup.object().shape({
     name: yup.string().required(t('asset.errorName')),
     type: yup.number().moreThan(0, t('asset.errorType')).required(t('asset.errorType')),
-    storeId: yup.number().moreThan(0, t('asset.errorStore')).required(t('asset.errorStore'))
+    storeId: yup.number().moreThan(0, t('asset.errorStore')).required(t('asset.errorStore')),
+    licencePlate: yup.string().required(t('common.isRequired')),
+    color: yup.string().required(t('common.isRequired'))
   });
   const {
     control,
@@ -50,56 +53,83 @@ export default function AssetForm({ initialValue, onSubmit, isEdit }: AssetFormP
     <form onSubmit={handleSubmit(handelFormSubmit)}>
       <Stack spacing={3}>
         <Card sx={{ p: 3 }}>
-          <Typography variant="h6" gutterBottom marginBottom={4}>
-            {t('asset.infoAsset')}
-          </Typography>
+          {!isView && (
+            <Typography variant="h6" gutterBottom marginBottom={4}>
+              {t('asset.infoAsset')}
+            </Typography>
+          )}
           <Stack spacing={3}>
             <InputField name="name" label={t('asset.name') + '*'} control={control} />
-            <SelectField
-              name="type"
-              label={t('asset.type') + '*'}
+            <InputField
+              name="color"
+              label={t('agent.color') + '*'}
               control={control}
-              options={typeAssetFilter as SelectOptions[]}
+              disabled={isView}
             />
-            <SelectField
-              name="storeId"
-              label={t('asset.storeName') + '*'}
+            <InputField
+              name="transportDescription"
+              label={t('agent.transportDescription')}
               control={control}
-              options={storeOptions}
+              disabled={isView}
             />
+            <InputField
+              name="licencePlate"
+              label={t('agent.licencePlate') + '*'}
+              control={control}
+              disabled={isView}
+            />
+            <Box mt={2}>
+              <SelectField
+                name="type"
+                label={t('asset.type') + '*'}
+                control={control}
+                options={typeAssetFilter as SelectOptions[]}
+              />
+            </Box>
+
+            <Box mt={2}>
+              <SelectField
+                name="storeId"
+                label={t('asset.storeName') + '*'}
+                control={control}
+                options={storeOptions}
+              />
+            </Box>
           </Stack>
-          <Box
-            style={{
-              display: 'flex',
-              flexFlow: 'row nowrap',
-              justifyContent: 'flex-end',
-              alignContent: 'center',
-              backgroundColor: '#fff',
-              marginTop: '15px'
-            }}
-          >
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => {
-                navigate(`${PATH_DASHBOARD.asset.assets}`);
+          {!isView && (
+            <Box
+              style={{
+                display: 'flex',
+                flexFlow: 'row nowrap',
+                justifyContent: 'flex-end',
+                alignContent: 'center',
+                backgroundColor: '#fff',
+                marginTop: '15px'
               }}
-              startIcon={<Icon icon={arrowCircleLeftOutline} />}
-              style={{ marginRight: '15px' }}
             >
-              {t('content.backHomePage')}
-            </Button>
-            <LoadingButton
-              disabled={!isDirty}
-              loading={isSubmitting}
-              type="submit"
-              variant="contained"
-              size="large"
-              startIcon={<Icon icon={saveFill} />}
-            >
-              {isEdit ? t('common.btnUpdate') : t('common.btnSubmit')}
-            </LoadingButton>
-          </Box>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  navigate(`${PATH_DASHBOARD.asset.assets}`);
+                }}
+                startIcon={<Icon icon={arrowCircleLeftOutline} />}
+                style={{ marginRight: '15px' }}
+              >
+                {t('content.backHomePage')}
+              </Button>
+              <LoadingButton
+                disabled={!isDirty}
+                loading={isSubmitting}
+                type="submit"
+                variant="contained"
+                size="large"
+                startIcon={<Icon icon={saveFill} />}
+              >
+                {isEdit ? t('common.btnUpdate') : t('common.btnSubmit')}
+              </LoadingButton>
+            </Box>
+          )}
         </Card>
 
         {/* <LoadingButton

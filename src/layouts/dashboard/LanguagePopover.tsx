@@ -27,6 +27,7 @@ export default function LanguagePopover() {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const { currentLang, onChangeLang } = useLocales();
+  const lag = LANGS.find((e) => e.value === currentLang);
   return (
     <>
       <MIconButton
@@ -39,7 +40,7 @@ export default function LanguagePopover() {
           ...(open && { bgcolor: 'action.selected' })
         }}
       >
-        <img src={LANGS[0].icon} alt={LANGS[0].label} />
+        <img src={lag?.icon || LANGS[0].icon} alt={lag?.icon || LANGS[0].label} />
       </MIconButton>
 
       <MenuPopover open={open} onClose={() => setOpen(false)} anchorEl={anchorRef.current}>

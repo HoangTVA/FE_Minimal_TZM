@@ -1,6 +1,6 @@
 import { EventInput } from '@fullcalendar/common';
 import { LatLngBounds, LatLngExpression } from 'leaflet';
-import { TzVersion, User } from "models";
+import { NominatimAddress, TzVersion, User } from "models";
 import { GetConstantTimeFilter, OptionsTimeFilter, TimeObj, TimeObjNum, TimeOfDay } from 'models/dto/timeFilter';
 
 const { timeFilter } = GetConstantTimeFilter();
@@ -155,14 +155,18 @@ export const convertTzVersionToEvents = (list: TzVersion[]) => {
         listTimeFilter.map((el) => {
             for (var i = 0; i < e.dateFilter.length; i++) {
                 if (e.dateFilter.charAt(i) === '1') {
-                    rs.push({
-                        title: e.name,
-                        start: parseDateFilter(i, el.start),
-                        end: parseDateFilter(i, el.end),
-                        textColor: '#00AB55',
-                        id: e.id.toString(),
-                        description: e.description
-                    })
+                    if (e.tzInfo !== undefined) {
+                        rs.push({
+                            title: e.tzInfo.name,
+                            start: parseDateFilter(i, el.start),
+                            end: parseDateFilter(i, el.end),
+                            textColor: '#00AB55',
+                            id: e.tzInfo.id.toString(),
+                            description: e.description,
+                            tz: e.tzInfo
+                        })
+                    }
+
                 }
             }
         });
@@ -173,3 +177,11 @@ export const selectEvent = (list: EventInput[], id: number) => {
     if (id === -1) return null;
     return list.find((x) => x.id === id.toString());
 }
+export const getAddressDataByLatLngUtils = async (lat: number, lng: number) => {
+    const response = await fetch(
+        `${process.env.REACT_APP_API_NOMINATIM || 'http://3.36.96.192:8080'
+        }/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
+    ); // For demo purposes.
+    const data: NominatimAddress = await response.json();
+    return data;
+};

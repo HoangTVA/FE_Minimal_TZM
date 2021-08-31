@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/styles';
+import LayerMap from 'constants/layerMap';
 import L, { LatLngExpression } from 'leaflet';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js';
@@ -47,7 +48,7 @@ export default function MapWithMarker({ position }: MapWithMarkerProps) {
     >
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url={LayerMap.Dark}
       />
       <SetMarker position={position} />
     </MapContainer>

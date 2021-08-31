@@ -14,6 +14,7 @@ import MenuMobile from './MenuMobile';
 import navConfig from './MenuConfig';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import LanguagePopover from 'layouts/dashboard/LanguagePopover';
 
 // ----------------------------------------------------------------------
 
@@ -95,16 +96,19 @@ export default function MainNavbar() {
           <Label color="info" sx={{ ml: 1 }}>
             Trade Zone Map
           </Label>
+          <LanguagePopover />
           <Box sx={{ flexGrow: 1 }} />
 
           <MHidden width="mdDown">
-            <MenuDesktop isOffset={isOffset} isHome={isHome} navConfig={navConfig} />
+            <MenuDesktop isOffset={true} isHome={isHome} navConfig={navConfig} />
           </MHidden>
+
           <Link to="/login" style={{ textDecoration: 'none' }}>
             <Button variant="contained">{t('content.login')}</Button>
           </Link>
+
           <MHidden width="mdUp">
-            <MenuMobile isOffset={isOffset} isHome={isHome} navConfig={navConfig} />
+            <MenuMobile isOffset={true} isHome={isHome} navConfig={navConfig} />
           </MHidden>
         </Container>
       </ToolbarStyle>

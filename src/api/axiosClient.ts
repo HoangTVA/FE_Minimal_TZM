@@ -1,6 +1,8 @@
 // api/axiosClient.js
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import queryString from 'query-string';
+import { toast } from 'react-toastify';
+import i18n from 'translation/i18n';
 // Set up default config for http requests here
 
 
@@ -8,11 +10,17 @@ import queryString from 'query-string';
 const axiosClient = axios.create({
     baseURL: process.env.REACT_APP_API_URL || 'https://stg-api.tradezonemap.com/api/v1.0',
     headers: {
-        'content-type': 'application/json',
+        'content-type': 'multipart/form-data',
     },
     paramsSerializer: params => queryString.stringify(params),
 });
 axiosClient.interceptors.request.use(async (config: AxiosRequestConfig) => {
+    const { method } = config;
+    if (method === 'put' || method === 'post') {
+        config.headers = {
+            'content-type': 'application/json',
+        }
+    }
     var jwt = localStorage.getItem('access_token');
     if (jwt) {
         var exp = Number(localStorage.getItem('time_expire'));
@@ -21,6 +29,7 @@ axiosClient.interceptors.request.use(async (config: AxiosRequestConfig) => {
             localStorage.removeItem("access_token");
             localStorage.removeItem("user");
             localStorage.removeItem("time_expire");
+            toast.warning(i18n.t('login.sectionTimeout'));
             // eslint-disable-next-line no-restricted-globals
             location.href = '/login';
         }

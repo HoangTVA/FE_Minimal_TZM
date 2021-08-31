@@ -28,5 +28,22 @@ export function GetStatusMap() {
         { id: 5, name: t('status.deleted') },
         { id: 6, name: t('status.rejected') }
     ]
-    return { statusMap, statusFilter };
+    const statusMapAgent: StatusMap = {
+        0: { name: t('status.all'), color: 'black' },
+        4: { name: t('agent.available'), color: 'green' },
+        2: { name: t('agent.offDuty'), color: 'goldenrod' },
+        5: { name: t('agent.busy'), color: 'goldenrod' },
+        6: { name: t('agent.inActive'), color: 'goldenrod' },
+        3: { name: t('status.deleted'), color: 'red' },
+        1: { name: t('agent.block'), color: 'red' },
+    }
+    const statusFilterAgent: Status[] = [
+        { id: 4, name: t('agent.available') },
+        { id: 2, name: t('agent.offDuty') },
+        { id: 5, name: t('agent.busy') },
+        { id: 6, name: t('agent.inActive') },
+        { id: 3, name: t('status.deleted') },
+        { id: 1, name: t('agent.block') }
+    ]
+    return { statusMap, statusFilter, statusMapAgent, statusFilterAgent };
 }
