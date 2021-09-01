@@ -21,6 +21,7 @@ import { getCurrentUser, splitLongString } from 'utils/common';
 import StoreForm from '../components/StoreForm';
 import { storeActions } from '../storeSlice';
 import './style.css';
+import { IconMyStore } from 'components/map/MarkerStyles';
 
 interface AddEditStorePageProps {}
 const ThumbImgStyle = styled('img')(({ theme }) => ({
@@ -198,7 +199,11 @@ export default function AddEditStorePage(props: AddEditStorePageProps) {
                   <Box>
                     <SearchAddress onChangeAddress={handelSelectLocation} />
                     <Box mt={3}>
-                      <MapDraggable location={location} onDraggable={handelOnDragMarker} />
+                      <MapDraggable
+                        location={location}
+                        onDraggable={handelOnDragMarker}
+                        icon={IconMyStore}
+                      />
                     </Box>
                   </Box>
                 </Stack>

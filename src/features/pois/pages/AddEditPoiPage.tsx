@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { MapDraggable, SearchAddress } from 'components/common';
 import MapWithMarker from 'components/common/MapWithMarker';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
+import { IcMarkerLocation } from 'components/map/MarkerStyles';
 import Page from 'components/Page';
 import { poiActions, selectFilter } from 'features/pois/poiSlice';
 import useSettings from 'hooks/useSettings';
@@ -120,7 +121,11 @@ export default function AddEditPoiPage() {
                       <>
                         <SearchAddress onChangeAddress={handelSelectLocation} />
                         <Box mt={3}>
-                          <MapDraggable location={location} onDraggable={handelOnDragMarker} />
+                          <MapDraggable
+                            location={location}
+                            onDraggable={handelOnDragMarker}
+                            icon={IcMarkerLocation}
+                          />
                         </Box>
                       </>
                     )}

@@ -1,4 +1,3 @@
-import AddEditOrderPage from 'features/order/pages/AddEditOrderPage';
 import { lazy, Suspense } from 'react';
 import { Navigate, useLocation, useRoutes } from 'react-router-dom';
 // components
@@ -213,3 +212,4 @@ const AddEditTeamPage = Loadable(lazy(() => import('features/team/pages/AddEditT
 const AddEditAgentPage = Loadable(lazy(() => import('features/agent/pages/AddEditAgentPage')));
 const OrderList = Loadable(lazy(() => import('features/order/pages/OrderList')));
 const TrackingPage = Loadable(lazy(() => import('features/tracking/pages/TrackingPage')));
+const AddEditOrderPage = Loadable(lazy(() => import('features/order/pages/AddEditOrderPage')));

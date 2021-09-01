@@ -14,6 +14,7 @@ import { useNavigate, useParams } from 'react-router';
 import { PATH_DASHBOARD } from 'routes/paths';
 import { getCurrentUser } from 'utils/common';
 import OrderForm from '../components/OrderForm';
+import './style.css';
 
 export default function AddEditOrderPage() {
   const { orderId } = useParams();

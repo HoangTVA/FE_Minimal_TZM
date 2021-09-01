@@ -6,6 +6,7 @@ import dot from "assets/ics-map/dot.svg";
 import moto from "assets/ics-map/moto.svg";
 import car from "assets/ics-map/oto.svg";
 import truck from "assets/ics-map/truck.svg";
+import markerLocation from "assets/ics-map/location.svg";
 const IconStores = new L.Icon({
   iconSize: [36, 48],
   popupAnchor: [-3, -56],
@@ -18,6 +19,13 @@ const IconPois = new L.Icon({
   popupAnchor: [-3, -56],
   iconAnchor: [22, 56],
   iconUrl: poi
+
+});
+const IcMarkerLocation = new L.Icon({
+  iconSize: [42, 56],
+  popupAnchor: [-3, -56],
+  iconAnchor: [22, 56],
+  iconUrl: markerLocation
 
 });
 const IconMyStore = new L.Icon({
@@ -60,4 +68,4 @@ const IconTruck = new L.Icon({
 
 });
 
-export { IconStores, IconMyStore, IconPois, IconCar, IconDot, IconTruck, IconMoto };
+export { IconStores, IconMyStore, IconPois, IconCar, IconDot, IconTruck, IconMoto, IcMarkerLocation };

@@ -3,6 +3,7 @@ import { Box, Card, Grid, Stack, Typography } from '@material-ui/core';
 import { MapDraggable, SearchAddress } from 'components/common';
 import InputAreaField from 'components/FormField/InputAreaField';
 import InputField from 'components/FormField/InputField';
+import { IcMarkerLocation } from 'components/map/MarkerStyles';
 import { LatLngExpression } from 'leaflet';
 import { Address, NominatimAddress, Order } from 'models';
 import { useEffect, useState } from 'react';
@@ -301,7 +302,11 @@ export const FormTwo = ({ formContent }) => {
             <Box>
               <SearchAddress onChangeAddress={handelSelectLocation} />
               <Box mt={3}>
-                <MapDraggable location={location} onDraggable={handelOnDragMarker} />
+                <MapDraggable
+                  location={location}
+                  onDraggable={handelOnDragMarker}
+                  icon={IcMarkerLocation}
+                />
               </Box>
             </Box>
           </Stack>
@@ -416,7 +421,11 @@ export const FormOne = ({ formContent }) => {
             <Box>
               <SearchAddress onChangeAddress={handelSelectLocation} />
               <Box mt={3}>
-                <MapDraggable location={location} onDraggable={handelOnDragMarker} />
+                <MapDraggable
+                  location={location}
+                  onDraggable={handelOnDragMarker}
+                  icon={IcMarkerLocation}
+                />
               </Box>
             </Box>
           </Stack>

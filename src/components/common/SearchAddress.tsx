@@ -38,7 +38,7 @@ export function SearchAddress({ onChangeAddress }: SearchAddressProps) {
       const response = await fetch(
         `${
           process.env.REACT_APP_API_URL || 'https://stg-api.tradezonemap.com/api/v1.0'
-        }/address?KeySearch=${keySearch}&IsSearchForBrand=false`
+        }/address/osm-nominatim-elastic?KeySearch=${keySearch}&IsSearchForBrand=false`
       ); // For demo purposes.
       const countries = await response.json();
       if (active) {
@@ -78,7 +78,8 @@ export function SearchAddress({ onChangeAddress }: SearchAddressProps) {
         setOpen(false);
       }}
       onChange={handelSelected}
-      //getOptionSelected={(option, value) => option?.add === value?.name}
+      //when search alway show all option
+      filterOptions={(f) => f}
       getOptionLabel={(option) => option?.address}
       options={options}
       size="small"
