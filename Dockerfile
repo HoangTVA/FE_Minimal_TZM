@@ -2,7 +2,7 @@ FROM node:14.17.3-alpine as builder
 
 WORKDIR /usr/src/app
 
-ENV REACT_APP_BASE_URL='http://localhost:6898/api/v1'
+ENV REACT_APP_API_URL='http://localhost:6898/api/v1'
 ENV REACT_APP_ENVIROMENT='production'
 # Copying source files
 COPY . .
