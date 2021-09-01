@@ -184,7 +184,7 @@ export default function TrackingPage() {
         />
       </Container>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={4} lg={3}>
+        <Grid item xs={12} md={5} lg={4}>
           <Card>
             <Typography variant="h6" gutterBottom marginBottom={1} marginLeft={2} marginTop={1}>
               {t('tracking.title')}
@@ -222,7 +222,7 @@ export default function TrackingPage() {
             </List>
           </Card>
         </Grid>
-        <Grid item xs={12} md={8} lg={9}>
+        <Grid item xs={12} md={7} lg={8}>
           <TrackingMap
             onChangeBounds={handelOnChangeBounds}
             stores={storesLayer || undefined}

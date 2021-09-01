@@ -276,8 +276,8 @@
     "orderInfo": "Thông tin đơn hàng",
     "latLng": "Tọa độ",
     "info": "Thông tin đơn hàng",
-    "cod": "Tiền COD cần thu",
-    "totalPriceOrder": "Giá trị đơn hàng",
+    "cod": "Tiền COD cần thu (vnd)",
+    "totalPriceOrder": "Giá trị đơn hàng (vnd)",
     "weight": "Khối lượng(gram)",
     "length": "Chiều dài(cm)",
     "width": "Chiều rộng(cm)",
@@ -292,7 +292,11 @@
     "codeItem": "Mã mặt hàng",
     "img": "Hình ảnh",
     "name": "Tên mặt hàng",
-    "incurred": "Phí phát sinh"
+    "incurred": "Phí phát sinh",
+    "itemList": "Danh sách mặt hàng",
+    "addItem": "Thêm mặt hàng",
+    "item": "Mặt hàng",
+    "doneSteps": "Các bước đã hoàn thành - nhấn gửi đi để hoàn thành tạo đơn hàng"
   },
   "common": {
     "status": "Trạng thái",
@@ -342,7 +346,10 @@
     "updateDate": "Ngày cập nhật",
     "order": "Đơn hàng",
     "lat": "Kinh độ",
-    "lng": "Vĩ độ"
+    "lng": "Vĩ độ",
+    "isNumberPositive": "Phải là số nguyên dương!!!",
+    "btnNext": "Tiếp tục",
+    "btnReset": "Làm mới"
   },
   "tracking": {
     "title": "Theo dõi tài xế"

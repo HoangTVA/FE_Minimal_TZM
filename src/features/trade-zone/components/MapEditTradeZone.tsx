@@ -170,13 +170,13 @@ export default function MapEditTradeZone({
             url={LayerMap.BlackWhite}
           />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name={t('map.basic')}>
+        <LayersControl.BaseLayer checked name={t('map.basic')}>
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url={LayerMap.Basic}
           />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer checked name={t('map.layerDark')}>
+        <LayersControl.BaseLayer name={t('map.layerDark')}>
           <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url={LayerMap.Dark}

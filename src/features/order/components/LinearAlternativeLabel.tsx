@@ -4,17 +4,21 @@ import { Box, Step, Paper, Button, Stepper, StepLabel, Typography } from '@mater
 import { useFormContext } from 'react-hook-form';
 import { FormOne, FormThree, FormTwo } from './OrderForm';
 import { useTranslation } from 'react-i18next';
+import { LoadingButton } from '@material-ui/lab';
 
 // ----------------------------------------------------------------------
+interface LinearAlternativeLabelProps {
+  isSubmitting: boolean;
+  isDirty: boolean;
+}
 
-export default function LinearAlternativeLabel() {
+export default function LinearAlternativeLabel({
+  isSubmitting,
+  isDirty
+}: LinearAlternativeLabelProps) {
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set<number>());
-  const {
-    watch,
-    trigger,
-    formState: { errors }
-  } = useFormContext();
+  const { watch, trigger } = useFormContext();
   const [compiledForm, setCompiledForm] = useState({});
   const form = watch();
   const { t } = useTranslation();
@@ -27,11 +31,6 @@ export default function LinearAlternativeLabel() {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
-
-    // if (Boolean(errors.fromStation)) {
-    //   //trigger(['longitude', 'latitude']);
-    //   return;
-    // }
     switch (activeStep) {
       case 0: {
         const check = await trigger([
@@ -138,12 +137,12 @@ export default function LinearAlternativeLabel() {
       {activeStep === steps.length ? (
         <>
           <Paper sx={{ p: 3, my: 3, minHeight: 120, bgcolor: 'grey.50012' }}>
-            <Typography sx={{ my: 1 }}>All steps completed - you&apos;re finished</Typography>
+            <Typography sx={{ my: 1 }}>{t('common.btnReset')}</Typography>
           </Paper>
 
           <Box sx={{ display: 'flex' }}>
             <Box sx={{ flexGrow: 1 }} />
-            <Button onClick={handleReset}>Reset</Button>
+            <Button onClick={handleReset}>{t('common.btnReset')}</Button>
           </Box>
         </>
       ) : (
@@ -153,12 +152,23 @@ export default function LinearAlternativeLabel() {
           </Paper>
           <Box sx={{ display: 'flex' }}>
             <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
-              Back
+              {t('common.btnBack')}
             </Button>
             <Box sx={{ flexGrow: 1 }} />
-            <Button variant="contained" onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
+            {activeStep === steps.length - 1 ? (
+              <Button variant="contained" onClick={handleNext}>
+                {t('common.btnSubmit')}
+              </Button>
+            ) : (
+              <LoadingButton
+                variant="contained"
+                onClick={handleNext}
+                disabled={!isDirty}
+                loading={isSubmitting}
+              >
+                {t('common.btnNext')}
+              </LoadingButton>
+            )}
           </Box>
         </>
       )}

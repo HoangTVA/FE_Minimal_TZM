@@ -41,27 +41,28 @@ export default function AddEditOrderPage() {
   const handelStoreFormSubmit = async (formValues: Order) => {
     if (!isEdit) {
       try {
-        await orderApi.add(formValues);
-        enqueueSnackbar(formValues?.orderCode + ' ' + t('team.addSuccess'), { variant: 'success' });
-        const newFilter = { ...filter };
-        dispatch(assetActions.setFilter(newFilter));
-        navigate(PATH_DASHBOARD.team.root);
+        console.log(formValues);
+        // await orderApi.add(formValues);
+        // enqueueSnackbar(formValues?.orderCode + ' ' + t('team.addSuccess'), { variant: 'success' });
+        // const newFilter = { ...filter };
+        // dispatch(assetActions.setFilter(newFilter));
+        // navigate(PATH_DASHBOARD.team.root);
       } catch (error) {
         enqueueSnackbar(formValues?.orderCode + ' ' + t('common.errorText'), { variant: 'error' });
       }
     } else {
-      try {
-        await orderApi.update(orderId, formValues);
-        enqueueSnackbar(
-          t('team.updateSuccessStart') + formValues.orderCode + ' ' + t('team.updateSuccessEnd'),
-          { variant: 'success' }
-        );
-        const newFilter = { ...filter };
-        dispatch(assetActions.setFilter(newFilter));
-        navigate(PATH_DASHBOARD.team.root);
-      } catch (error) {
-        enqueueSnackbar(formValues?.orderCode + ' ' + t('common.errorText'), { variant: 'error' });
-      }
+      // try {
+      //   await orderApi.update(orderId, formValues);
+      //   enqueueSnackbar(
+      //     t('team.updateSuccessStart') + formValues.orderCode + ' ' + t('team.updateSuccessEnd'),
+      //     { variant: 'success' }
+      //   );
+      //   const newFilter = { ...filter };
+      //   dispatch(assetActions.setFilter(newFilter));
+      //   navigate(PATH_DASHBOARD.team.root);
+      // } catch (error) {
+      //   enqueueSnackbar(formValues?.orderCode + ' ' + t('common.errorText'), { variant: 'error' });
+      // }
     }
   };
   const initialValues: Order = {
@@ -71,10 +72,8 @@ export default function AddEditOrderPage() {
       city: '',
       code: '',
       district: '',
-      id: '',
       latitude: '',
       longitude: '',
-      stationName: '',
       ward: '',
       createdAt: '',
       deletedAt: '',
@@ -85,16 +84,27 @@ export default function AddEditOrderPage() {
       city: '',
       code: '',
       district: '',
-      id: '',
       latitude: '',
       longitude: '',
-      stationName: '',
       ward: '',
       createdAt: '',
       deletedAt: '',
       updatedAt: ''
     },
-    id: '',
+    orderInfoObj: {
+      cod: 0,
+      email: '',
+      height: 0,
+      incurred: 0,
+      length: 0,
+      note: '',
+      phone: '',
+      receiverName: '',
+      serviceCharge: 0,
+      totalPriceOrder: 0,
+      weight: 0,
+      width: 0
+    },
     orderCode: '',
     orderInfo: '',
     packageItems: [],
@@ -122,11 +132,6 @@ export default function AddEditOrderPage() {
           <Grid container spacing={3}>
             <Grid item xs={12} md={12}>
               {(!isEdit || Boolean(order)) && (
-                // <TeamForm
-                //   initialValue={initialValues}
-                //   onSubmit={handelStoreFormSubmit}
-                //   isEdit={isEdit}
-                // />
                 <OrderForm
                   initialValue={initialValues}
                   onSubmit={handelStoreFormSubmit}

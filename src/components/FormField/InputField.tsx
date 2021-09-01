@@ -22,6 +22,7 @@ export default function InputField({ name, control, label, ...inputProps }: Text
       label={label}
       value={value}
       onChange={onChange}
+      defaultValue={value === undefined ? '' : undefined}
       onBlur={onBlur}
       inputRef={ref}
       error={invalid}
