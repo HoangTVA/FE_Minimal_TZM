@@ -1,4 +1,3 @@
-import { IconMyStore } from 'components/map/MarkerStyles';
 import { LatLngExpression } from 'leaflet';
 import { useMemo, useRef } from 'react';
 import { Marker, Popup, useMap } from 'react-leaflet';
@@ -6,8 +5,9 @@ import { Marker, Popup, useMap } from 'react-leaflet';
 interface DraggableMarkerProps {
   location?: LatLngExpression;
   onDraggable: (point: LatLngExpression) => void;
+  icon: any;
 }
-export function DraggableMarker({ location, onDraggable }: DraggableMarkerProps) {
+export function DraggableMarker({ location, onDraggable, icon }: DraggableMarkerProps) {
   const markerRef = useRef(null);
   const map = useMap();
   if (location) map.flyTo(location);
@@ -29,7 +29,7 @@ export function DraggableMarker({ location, onDraggable }: DraggableMarkerProps)
       eventHandlers={eventHandlers}
       position={location}
       ref={markerRef}
-      icon={IconMyStore}
+      icon={icon}
     >
       <Popup minWidth={90}>
         <span>{location.toString()}</span>

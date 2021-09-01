@@ -19,9 +19,10 @@ const useStyle = makeStyles((theme) => ({
 interface MapDraggableProps {
   location?: LatLngExpression;
   onDraggable: (point: LatLngExpression) => void;
+  icon: any;
 }
 
-export function MapDraggable({ location, onDraggable }: MapDraggableProps) {
+export function MapDraggable({ location, onDraggable, icon }: MapDraggableProps) {
   const classes = useStyle();
   const center: LatLngExpression = [10.772461, 106.698055];
   const handelChangeMaker = (point: LatLngExpression) => {
@@ -52,7 +53,7 @@ export function MapDraggable({ location, onDraggable }: MapDraggableProps) {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url={LayerMap.Dark}
         />
-        <DraggableMarker location={location} onDraggable={handelChangeMaker} />
+        <DraggableMarker location={location} onDraggable={handelChangeMaker} icon={icon} />
       </MapContainer>
     </div>
   );
