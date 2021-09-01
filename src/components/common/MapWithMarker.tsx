@@ -48,7 +48,7 @@ export default function MapWithMarker({ position }: MapWithMarkerProps) {
     >
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url={LayerMap.Dark}
+        url={LayerMap.Basic}
       />
       <SetMarker position={position} />
     </MapContainer>

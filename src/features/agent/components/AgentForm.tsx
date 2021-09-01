@@ -55,8 +55,8 @@ export default function AgentForm({ initialValue, onSubmit, isEdit, isView }: Ag
       .number()
       .moreThan(0, t('common.isRequiredOptions'))
       .required(t('common.isRequiredOptions')),
-    previewImage: yup.mixed().notRequired(),
-    manufacturer: yup.string().required(t('common.isRequired'))
+    previewImage: yup.mixed().notRequired()
+    //manufacturer: yup.string().required(t('common.isRequired'))
   });
   const {
     control,

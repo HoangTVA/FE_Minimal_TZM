@@ -51,7 +51,7 @@ export function MapDraggable({ location, onDraggable, icon }: MapDraggableProps)
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url={LayerMap.Dark}
+          url={LayerMap.Basic}
         />
         <DraggableMarker location={location} onDraggable={handelChangeMaker} icon={icon} />
       </MapContainer>

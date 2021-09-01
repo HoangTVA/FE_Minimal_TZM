@@ -273,7 +273,29 @@
     "startInfo": "From station information",
     "endInfo": "To station information",
     "orderInfo": "Order info",
-    "latLng": "Location"
+    "latLng": "Location",
+    "info": "Thông tin đơn hàng",
+    "cod": "Tiền COD cần thu (vnd)",
+    "totalPriceOrder": "Giá trị đơn hàng (vnd)",
+    "weight": "Khối lượng(gram)",
+    "length": "Chiều dài(cm)",
+    "width": "Chiều rộng(cm)",
+    "height": "Chiều cao(cm)",
+    "note": "Ghi chú thông tin đơn hàng",
+    "receiverName": "Tên người nhận",
+    "email": "Email người nhận",
+    "phone": "Số điện thoại người nhận",
+    "serviceCharge": "Phí dịch vụ",
+    "quantity": "Số lượng",
+    "description": "Mô tả mặt hàng",
+    "codeItem": "Mã mặt hàng",
+    "img": "Hình ảnh",
+    "name": "Tên mặt hàng",
+    "incurred": "Phí phát sinh",
+    "itemList": "Danh sách mặt hàng",
+    "addItem": "Thêm mặt hàng",
+    "item": "Mặt hàng",
+    "doneSteps": "All steps completed - you are finished"
   },
   "common": {
     "status": "Status",
@@ -323,7 +345,10 @@
     "updateDate": "Update date",
     "order": "Orders",
     "lat": "Latitude",
-    "lng": "Longitude"
+    "lng": "Longitude",
+    "isNumberPositive": "This field is a positive number!!!",
+    "btnNext": "Next",
+    "btnReset": "Reset"
   },
   "tracking": {
     "title": "Tracing agent"

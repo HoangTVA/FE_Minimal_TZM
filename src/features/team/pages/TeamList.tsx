@@ -32,7 +32,6 @@ import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 // components
 import Page from 'components/Page';
 import Scrollbar from 'components/Scrollbar';
-import { storeActions } from 'features/store-management/storeSlice';
 // hooks
 import useSettings from 'hooks/useSettings';
 import { PaginationRequest, Team } from 'models';
@@ -96,7 +95,7 @@ export default function TeamList() {
 
   const headCells = [
     { id: 'id', label: '#', align: 'center' },
-    { id: 'name', label: t('agent.name'), align: 'center' },
+    { id: 'name', label: t('team.name'), align: 'left' },
     { id: 'action', label: t('common.actions'), disableSorting: true, align: 'center' }
   ];
   const { TblHead, TblPagination } = useTable({
@@ -170,8 +169,10 @@ export default function TeamList() {
 
                   {rs.results.map((e, idx) => (
                     <TableRow key={e.id}>
-                      <TableCell align="center">{idx + 1}</TableCell>
-                      <TableCell align="center">{e.name}</TableCell>
+                      <TableCell align="center" width={70}>
+                        {idx + 1}
+                      </TableCell>
+                      <TableCell align="left">{e.name}</TableCell>
                       <TableCell>
                         <Box style={{ display: 'flex', justifyContent: 'center' }}>
                           <Tooltip key={`btnDetails-${e.id}`} title={t('common.details') || ''}>
