@@ -2,9 +2,11 @@ import { useState } from 'react';
 // material
 import { Box, Step, Paper, Button, Stepper, StepLabel, Typography } from '@material-ui/core';
 import { useFormContext } from 'react-hook-form';
-import { FormOne, FormThree, FormTwo } from './OrderForm';
 import { useTranslation } from 'react-i18next';
 import { LoadingButton } from '@material-ui/lab';
+import { FormLocationForm } from './FormLocationForm';
+import { ToLocationForm } from './ToLocationForm';
+import { OrderInformationForm } from './OrderInformationForm';
 
 // ----------------------------------------------------------------------
 interface LinearAlternativeLabelProps {
@@ -101,19 +103,14 @@ export default function LinearAlternativeLabel({
         return 'not a valid step';
     }
   };
-
-  // const handleReset = () => {
-  //   setActiveStep(0);
-  //   setCompiledForm({});
-  // };
   function getStepContent(step, formContent) {
     switch (step) {
       case 0:
-        return <FormOne {...{ formContent }} />;
+        return <FormLocationForm {...{ formContent }} />;
       case 1:
-        return <FormTwo {...{ formContent }} />;
+        return <ToLocationForm {...{ formContent }} />;
       case 2:
-        return <FormThree {...{ formContent }} />;
+        return <OrderInformationForm {...{ formContent }} />;
       default:
         return 'Unknown step';
     }

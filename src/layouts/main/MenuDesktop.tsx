@@ -1,25 +1,13 @@
-import { Icon } from '@iconify/react';
-import { motion } from 'framer-motion';
-import { useState, useEffect, ReactNode } from 'react';
-import { NavLink as RouterLink, useLocation } from 'react-router-dom';
-import arrowIosUpwardFill from '@iconify/icons-eva/arrow-ios-upward-fill';
 import arrowIosDownwardFill from '@iconify/icons-eva/arrow-ios-downward-fill';
+import arrowIosUpwardFill from '@iconify/icons-eva/arrow-ios-upward-fill';
+import { Icon } from '@iconify/react';
+import { Box, Link, LinkProps, List, ListItem, Popover, Stack } from '@material-ui/core';
 // material
 import { styled } from '@material-ui/core/styles';
-import {
-  Box,
-  Link,
-  Grid,
-  List,
-  Stack,
-  Popover,
-  ListItem,
-  LinkProps,
-  ListSubheader,
-  CardActionArea
-} from '@material-ui/core';
+import { ReactNode, useState } from 'react';
+import { NavLink as RouterLink, useLocation } from 'react-router-dom';
 //
-import { MenuProps, MenuItemProps } from './MainNavbar';
+import { MenuItemProps, MenuProps } from './MainNavbar';
 
 // ----------------------------------------------------------------------
 
@@ -90,7 +78,7 @@ type MenuDesktopItemProps = {
 
 function MenuDesktopItem({ item, pathname, isHome, isOffset }: MenuDesktopItemProps) {
   const { title, path, children } = item;
-  const isActive = pathname === path;
+  //const isActive = pathname === path;
 
   const [anchorEl, setAnchorEl] = useState(null);
 

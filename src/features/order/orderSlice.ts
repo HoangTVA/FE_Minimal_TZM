@@ -1,6 +1,6 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from 'app/store';
-import { PaginationRequest, Response, Order } from 'models';
+import { Order, PaginationRequest, Response } from 'models';
 import { toast } from 'react-toastify';
 import i18n from 'translation/i18n';
 

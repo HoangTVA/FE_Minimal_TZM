@@ -1,6 +1,6 @@
 // material
-import { Box, Container, Typography, useMediaQuery } from '@material-ui/core';
-import { alpha, styled, useTheme } from '@material-ui/core/styles';
+import { Box, Container, Typography } from '@material-ui/core';
+import { styled, useTheme } from '@material-ui/core/styles';
 import { motion } from 'framer-motion';
 import Slider from 'react-slick';
 //
@@ -8,40 +8,40 @@ import { MotionInView, varFadeInDown, varFadeInUp } from '../../animate';
 
 // ----------------------------------------------------------------------
 
-const CARDS = [
-  {
-    icon: '/static/icons/ic_customer.svg',
-    title: (
-      <>
-        Reso <br /> Direct-to-Consumer
-      </>
-    ),
-    description:
-      'Allow your brand to offer your customers a personalised buying experience. Go D2C and add a new distribution channel for your brand.'
-  },
-  {
-    icon: '/static/icons/ic_store.svg',
-    title: (
-      <>
-        Reso <br /> Hyperlocal Marketplace
-      </>
-    ),
-    description:
-      'Leverage your business with a hyperlocal marketplace platform and focus on your target audience, ensuring on-time delivery.'
-  },
-  {
-    icon: '/static/icons/ic_headless.svg',
-    title: (
-      <>
-        Reso <br /> Headless Commerce
-      </>
-    ),
-    description:
-      'Scale your business with an event-driven platform. Build your own front-end and enhance your business without worrying about the infrastructure.'
-  }
-];
+// const CARDS = [
+//   {
+//     icon: '/static/icons/ic_customer.svg',
+//     title: (
+//       <>
+//         Reso <br /> Direct-to-Consumer
+//       </>
+//     ),
+//     description:
+//       'Allow your brand to offer your customers a personalised buying experience. Go D2C and add a new distribution channel for your brand.'
+//   },
+//   {
+//     icon: '/static/icons/ic_store.svg',
+//     title: (
+//       <>
+//         Reso <br /> Hyperlocal Marketplace
+//       </>
+//     ),
+//     description:
+//       'Leverage your business with a hyperlocal marketplace platform and focus on your target audience, ensuring on-time delivery.'
+//   },
+//   {
+//     icon: '/static/icons/ic_headless.svg',
+//     title: (
+//       <>
+//         Reso <br /> Headless Commerce
+//       </>
+//     ),
+//     description:
+//       'Scale your business with an event-driven platform. Build your own front-end and enhance your business without worrying about the infrastructure.'
+//   }
+// ];
 
-const shadowIcon = (color: string) => `drop-shadow(2px 2px 2px ${alpha(color, 0.48)})`;
+// const shadowIcon = (color: string) => `drop-shadow(2px 2px 2px ${alpha(color, 0.48)})`;
 
 const RootStyle = styled('div')(({ theme }) => ({
   paddingTop: theme.spacing(15),
@@ -80,7 +80,7 @@ const settings = {
 export default function LandingPartner() {
   const theme = useTheme();
   const isLight = theme.palette.mode === 'light';
-  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
+  //const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
   return (
     <RootStyle>

@@ -12,6 +12,8 @@ import { MHidden } from '../../components/@material-extend';
 import MenuDesktop from './MenuDesktop';
 import MenuMobile from './MenuMobile';
 import navConfig, { rightMenuConfig } from './MenuConfig';
+import { PATH_DASHBOARD } from 'routes/paths';
+import { useTranslation } from 'react-i18next';
 
 // ----------------------------------------------------------------------
 
@@ -67,7 +69,7 @@ export default function MainNavbar() {
   const isOffset = useOffSetTop(100);
   const { pathname } = useLocation();
   const isHome = pathname === '/';
-
+  const { t } = useTranslation();
   return (
     <AppBar sx={{ boxShadow: 0, bgcolor: 'transparent' }}>
       <ToolbarStyle
@@ -103,12 +105,8 @@ export default function MainNavbar() {
             <MenuDesktop isOffset={isOffset} isHome={isHome} navConfig={rightMenuConfig} />
           </MHidden>
           <MHidden width="mdDown">
-            <Button
-              variant="contained"
-              target="_blank"
-              href="https://material-ui.com/store/items/minimal-dashboard/"
-            >
-              Xem mẫu
+            <Button variant="contained" component={RouterLink} to={PATH_DASHBOARD.store.add}>
+              {t('content.login')}
             </Button>
           </MHidden>
 
