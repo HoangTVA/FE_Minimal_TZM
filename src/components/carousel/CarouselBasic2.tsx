@@ -9,13 +9,20 @@ import { CarouselControlsArrowsIndex } from './controls';
 
 // ----------------------------------------------------------------------
 
-const MOCK_CAROUSELS = [...Array(5)].map((_, index) => ({
-  id: mockData.id(index),
-  title: mockData.text.title(index),
-  image: mockData.image.feed(index),
-  description: mockData.text.description(index)
-}));
-
+const MOCK_CAROUSELS = [
+  {
+    id: 1,
+    title: 'Tối ưu tuyến đường',
+    image: 'https://wegodeliver.here.com/static/media/intro-step-2.baf96910.jpg',
+    description: 'Tính toán lộ trình để tối ưu quá trình vận chuyển cho bạn.'
+  },
+  {
+    id: 2,
+    title: 'Dễ dàng lên kế hoạch',
+    image: 'https://wegodeliver.here.com/static/media/intro-step-1.50160c57.jpg',
+    description: 'Lên kế hoạch và quản lý việc giao hàng của riêng bạn chỉ trong vài bước'
+  }
+];
 // ----------------------------------------------------------------------
 
 type CarouselItemProps = {

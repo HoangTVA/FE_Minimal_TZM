@@ -96,7 +96,10 @@ export default function LandingHero() {
 
             <motion.div variants={varFadeInRight}>
               <Typography fontWeight={500} variant="h4">
-                {t('ldPage.subSlogan')}
+                Nền tảng công nghệ{' '}
+                <Typography variant="h4" component="span">
+                  tối ưu hóa khu vực kinh doanh - làm chủ hoạt động giao hàng.
+                </Typography>
               </Typography>
             </motion.div>
 

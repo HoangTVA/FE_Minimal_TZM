@@ -12,12 +12,14 @@ import { CarouselControlsArrowsBasic2 } from './controls';
 
 // ----------------------------------------------------------------------
 
-const MOCK_CAROUSELS = [...Array(5)].map((_, index) => ({
-  id: mockData.id(index),
-  title: mockData.text.title(index),
-  image: mockData.image.feed(index),
-  description: mockData.text.description(index)
-}));
+const MOCK_CAROUSELS = [
+  {
+    id: 1,
+    title: 'Tối ưu tuyến đường',
+    image: 'https://jungleworks.com/wp-content/uploads/2021/06/route-optimize.jpg',
+    description: 'Tính toán lộ trình để tối ưu quá trình vận chuyển cho bạn.'
+  }
+];
 
 const RootStyle = styled(Box)(({ theme }) => ({
   overflow: 'hidden',
