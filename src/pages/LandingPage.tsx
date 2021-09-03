@@ -1,6 +1,7 @@
 // material
 import { styled } from '@material-ui/core/styles';
 import LandingDomain from 'components/_external-pages/landing/LandingDomain';
+import LandingOptimize from 'components/_external-pages/landing/LandingOptimize';
 import LandingPartner from 'components/_external-pages/landing/LandingPartner';
 import LandingWhitePlatform from 'components/_external-pages/landing/LandingWhitePlatform';
 import { useTranslation } from 'react-i18next';
@@ -35,6 +36,7 @@ export default function LandingPage() {
       <ContentStyle>
         <LandingMinimal />
         <LandingPartner />
+        <LandingOptimize />
         <LandingWhitePlatform />
         <LandingDomain />
         <LandingAdvertisement />

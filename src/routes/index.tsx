@@ -146,13 +146,16 @@ export default function Router() {
       element: <LogoOnlyLayout />,
       children: [
         { path: '404', element: <NotFound /> },
-        { path: '*', element: <Navigate to="/404" replace /> }
+        { path: '*', element: <Navigate to="/coming-soon" replace /> }
       ]
     },
     {
       path: '/',
       element: <MainLayout />,
-      children: [{ path: '/', element: <LandingPage /> }]
+      children: [
+        { path: '/', element: <LandingPage /> },
+        { path: '/coming-soon', element: <ComingSoon /> }
+      ]
     },
     { path: '/login', element: <Login /> },
     { path: '*', element: <Navigate to="/404" replace /> }

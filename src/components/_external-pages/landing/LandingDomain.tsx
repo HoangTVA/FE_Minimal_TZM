@@ -12,24 +12,24 @@ import { CarouselControlsArrowsBasic2 } from '../../carousel';
 
 const MOCK_MEMBERS = [
   {
-    title: 'F&B',
+    title: 'Thức ăn',
     caption: '',
-    image: '/static/home/food_domain.jpg'
+    image: '/static/home/food-domain.png'
   },
   {
     title: 'Tạp hóa',
     caption: '',
-    image: '/static/home/grocery_domain.jpg'
+    image: '/static/home/grocery-domain.png'
   },
   {
-    title: 'Tiệm thuốc',
+    title: 'Giao nhận',
     caption: '',
-    image: '/static/home/pharmacy_domain.jpg'
+    image: '/static/home/delivery-domain.png'
   },
   {
-    title: 'Quần áo',
+    title: 'Logistics',
     caption: '',
-    image: '/static/home/fashion_domain.jpg'
+    image: '/static/home/logistics-domain.png'
   }
 ];
 
@@ -53,7 +53,11 @@ function MemberCard({ member }: MemberCardProps) {
       <Typography variant="body2" sx={{ mb: 2, color: 'text.secondary' }}>
         {role}
       </Typography>
-      <Box component="img" src={avatar} sx={{ width: '100%', height: 165, borderRadius: 1.5 }} />
+      <Box
+        component="img"
+        src={avatar}
+        sx={{ width: '100%', height: 165, borderRadius: 1.5, objectFit: 'cover' }}
+      />
       {/* <Box py={2}>
         <Button
           variant="text"
