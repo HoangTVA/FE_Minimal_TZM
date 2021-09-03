@@ -90,7 +90,7 @@ export default function LandingHero() {
                 variant={isDesktop ? 'h2' : 'h3'}
                 sx={{ color: 'primary.main' }}
               >
-                {t('ldPage.slogan')}
+                {t('ldPage.appName')} - {t('ldPage.slogan')}
               </Typography>
             </motion.div>
 
@@ -108,7 +108,6 @@ export default function LandingHero() {
               <motion.div variants={varFadeInRight}>
                 <Button
                   size="large"
-                  color="info"
                   variant="contained"
                   component={RouterLink}
                   to={PATH_DASHBOARD.root}

@@ -369,8 +369,9 @@
     "sectionTimeout": "Section time out, please login again!!!"
   },
   "ldPage": {
+    "appName": "Tradezone Map",
     "title": "TZM | A digital solution for a chain of stores",
-    "slogan": "Trade Zone Map solution for chain stores that is optimized for business areas - mastering your delivery",
+    "slogan": "Solution for chain stores that is optimized for business areas - mastering your delivery",
     "subSlogan": "Using a map tool to manage location, information, and the division of business areas for each store, integrating solutions for chain businesses. Build websites quickly, schedule business areas, delivery solutions - distribute orders for drivers",
     "manageStore": "Store management",
     "manageArea": "Business area management ",
