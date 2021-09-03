@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react';
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import { NavLink as RouterLink, useLocation } from 'react-router-dom';
 import arrowIosUpwardFill from '@iconify/icons-eva/arrow-ios-upward-fill';
 import arrowIosDownwardFill from '@iconify/icons-eva/arrow-ios-downward-fill';
@@ -14,6 +14,7 @@ import {
   Stack,
   Popover,
   ListItem,
+  LinkProps,
   ListSubheader,
   CardActionArea
 } from '@material-ui/core';
@@ -22,7 +23,12 @@ import { MenuProps, MenuItemProps } from './MainNavbar';
 
 // ----------------------------------------------------------------------
 
-const LinkStyle = styled(Link)(({ theme }) => ({
+interface LinkStyleProps extends LinkProps {
+  component?: ReactNode;
+  to?: string;
+}
+
+const LinkStyle = styled(Link)<LinkStyleProps>(({ theme }) => ({
   ...theme.typography.subtitle2,
   color: theme.palette.text.primary,
   marginRight: theme.spacing(5),
@@ -32,6 +38,22 @@ const LinkStyle = styled(Link)(({ theme }) => ({
   '&:hover': {
     opacity: 0.48,
     textDecoration: 'none'
+  }
+}));
+
+interface ListItemStyleProps extends LinkProps {
+  component?: ReactNode;
+  to?: string;
+}
+
+const ListItemStyle = styled(ListItem)<ListItemStyleProps>(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: 0,
+  marginBottom: theme.spacing(2),
+  color: theme.palette.text.secondary,
+  transition: theme.transitions.create('color'),
+  '&:hover': {
+    color: theme.palette.text.primary
   }
 }));
 
@@ -62,144 +84,95 @@ function IconBullet({ type = 'item' }: IconBulletProps) {
 type MenuDesktopItemProps = {
   item: MenuItemProps;
   pathname: string;
-  isOpen: boolean;
   isHome: boolean;
   isOffset: boolean;
-
-  onOpen: VoidFunction;
-  onClose: VoidFunction;
 };
 
-function MenuDesktopItem({
-  item,
-  pathname,
-  isHome,
-  isOpen,
-  isOffset,
-  onOpen,
-  onClose
-}: MenuDesktopItemProps) {
+function MenuDesktopItem({ item, pathname, isHome, isOffset }: MenuDesktopItemProps) {
   const { title, path, children } = item;
   const isActive = pathname === path;
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event: any) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
+
+  const handleClose = (event: any) => {
+    setAnchorEl(null);
+  };
+
+  const openPopper = Boolean(anchorEl);
 
   if (children) {
     return (
       <div key={title}>
         <LinkStyle
-          onClick={onOpen}
+          onClick={handleClick}
           sx={{
             display: 'flex',
             cursor: 'pointer',
             alignItems: 'center',
-            ...(isHome && { color: 'common.white' }),
-            ...(isOffset && { color: 'text.primary' }),
-            ...(isOpen && { opacity: 0.48 })
+            color: 'text.primary',
+            ...(isOffset && {}),
+            ...(openPopper && { opacity: 0.48 })
           }}
         >
           {title}
           <Box
             component={Icon}
-            icon={isOpen ? arrowIosUpwardFill : arrowIosDownwardFill}
+            icon={openPopper ? arrowIosUpwardFill : arrowIosDownwardFill}
             sx={{ ml: 0.5, width: 16, height: 16 }}
           />
         </LinkStyle>
 
         <Popover
-          open={isOpen}
-          anchorReference="anchorPosition"
-          anchorPosition={{ top: 80, left: 0 }}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'center' }}
-          onClose={onClose}
+          open={openPopper}
+          anchorEl={anchorEl}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+          onClose={handleClose}
           PaperProps={{
             sx: {
-              px: 3,
-              pt: 5,
-              pb: 3,
-              right: 16,
+              p: 3,
+              pb: 0,
               margin: 'auto',
-              maxWidth: 1280,
               borderRadius: 2,
               boxShadow: (theme) => theme.customShadows.z24
             }
           }}
         >
-          <Grid container spacing={3}>
-            {children.map((list) => {
-              const { subheader, items } = list;
+          {children.map((list) => {
+            const { subheader, items } = list;
 
-              return (
-                <Grid key={subheader} item xs={12} md={subheader === 'Dashboard' ? 6 : 2}>
-                  <List disablePadding>
-                    <ListSubheader
-                      disableSticky
-                      disableGutters
+            return (
+              <Box key={subheader}>
+                <List disablePadding>
+                  {items.map((item) => (
+                    <ListItemStyle
+                      key={item.title}
+                      to={item.path}
+                      component={RouterLink}
+                      underline="none"
                       sx={{
-                        display: 'flex',
-                        lineHeight: 'unset',
-                        alignItems: 'center',
-                        color: 'text.primary',
-                        typography: 'overline'
+                        p: 0,
+                        typography: 'body2',
+                        color: 'text.secondary',
+                        transition: (theme) => theme.transitions.create('color'),
+                        '&:hover': { color: 'text.primary' },
+                        ...(item.path === pathname && {
+                          typography: 'subtitle2',
+                          color: 'text.primary'
+                        })
                       }}
                     >
-                      <IconBullet type="subheader" /> {subheader}
-                    </ListSubheader>
-
-                    {items.map((item) => (
-                      <ListItem
-                        key={item.title}
-                        // @ts-ignore
-                        to={item.path}
-                        component={RouterLink}
-                        underline="none"
-                        sx={{
-                          p: 0,
-                          mt: 3,
-                          typography: 'body2',
-                          color: 'text.secondary',
-                          transition: (theme) => theme.transitions.create('color'),
-                          '&:hover': { color: 'text.primary' },
-                          ...(item.path === pathname && {
-                            typography: 'subtitle2',
-                            color: 'text.primary'
-                          })
-                        }}
-                      >
-                        {item.title === 'Dashboard' ? (
-                          <CardActionArea
-                            sx={{
-                              py: 5,
-                              px: 10,
-                              borderRadius: 2,
-                              color: 'primary.main',
-                              bgcolor: 'background.neutral'
-                            }}
-                          >
-                            <Box
-                              component={motion.img}
-                              whileTap="tap"
-                              whileHover="hover"
-                              variants={{
-                                hover: { scale: 1.02 },
-                                tap: { scale: 0.98 }
-                              }}
-                              src="/static/illustrations/illustration_dashboard.png"
-                              sx={{ minWidth: 420 }}
-                            />
-                          </CardActionArea>
-                        ) : (
-                          <>
-                            <IconBullet />
-                            {item.title}
-                          </>
-                        )}
-                      </ListItem>
-                    ))}
-                  </List>
-                </Grid>
-              );
-            })}
-          </Grid>
+                      <>{item.title}</>
+                    </ListItemStyle>
+                  ))}
+                </List>
+              </Box>
+            );
+          })}
         </Popover>
       </div>
     );
@@ -208,13 +181,12 @@ function MenuDesktopItem({
   return (
     <LinkStyle
       key={title}
-      // @ts-ignore
       to={path}
       component={RouterLink}
       sx={{
-        ...(isHome && { color: 'common.white' }),
-        ...(isOffset && { color: 'text.primary' }),
-        ...(isActive && { color: 'primary.main' })
+        color: 'text.primary',
+        ...(isOffset && {}),
+        ...(openPopper && { opacity: 0.48 })
       }}
     >
       {title}
@@ -224,22 +196,6 @@ function MenuDesktopItem({
 
 export default function MenuDesktop({ isOffset, isHome, navConfig }: MenuProps) {
   const { pathname } = useLocation();
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (open) {
-      handleClose();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
     <Stack direction="row">
@@ -248,9 +204,6 @@ export default function MenuDesktop({ isOffset, isHome, navConfig }: MenuProps) 
           key={link.title}
           item={link}
           pathname={pathname}
-          isOpen={open}
-          onOpen={handleOpen}
-          onClose={handleClose}
           isOffset={isOffset}
           isHome={isHome}
         />

@@ -11,10 +11,7 @@ import { MHidden } from '../../components/@material-extend';
 //
 import MenuDesktop from './MenuDesktop';
 import MenuMobile from './MenuMobile';
-import navConfig from './MenuConfig';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import LanguagePopover from 'layouts/dashboard/LanguagePopover';
+import navConfig, { rightMenuConfig } from './MenuConfig';
 
 // ----------------------------------------------------------------------
 
@@ -70,7 +67,7 @@ export default function MainNavbar() {
   const isOffset = useOffSetTop(100);
   const { pathname } = useLocation();
   const isHome = pathname === '/';
-  const { t } = useTranslation();
+
   return (
     <AppBar sx={{ boxShadow: 0, bgcolor: 'transparent' }}>
       <ToolbarStyle
@@ -90,25 +87,37 @@ export default function MainNavbar() {
             justifyContent: 'space-between'
           }}
         >
-          <RouterLink to="/">
-            <Logo />
-          </RouterLink>
-          <Label color="info" sx={{ ml: 1 }}>
-            Trade Zone Map
-          </Label>
-          <LanguagePopover />
+          <Box mr={4}>
+            <RouterLink to="/">
+              <Logo />
+            </RouterLink>
+          </Box>
+
+          <MHidden width="mdDown">
+            <MenuDesktop isOffset={isOffset} isHome={isHome} navConfig={navConfig} />
+          </MHidden>
+
           <Box sx={{ flexGrow: 1 }} />
 
           <MHidden width="mdDown">
-            <MenuDesktop isOffset={true} isHome={isHome} navConfig={navConfig} />
+            <MenuDesktop isOffset={isOffset} isHome={isHome} navConfig={rightMenuConfig} />
+          </MHidden>
+          <MHidden width="mdDown">
+            <Button
+              variant="contained"
+              target="_blank"
+              href="https://material-ui.com/store/items/minimal-dashboard/"
+            >
+              Xem mẫu
+            </Button>
           </MHidden>
 
-          <Link to="/login" style={{ textDecoration: 'none' }}>
-            <Button variant="contained">{t('content.login')}</Button>
-          </Link>
-
           <MHidden width="mdUp">
-            <MenuMobile isOffset={true} isHome={isHome} navConfig={navConfig} />
+            <MenuMobile
+              isOffset={isOffset}
+              isHome={isHome}
+              navConfig={[...navConfig, ...rightMenuConfig]}
+            />
           </MHidden>
         </Container>
       </ToolbarStyle>

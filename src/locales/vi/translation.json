@@ -370,9 +370,10 @@
     "sectionTimeout": "Phiên làm việc hết hạn, vui lòng đăng nhập lại!!!"
   },
   "ldPage": {
+    "appName": "Tradezone Map",
     "title": "TZM | Giải pháp cho hệ thống chuỗi",
-    "slogan": "Trade Zone Map giải pháp cho hệ thống chuỗi cửa hàng tối ưu hóa khu vực kinh doanh - làm chủ hoạt động giao hàng",
-    "subSlogan": "Tích hợp các giải pháp cho kinh doanh theo chuỗi, thông qua công cụ bản đồ giúp quản lí vị trí, thông tin, chia khu vực kinh doanh cho từng cửa hàng. Xây dựng nhanh trang web, lập lịch khu vực kinh doanh, các giải pháp giao hàng - phân phối đơn hàng cho tài xế",
+    "slogan": "Giải pháp Giao hàng Thông minh",
+    "subSlogan": "Quản lý tất cả các hoạt động giao hàng của bạn từ một nền tảng để nâng cao hiệu quả, thúc đẩy doanh số bán hàng và mang lại trải nghiệm khách hàng đặc biệt trên quy mô lớn",
     "manageStore": "Quản lí cửa hàng",
     "manageArea": "Quản lí khu vực kinh doanh",
     "poi": "Địa điểm tiềm năng",
