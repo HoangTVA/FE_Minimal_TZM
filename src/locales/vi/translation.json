@@ -398,5 +398,30 @@
     "chainSub": "Thông qua công cụ bản đồ, các địa điểm tiềm năng được chọn lọc, các giải pháp phân chia khu vực kinh doanh cho từng cửa hàng, qua đó giúp hệ thống kinh doanh chuỗi được linh hoạt và tối ưu",
     "deliverySupport": "Quản lý lập kế hoạch lộ trình, điều động tự động, theo dõi thời gian thực. Ngoài ra, tự động chỉ định đơn đặt hàng cho các nhóm giao hàng, dựa trên vị trí địa lý của họ và hơn thế nữa",
     "deliveryTitle": "Nâng cao chất lượng dịch vụ vận chuyển bằng nền tảng bản đồ"
+  },
+  "features": {
+    "dispatchDashboard": "Trang tổng quan",
+    "dispatchDashboardDes": "Quản lý hoạt động kinh doanh của bạn từ chế độ xem tập trung",
+    "apiAccess": "Quyền truy cập API",
+    "apiAccessDes": "Chúng tôi có chuẩn API cung cấp cho mọi doanh nghiệp. Chọn từ bộ API có sẵn và tùy chỉnh phần mềm quản lý vận chuyển hàng hóa của bạn.",
+    "customfieldTemplates": "Tùy biến phù hợp với trang web cửa hàng",
+    "customfieldTemplatesDes": "Các trường tùy chỉnh cho phép bạn nắm bắt thông tin trong một biểu mẫu dành riêng cho doanh nghiệp của bạn",
+    "logistics": "Hậu cần Trade Zone Map",
+    "logisticsDes": "Dịch vụ hậu cần của Trade Zone Map quản lý và theo dõi việc giao hàng đường dài để cải thiện hiệu quả chuỗi cung ứng của bạn",
+    "serviceApp": "Ứng dụng dịch vụ",
+    "taskNotification": "Thông báo nhiệm vụ",
+    "taskNotificationDes": "Tùy chỉnh cảnh báo hoạt động và giao tiếp trực tiếp với người quản lý, điều phối và khách hàng",
+    "optimizedRoutes": "Các tuyến đường được tối ưu hóa",
+    "optimizedRoutesDes": "Dễ dàng điều hướng đến nhiều điểm đến và đảm bảo giao hàng đúng giờ",
+    "proofOfDelivery": "Bằng chứng giao hàng",
+    "proofOfDeliveryDes": "Cho phép các đại lý của bạn thêm ghi chú, hình ảnh về đơn hàng",
+    "easyNavigation": "Điều hướng dễ dàng",
+    "easyNavigationDes": "Dễ dàng truy cập thông tin khách hàng, giám sát công việc và di chuyển rảnh tay",
+    "agentCapacityManagement": "Quản lý năng lực đại lý",
+    "agentCapacityManagementDes": "Mỗi nhiệm vụ sẽ có một năng lực liên quan và sẽ được tự động phân bổ cho các đại lý đáp ứng đủ tiêu chí năng lực",
+    "tracker": "Máy theo dõi",
+    "trackerDes": "Theo dõi đội xe nâng cao để quản lý tốt hơn",
+    "geofencing": "Định vị địa lý",
+    "geofencingDes": "Truy cập nhanh vị trí, thông tin, trạng thái của tài xế một cách trực quan thông qua bản đồ"
   }
 }

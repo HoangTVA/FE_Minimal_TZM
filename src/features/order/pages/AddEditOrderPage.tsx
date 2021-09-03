@@ -41,12 +41,12 @@ export default function AddEditOrderPage() {
   const handelStoreFormSubmit = async (formValues: Order) => {
     if (!isEdit) {
       try {
-        console.log(formValues);
-        // await orderApi.add(formValues);
-        // enqueueSnackbar(formValues?.orderCode + ' ' + t('team.addSuccess'), { variant: 'success' });
-        // const newFilter = { ...filter };
-        // dispatch(assetActions.setFilter(newFilter));
-        // navigate(PATH_DASHBOARD.team.root);
+        await orderApi.add(formValues);
+        formValues.orderInfo = JSON.stringify(formValues.orderInfoObj);
+        enqueueSnackbar(formValues?.orderCode + ' ' + t('team.addSuccess'), { variant: 'success' });
+        const newFilter = { ...filter };
+        dispatch(assetActions.setFilter(newFilter));
+        navigate(PATH_DASHBOARD.team.root);
       } catch (error) {
         enqueueSnackbar(formValues?.orderCode + ' ' + t('common.errorText'), { variant: 'error' });
       }

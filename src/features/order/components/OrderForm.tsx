@@ -31,7 +31,8 @@ interface TeamFormProps {
   onSubmit?: (formValue: Order) => void;
   isEdit: boolean;
 }
-
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export default function OrderForm({ initialValue, onSubmit, isEdit }: TeamFormProps) {
   const { t } = useTranslation();
   //schema
@@ -65,8 +66,11 @@ export default function OrderForm({ initialValue, onSubmit, isEdit }: TeamFormPr
       height: yup.number().positive(t('common.isNumberPositive')).required(t('common.isRequired')),
       note: yup.string().notRequired(),
       receiverName: yup.string().required(t('common.isRequired')),
-      email: yup.string().required(t('common.isRequired')),
-      phone: yup.string().required(t('common.isRequired')),
+      email: yup.string().email(t('common.emailError')).max(255).required(t('common.isRequired')),
+      phone: yup
+        .string()
+        .required(t('common.isRequired'))
+        .matches(phoneRegExp, t('common.phoneError')),
       serviceCharge: yup
         .number()
         .positive(t('common.isNumberPositive'))
@@ -328,14 +332,10 @@ export const FormTwo = ({ formContent }) => {
     });
     //console.log(data);
   };
-  useEffect(() => {
-    reset({ ...formContent.two });
-  }, []);
   const handelSelectLocation = (address: Address) => {
     setLocation(address?.latlng);
   };
   const handelOnDragMarker = (point: any) => {
-    // setLocationSelected(point['lng'].toString() + ' ' + point['lat'].toString());
     const latLng: LatLngExpression = [point.lat, point.lng];
     setLocation(latLng);
   };
@@ -440,9 +440,6 @@ export const FormOne = ({ formContent }) => {
     });
     //console.log(data);
   };
-  useEffect(() => {
-    reset({ ...formContent.one });
-  }, []);
   const handelSelectLocation = (address: Address) => {
     setLocation(address?.latlng);
   };

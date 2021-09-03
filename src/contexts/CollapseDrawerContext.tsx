@@ -15,7 +15,7 @@ export type CollapseDrawerContextProps = {
 };
 
 const initialState: CollapseDrawerContextProps = {
-  collapseClick: false,
+  collapseClick: true,
   collapseHover: false,
   onToggleCollapse: () => {},
   onHoverEnter: () => {},

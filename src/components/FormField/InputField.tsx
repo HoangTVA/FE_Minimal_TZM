@@ -20,9 +20,8 @@ export default function InputField({ name, control, label, ...inputProps }: Text
     <TextField
       fullWidth
       label={label}
-      value={value}
+      value={value || ''}
       onChange={onChange}
-      defaultValue={value === undefined ? '' : undefined}
       onBlur={onBlur}
       inputRef={ref}
       error={invalid}
