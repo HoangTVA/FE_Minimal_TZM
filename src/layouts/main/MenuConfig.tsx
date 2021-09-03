@@ -5,8 +5,8 @@ import ApartmentIcon from '@material-ui/icons/Apartment';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 // routes
-import { PATH_DASHBOARD } from '../../routes/paths';
-
+import { PATH_DASHBOARD, PATH_PAGE } from '../../routes/paths';
+import i18n from 'translation/i18n';
 // ----------------------------------------------------------------------
 
 const ICON_SIZE = {
@@ -30,7 +30,7 @@ const menuConfig = [
       }
     ]
   },
-  { title: 'Tính năng', path: '/features', icon: <FormatListBulletedIcon {...ICON_SIZE} /> }
+  { title: 'Tính năng', path: PATH_PAGE.features, icon: <FormatListBulletedIcon {...ICON_SIZE} /> }
 ];
 
 export const rightMenuConfig = [
@@ -44,10 +44,14 @@ export const rightMenuConfig = [
     path: '/start-up',
     icon: <Icon icon={appstoreFilled} {...ICON_SIZE} />
   },
-  { title: 'Khách hàng', path: '/client', icon: <Icon icon={appstoreFilled} {...ICON_SIZE} /> },
   {
-    title: 'Theo yêu cầu',
-    path: '/on-demand',
+    title: 'Khách hàng',
+    path: PATH_PAGE.client,
+    icon: <Icon icon={appstoreFilled} {...ICON_SIZE} />
+  },
+  {
+    title: i18n.t('content.dashboard'),
+    path: PATH_DASHBOARD.root,
     icon: <Icon icon={appstoreFilled} {...ICON_SIZE} />
   }
 ];

@@ -154,7 +154,12 @@ export default function Router() {
       element: <MainLayout />,
       children: [
         { path: '/', element: <LandingPage /> },
+<<<<<<< HEAD
+        { path: '/features', element: <FeaturesPage /> },
+        { path: '/client', element: <ClientPage /> }
+=======
         { path: '/coming-soon', element: <ComingSoon /> }
+>>>>>>> 3092161f8221b2ea843729ad684c021b570f247d
       ]
     },
     { path: '/login', element: <Login /> },
@@ -216,3 +221,5 @@ const AddEditAgentPage = Loadable(lazy(() => import('features/agent/pages/AddEdi
 const OrderList = Loadable(lazy(() => import('features/order/pages/OrderList')));
 const TrackingPage = Loadable(lazy(() => import('features/tracking/pages/TrackingPage')));
 const AddEditOrderPage = Loadable(lazy(() => import('features/order/pages/AddEditOrderPage')));
+const FeaturesPage = Loadable(lazy(() => import('components/_external-pages/landing/Features')));
+const ClientPage = Loadable(lazy(() => import('components/_external-pages/landing/Client')));

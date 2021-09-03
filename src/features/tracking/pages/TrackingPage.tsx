@@ -21,7 +21,6 @@ import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Page from 'components/Page';
 import { LayerActive } from 'constants/layer';
 import { agentActions, selectAgentList } from 'features/agent/agentSlice';
-import Map from 'features/map/components/Map';
 // hooks
 import useSettings from 'hooks/useSettings';
 import 'leaflet/dist/leaflet.css';
@@ -31,9 +30,6 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 // routes
 import { PATH_DASHBOARD } from 'routes/paths';
-
-import { Icon } from '@iconify/react';
-import tagsFilled from '@iconify/icons-ant-design/tags-filled';
 import { firebase } from 'utils/initFirebase';
 import TrackingMap from '../components/TrackingMap';
 

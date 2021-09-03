@@ -81,6 +81,7 @@ export function SearchAddress({ onChangeAddress }: SearchAddressProps) {
       //when search alway show all option
       filterOptions={(f) => f}
       getOptionLabel={(option) => option?.address}
+      isOptionEqualToValue={(option, value) => option.id === value.id}
       options={options}
       size="small"
       loading={true}

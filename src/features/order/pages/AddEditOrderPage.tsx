@@ -1,10 +1,9 @@
 import { Box, Container, Grid } from '@material-ui/core';
 import orderApi from 'api/orderApi';
-import teamApi from 'api/teamApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Page from 'components/Page';
-import { poiBrandActions as assetActions, selectFilter } from 'features/pois-brand/poiBrandSlice';
+import { selectFilter } from 'features/pois-brand/poiBrandSlice';
 import useSettings from 'hooks/useSettings';
 import { Order } from 'models';
 import { useSnackbar } from 'notistack5';
@@ -12,8 +11,8 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import { PATH_DASHBOARD } from 'routes/paths';
-import { getCurrentUser } from 'utils/common';
 import OrderForm from '../components/OrderForm';
+import { orderActions } from '../orderSlice';
 import './style.css';
 
 export default function AddEditOrderPage() {
@@ -26,7 +25,7 @@ export default function AddEditOrderPage() {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const filter = useAppSelector(selectFilter);
-  const user = getCurrentUser();
+  //const user = getCurrentUser();
   useEffect(() => {
     if (!orderId) return;
 
@@ -41,12 +40,12 @@ export default function AddEditOrderPage() {
   const handelStoreFormSubmit = async (formValues: Order) => {
     if (!isEdit) {
       try {
-        console.log(formValues);
-        // await orderApi.add(formValues);
-        // enqueueSnackbar(formValues?.orderCode + ' ' + t('team.addSuccess'), { variant: 'success' });
-        // const newFilter = { ...filter };
-        // dispatch(assetActions.setFilter(newFilter));
-        // navigate(PATH_DASHBOARD.team.root);
+        await orderApi.add(formValues);
+        formValues.orderInfo = JSON.stringify(formValues.orderInfoObj);
+        enqueueSnackbar(formValues?.orderCode + ' ' + t('team.addSuccess'), { variant: 'success' });
+        const newFilter = { ...filter };
+        dispatch(orderActions.setFilter(newFilter));
+        navigate(PATH_DASHBOARD.order.root);
       } catch (error) {
         enqueueSnackbar(formValues?.orderCode + ' ' + t('common.errorText'), { variant: 'error' });
       }

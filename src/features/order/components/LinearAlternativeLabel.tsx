@@ -2,9 +2,11 @@ import { useState } from 'react';
 // material
 import { Box, Step, Paper, Button, Stepper, StepLabel, Typography } from '@material-ui/core';
 import { useFormContext } from 'react-hook-form';
-import { FormOne, FormThree, FormTwo } from './OrderForm';
 import { useTranslation } from 'react-i18next';
 import { LoadingButton } from '@material-ui/lab';
+import { FormLocationForm } from './FormLocationForm';
+import { ToLocationForm } from './ToLocationForm';
+import { OrderInformationForm } from './OrderInformationForm';
 
 // ----------------------------------------------------------------------
 interface LinearAlternativeLabelProps {
@@ -42,6 +44,7 @@ export default function LinearAlternativeLabel({
           'fromStation.city'
         ]);
         if (!check) return;
+        setCompiledForm({ ...compiledForm, one: form });
         break;
       }
       case 1: {
@@ -54,10 +57,28 @@ export default function LinearAlternativeLabel({
           'toStation.city'
         ]);
         if (!check) return;
+        setCompiledForm({ ...compiledForm, two: form });
         break;
       }
 
       case 2:
+        const check = await trigger([
+          'orderCode',
+          'orderInfoObj.cod',
+          'orderInfoObj.totalPriceOrder',
+          'orderInfoObj.weight',
+          'orderInfoObj.length',
+          'orderInfoObj.width',
+          'orderInfoObj.height',
+          'orderInfoObj.note',
+          'orderInfoObj.receiverName',
+          'orderInfoObj.email',
+          'orderInfoObj.phone',
+          'orderInfoObj.serviceCharge',
+          'orderInfoObj.incurred',
+          'packageItems'
+        ]);
+        if (!check) return;
         setCompiledForm({ ...compiledForm, three: form });
 
         break;
@@ -67,21 +88,6 @@ export default function LinearAlternativeLabel({
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
-
-    switch (activeStep) {
-      case 0:
-        setCompiledForm({ ...compiledForm, one: form });
-        break;
-      case 1:
-        setCompiledForm({ ...compiledForm, two: form });
-        break;
-      case 2:
-        setCompiledForm({ ...compiledForm, three: form });
-
-        break;
-      default:
-        return 'not a valid step';
-    }
   };
 
   const handleBack = () => {
@@ -97,19 +103,14 @@ export default function LinearAlternativeLabel({
         return 'not a valid step';
     }
   };
-
-  const handleReset = () => {
-    setActiveStep(0);
-    setCompiledForm({});
-  };
   function getStepContent(step, formContent) {
     switch (step) {
       case 0:
-        return <FormOne {...{ formContent }} />;
+        return <FormLocationForm {...{ formContent }} />;
       case 1:
-        return <FormTwo {...{ formContent }} />;
+        return <ToLocationForm {...{ formContent }} />;
       case 2:
-        return <FormThree {...{ formContent }} />;
+        return <OrderInformationForm {...{ formContent }} />;
       default:
         return 'Unknown step';
     }
@@ -137,12 +138,20 @@ export default function LinearAlternativeLabel({
       {activeStep === steps.length ? (
         <>
           <Paper sx={{ p: 3, my: 3, minHeight: 120, bgcolor: 'grey.50012' }}>
-            <Typography sx={{ my: 1 }}>{t('common.btnReset')}</Typography>
+            <Typography sx={{ p: 3, my: 3, minHeight: 120 }}>{t('order.doneSteps')}</Typography>
           </Paper>
 
           <Box sx={{ display: 'flex' }}>
             <Box sx={{ flexGrow: 1 }} />
-            <Button onClick={handleReset}>{t('common.btnReset')}</Button>
+            <LoadingButton
+              variant="contained"
+              onClick={handleNext}
+              disabled={!isDirty}
+              loading={isSubmitting}
+              type="submit"
+            >
+              {t('common.btnSubmit')}
+            </LoadingButton>
           </Box>
         </>
       ) : (
@@ -155,19 +164,10 @@ export default function LinearAlternativeLabel({
               {t('common.btnBack')}
             </Button>
             <Box sx={{ flexGrow: 1 }} />
-            {activeStep === steps.length - 1 ? (
+            {activeStep !== steps.length && (
               <Button variant="contained" onClick={handleNext}>
-                {t('common.btnSubmit')}
-              </Button>
-            ) : (
-              <LoadingButton
-                variant="contained"
-                onClick={handleNext}
-                disabled={!isDirty}
-                loading={isSubmitting}
-              >
                 {t('common.btnNext')}
-              </LoadingButton>
+              </Button>
             )}
           </Box>
         </>
