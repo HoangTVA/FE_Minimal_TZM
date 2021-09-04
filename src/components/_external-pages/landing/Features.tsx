@@ -121,70 +121,13 @@ const FeaturesPage = () => {
   const { t } = useTranslation();
   const navigation = [
     {
-      title: t('ldPage.manageStore'),
-      to: 'store-management',
+      title: t('features.delivery'),
+      to: 'delivery',
       items: [
-        {
-          title: t('features.storeChain'),
-          description: t('features.storeChainDes'),
-          icon: '/static/feature/chain.svg'
-        },
-        {
-          title: t('features.scheduleTradeZone'),
-          description: t('features.scheduleTradeZoneDes'),
-          icon: '/static/feature/calendar.svg'
-        },
-        {
-          title: t('features.assetManagement'),
-          description: t('features.assetManagementDes'),
-          icon: '/static/feature/resources.svg'
-        },
-        {
-          title: t('ldPage.poi'),
-          description: t('ldPage.poiSub'),
-          icon: '/static/icons/pinpoi.svg'
-        },
         {
           title: t('ldPage.delivery'),
           description: t('ldPage.deliverySub'),
           icon: '/static/icons/delivery-truck.svg'
-        }
-      ]
-    },
-    {
-      title: t('features.dispatchDashboard'),
-      to: 'analytics',
-      items: [
-        {
-          title: t('features.apiAccess'),
-          description: t('features.apiAccessDes'),
-          icon: '/static/feature/api.svg'
-        },
-        {
-          title: t('features.customfieldTemplates'),
-          description: t('features.customfieldTemplatesDes'),
-          icon: '/static/icons/website.svg'
-        },
-        {
-          title: t('features.logistics'),
-          description: t('features.logisticsDes'),
-          icon: '/static/feature/delivery-man.svg'
-        }
-      ]
-    },
-    {
-      title: t('features.serviceApp'),
-      to: 'service-app',
-      items: [
-        {
-          title: t('features.taskNotification'),
-          description: t('features.taskNotificationDes'),
-          icon: '/static/feature/notification.svg'
-        },
-        {
-          title: t('features.serviceApp'),
-          description: t('features.serviceApp'),
-          icon: '/static/feature/ic_description.png'
         },
         {
           title: t('features.optimizedRoutes'),
@@ -205,13 +148,17 @@ const FeaturesPage = () => {
           title: t('features.agentCapacityManagement'),
           description: t('features.agentCapacityManagementDes'),
           icon: '/static/feature/agent-management.svg'
-        }
-      ]
-    },
-    {
-      title: t('features.tracker'),
-      to: 'tracker',
-      items: [
+        },
+        {
+          title: t('features.taskNotification'),
+          description: t('features.taskNotificationDes'),
+          icon: '/static/feature/notification.svg'
+        },
+        {
+          title: t('features.logistics'),
+          description: t('features.logisticsDes'),
+          icon: '/static/feature/delivery-man.svg'
+        },
         {
           title: t('features.geofencing'),
           description: t('features.geofencingDes'),
@@ -220,7 +167,65 @@ const FeaturesPage = () => {
       ]
     },
     {
-      title: 'Hosting',
+      title: t('features.store'),
+      to: 'store',
+      items: [
+        {
+          title: t('features.storeChain'),
+          description: t('features.storeChainDes'),
+          icon: '/static/feature/chain.svg'
+        },
+        {
+          title: t('features.scheduleTradeZone'),
+          description: t('features.scheduleTradeZoneDes'),
+          icon: '/static/feature/calendar.svg'
+        },
+        {
+          title: t('features.assetManagement'),
+          description: t('features.assetManagementDes'),
+          icon: '/static/feature/resources.svg'
+        },
+        {
+          title: t('ldPage.poi'),
+          description: t('ldPage.poiSub'),
+          icon: '/static/icons/pinpoi.svg'
+        }
+      ]
+    },
+    {
+      title: t('features.dispatchDashboard'),
+      to: 'analytics',
+      items: [
+        {
+          title: t('features.apiAccess'),
+          description: t('features.apiAccessDes'),
+          icon: '/static/feature/api.svg'
+        },
+        {
+          title: t('features.customfieldTemplates'),
+          description: t('features.customfieldTemplatesDes'),
+          icon: '/static/icons/website.svg'
+        }
+      ]
+    },
+    {
+      title: t('features.benefit'),
+      to: 'benefit',
+      items: [
+        {
+          title: t('features.map'),
+          description: t('features.mapDes'),
+          icon: '/static/feature/map.svg'
+        },
+        {
+          title: t('features.save'),
+          description: t('features.saveDes'),
+          icon: '/static/feature/money-bag.svg'
+        }
+      ]
+    },
+    {
+      title: 'Hosting - Hỗ trợ',
       to: 'web-hosting',
       items: [
         {
@@ -245,13 +250,7 @@ const FeaturesPage = () => {
           description:
             'Tất cả các thay đổi của bạn đều tự động, vì vậy bạn sẽ nhận được các tính năng mới nhất ngay lập tức mà không gặp bất kỳ rắc rối nào.',
           icon: '/static/feature/ic_upgrade.png'
-        }
-      ]
-    },
-    {
-      title: 'Hỗ trợ',
-      to: 'support',
-      items: [
+        },
         {
           title: 'Đội ngũ hỗ trợ tận tâm',
           icon: '/static/feature/ic_support.png',

@@ -154,12 +154,9 @@ export default function Router() {
       element: <MainLayout />,
       children: [
         { path: '/', element: <LandingPage /> },
-<<<<<<< HEAD
         { path: '/features', element: <FeaturesPage /> },
-        { path: '/client', element: <ClientPage /> }
-=======
+        { path: '/client', element: <ClientPage /> },
         { path: '/coming-soon', element: <ComingSoon /> }
->>>>>>> 3092161f8221b2ea843729ad684c021b570f247d
       ]
     },
     { path: '/login', element: <Login /> },

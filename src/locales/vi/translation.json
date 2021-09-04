@@ -429,6 +429,13 @@
     "scheduleTradeZone": "Lập lịch Trade Zone",
     "scheduleTradeZoneDes": "Xác định vùng kinh doanh, lập lịch để thay đổi vùng kinh doanh từng cửa hàng theo khung thơi gian một cách linh động và tối ưu",
     "assetManagement": "Quản lí tài sản",
-    "assetManagementDes": "Dễ dàng kiểm soát, quản lí thông tin tài sản của cửa hàng"
+    "assetManagementDes": "Dễ dàng kiểm soát, quản lí thông tin tài sản của cửa hàng",
+    "delivery": "Giao hàng - giao nhận",
+    "store": "Tiện ích cửa hàng",
+    "benefit": "Lợi ích",
+    "map": "Bản đồ",
+    "mapDes": "Dữ liệu bản đồ cập nhật liên tục, cung cấp cái nhìn tổng quan về hệ thống cửa hàng, các khu vực kinh doanh, địa điểm tiềm năng được hiển thị một cách trực quan, tổng quát",
+    "save": "Tiết kiệm chi phí",
+    "saveDes": "Sử dụng nền tảng OpenStreetMap giúp tiết kiệm chi phí đáng kể so với google map, và khả năng tùy biến, chỉnh sửa cao"
   }
 }
