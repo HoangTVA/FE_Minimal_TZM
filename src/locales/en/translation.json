@@ -295,7 +295,9 @@
     "itemList": "Danh sách mặt hàng",
     "addItem": "Thêm mặt hàng",
     "item": "Mặt hàng",
-    "doneSteps": "All steps completed - you are finished"
+    "doneSteps": "All steps completed - you are finished",
+    "pickedUp": "Picked up",
+    "delivered": "Delivered"
   },
   "common": {
     "status": "Status",

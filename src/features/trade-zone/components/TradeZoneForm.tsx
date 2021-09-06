@@ -48,7 +48,6 @@ export default function TradeZoneForm({
   const fzOptions = useAppSelector(selectFreeZoneOptions);
   const selectedBox = fzOptions.filter(({ id }) => listPost.includes(id));
   const storesOptions = useAppSelector(selectStoresOptions);
-  console.log(initialValue.storesName);
   const [storeSelect, setStoreSelect] = useState<StoresName[]>(initialValue.storesName || []);
 
   const handelFormSubmit = (formValues: PostTradeZone) => {

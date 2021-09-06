@@ -1,13 +1,13 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from 'app/store';
-import { Order, PaginationRequest, Response } from 'models';
+import { Order, OrderPagingRequest, Response } from 'models';
 import { toast } from 'react-toastify';
 import i18n from 'translation/i18n';
 
 export interface TaskState {
     loading: boolean;
     orders: Response<Order>;
-    filter: PaginationRequest;
+    filter: OrderPagingRequest;
 }
 const initialState: TaskState = {
     loading: false,
@@ -28,7 +28,7 @@ const orderSlice = createSlice({
     initialState,
     reducers: {
         // poi brands
-        fetchOrderList(state, action: PayloadAction<PaginationRequest>) {
+        fetchOrderList(state, action: PayloadAction<OrderPagingRequest>) {
             state.loading = true;
         },
         fetchOrderListSuccess(state, action: PayloadAction<Response<Order>>) {
@@ -40,23 +40,21 @@ const orderSlice = createSlice({
             state.loading = false;
         },
         //filter
-        setFilter(state, action: PayloadAction<PaginationRequest>) {
+        setFilter(state, action: PayloadAction<OrderPagingRequest>) {
             state.filter = action.payload;
         },
-        setFilterWithDebounce(state, action: PayloadAction<PaginationRequest>) { }
+        setFilterWithDebounce(state, action: PayloadAction<OrderPagingRequest>) { }
     }
 });
 //actions
 export const orderActions = orderSlice.actions;
 //selectors
 export const selectLoading = (state: RootState) => state.order.loading;
-export const selectTeamList = (state: RootState) => state.order.orders;
-// export const selectTeamsOptions = createSelector(selectTeamList, (tasks) =>
-//   tasks.results.map((team) => ({
-//     name: team.name,
-//     id: team.id
-//   }))
-// );
+export const selectOrderList = (state: RootState) => state.order.orders;
+export const selectOrderOptions = createSelector(selectOrderList, (orders) => orders.results.map((order) => ({
+    name: order.orderCode,
+    id: order.id
+})));
 export const selectFilter = (state: RootState) => state.order.filter;
 //reducers
 const orderReducer = orderSlice.reducer;

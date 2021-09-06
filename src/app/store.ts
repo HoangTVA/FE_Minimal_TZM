@@ -14,6 +14,7 @@ import createSagaMiddleware from 'redux-saga';
 //import { history } from 'utils';
 import rootSaga from './rootSaga';
 import orderReducer from 'features/order/orderSlice';
+import taskReducer from 'features/task/taskSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
   tradeZone: tradeZoneReducer,
   team: teamReducer,
   agent: agentReducer,
-  order: orderReducer
+  order: orderReducer,
+  task: taskReducer
 })
 
 const sagaMiddleware = createSagaMiddleware();

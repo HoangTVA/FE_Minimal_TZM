@@ -225,43 +225,39 @@ const FeaturesPage = () => {
       ]
     },
     {
-      title: 'Hosting - Hỗ trợ',
+      title: t('features.hostingSupport'),
       to: 'web-hosting',
       items: [
         {
-          title: 'Tùy chọn tên miền',
-          description: 'Bạn có thể sử dụng tên miền của riêng bạn cho trang web.',
+          title: t('features.domain'),
+          description: t('features.domainDes'),
           icon: '/static/feature/ic_domain.png'
         },
         {
-          title: '99.99998% Uptime',
-          description:
-            'Đảm bảo doanh nghiệp của bạn phải luôn hoạt động, ngay cả khi bạn đang ngủ.',
+          title: t('features.work'),
+          description: t('features.workDes'),
           icon: '/static/feature/ic_worktime.png'
         },
         {
-          title: 'Chứng chỉ SSL',
-          description:
-            'Trang web của bạn sẽ có chứng chỉ SSL để giữ an toàn cho thông tin khách hàng và dữ liệu kinh doanh của bạn.',
+          title: t('features.ssl'),
+          description: t('features.sslDes'),
           icon: '/static/feature/ic_ssl.png'
         },
         {
-          title: 'Cập nhật lập tức',
-          description:
-            'Tất cả các thay đổi của bạn đều tự động, vì vậy bạn sẽ nhận được các tính năng mới nhất ngay lập tức mà không gặp bất kỳ rắc rối nào.',
+          title: t('features.updateNow'),
+          description: t('features.updateNowDes'),
           icon: '/static/feature/ic_upgrade.png'
         },
         {
-          title: 'Đội ngũ hỗ trợ tận tâm',
+          title: t('features.support'),
           icon: '/static/feature/ic_support.png',
-          description:
-            'Nhóm hỗ trợ Trade Zone Map làm việc 24/7, hoặc bạn có thể gửi thông tin qua email, trò chuyện trực tiếp và điện thoại để đảm bảo luôn giải quyết các vấn đề cho bạn.'
+          description: t('features.supportDes')
         }
       ]
     }
   ];
   return (
-    <RootStyle title="Tất cả tính năng | TZM" id="move_top">
+    <RootStyle title={t('features.title')} id="move_top">
       <FeatureHero />
       <ScrollToTop />
 

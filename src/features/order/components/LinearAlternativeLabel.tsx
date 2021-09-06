@@ -7,16 +7,22 @@ import { LoadingButton } from '@material-ui/lab';
 import { FormLocationForm } from './FormLocationForm';
 import { ToLocationForm } from './ToLocationForm';
 import { OrderInformationForm } from './OrderInformationForm';
+import arrowCircleLeftOutline from '@iconify/icons-eva/arrow-circle-left-outline';
+import arrowCircleRightOutline from '@iconify/icons-eva/arrow-circle-right-outline';
+import saveFill from '@iconify/icons-eva/save-fill';
+import { Icon } from '@iconify/react';
 
 // ----------------------------------------------------------------------
 interface LinearAlternativeLabelProps {
   isSubmitting: boolean;
   isDirty: boolean;
+  isView: boolean;
 }
 
 export default function LinearAlternativeLabel({
   isSubmitting,
-  isDirty
+  isDirty,
+  isView
 }: LinearAlternativeLabelProps) {
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set<number>());
@@ -35,57 +41,66 @@ export default function LinearAlternativeLabel({
     }
     switch (activeStep) {
       case 0: {
-        const check = await trigger([
-          'fromStation.longitude',
-          'fromStation.latitude',
-          'fromStation.address',
-          'fromStation.district',
-          'fromStation.ward',
-          'fromStation.city'
-        ]);
-        if (!check) return;
+        if (!isView) {
+          const check = await trigger([
+            'fromStation.longitude',
+            'fromStation.latitude',
+            'fromStation.address',
+            'fromStation.district',
+            'fromStation.ward',
+            'fromStation.city'
+          ]);
+          if (!check) return;
+        }
         setCompiledForm({ ...compiledForm, one: form });
         break;
       }
       case 1: {
-        const check = await trigger([
-          'toStation.longitude',
-          'toStation.latitude',
-          'toStation.address',
-          'toStation.district',
-          'toStation.ward',
-          'toStation.city'
-        ]);
-        if (!check) return;
+        if (!isView) {
+          const check = await trigger([
+            'toStation.longitude',
+            'toStation.latitude',
+            'toStation.address',
+            'toStation.district',
+            'toStation.ward',
+            'toStation.city'
+          ]);
+          if (!check) return;
+        }
         setCompiledForm({ ...compiledForm, two: form });
         break;
       }
 
       case 2:
-        const check = await trigger([
-          'orderCode',
-          'orderInfoObj.cod',
-          'orderInfoObj.totalPriceOrder',
-          'orderInfoObj.weight',
-          'orderInfoObj.length',
-          'orderInfoObj.width',
-          'orderInfoObj.height',
-          'orderInfoObj.note',
-          'orderInfoObj.receiverName',
-          'orderInfoObj.email',
-          'orderInfoObj.phone',
-          'orderInfoObj.serviceCharge',
-          'orderInfoObj.incurred',
-          'packageItems'
-        ]);
-        if (!check) return;
+        if (!isView) {
+          const check = await trigger([
+            'orderCode',
+            'orderInfoObj.cod',
+            'orderInfoObj.totalPriceOrder',
+            'orderInfoObj.weight',
+            'orderInfoObj.length',
+            'orderInfoObj.width',
+            'orderInfoObj.height',
+            'orderInfoObj.note',
+            'orderInfoObj.receiverName',
+            'orderInfoObj.email',
+            'orderInfoObj.phone',
+            'orderInfoObj.serviceCharge',
+            'orderInfoObj.incurred',
+            'packageItems'
+          ]);
+          if (!check) return;
+        }
         setCompiledForm({ ...compiledForm, three: form });
-
         break;
       default:
         return 'not a valid step';
     }
-
+    if (isView) {
+      if (activeStep === 2) {
+        return;
+      }
+    }
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
   };
@@ -106,11 +121,11 @@ export default function LinearAlternativeLabel({
   function getStepContent(step, formContent) {
     switch (step) {
       case 0:
-        return <FormLocationForm {...{ formContent }} />;
+        return <FormLocationForm isView={isView} />;
       case 1:
-        return <ToLocationForm {...{ formContent }} />;
+        return <ToLocationForm isView={isView} />;
       case 2:
-        return <OrderInformationForm {...{ formContent }} />;
+        return <OrderInformationForm isView={isView} />;
       default:
         return 'Unknown step';
     }
@@ -138,7 +153,9 @@ export default function LinearAlternativeLabel({
       {activeStep === steps.length ? (
         <>
           <Paper sx={{ p: 3, my: 3, minHeight: 120, bgcolor: 'grey.50012' }}>
-            <Typography sx={{ p: 3, my: 3, minHeight: 120 }}>{t('order.doneSteps')}</Typography>
+            <Typography sx={{ p: 3, my: 3, minHeight: 120 }} style={{ textAlign: 'center' }}>
+              {t('order.doneSteps')}
+            </Typography>
           </Paper>
 
           <Box sx={{ display: 'flex' }}>
@@ -149,6 +166,7 @@ export default function LinearAlternativeLabel({
               disabled={!isDirty}
               loading={isSubmitting}
               type="submit"
+              startIcon={<Icon icon={saveFill} />}
             >
               {t('common.btnSubmit')}
             </LoadingButton>
@@ -160,12 +178,22 @@ export default function LinearAlternativeLabel({
             <Box>{getStepContent(activeStep, compiledForm)}</Box>
           </Paper>
           <Box sx={{ display: 'flex' }}>
-            <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
+            <Button
+              color="inherit"
+              disabled={activeStep === 0}
+              onClick={handleBack}
+              sx={{ mr: 1 }}
+              startIcon={<Icon icon={arrowCircleLeftOutline} />}
+            >
               {t('common.btnBack')}
             </Button>
             <Box sx={{ flexGrow: 1 }} />
             {activeStep !== steps.length && (
-              <Button variant="contained" onClick={handleNext}>
+              <Button
+                variant="contained"
+                onClick={handleNext}
+                startIcon={<Icon icon={arrowCircleRightOutline} />}
+              >
                 {t('common.btnNext')}
               </Button>
             )}

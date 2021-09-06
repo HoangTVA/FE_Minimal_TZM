@@ -69,7 +69,7 @@ export default function LoginForm() {
             fullWidth
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
-            label={t('login.username')}
+            label={t('login.password')}
             {...getFieldProps('password')}
             InputProps={{
               endAdornment: (

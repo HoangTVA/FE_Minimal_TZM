@@ -2,18 +2,30 @@ import { Box, Card, Grid, Stack, Typography } from '@material-ui/core';
 import { MapDraggable, SearchAddress } from 'components/common';
 import InputField from 'components/FormField/InputField';
 import { IcMarkerLocation } from 'components/map/MarkerStyles';
+import { isValid } from 'date-fns';
 import { LatLngExpression } from 'leaflet';
 import { Address, NominatimAddress } from 'models';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { getAddressDataByLatLngUtils } from 'utils/common';
-export const ToLocationForm = ({ formContent }) => {
+interface ToLocationFormProps {
+  isView: boolean;
+}
+export const ToLocationForm = ({ isView }: ToLocationFormProps) => {
   const { t } = useTranslation();
   const methods = useFormContext();
   const [location, setLocation] = useState<LatLngExpression>();
-  const { control, setValue } = methods;
+  const { control, setValue, getValues } = methods;
   useEffect(() => {
+    if (isView) {
+      const lat = getValues('toStation.latitude');
+      const lng = getValues('toStation.longitude');
+      setLocation([Number(lat), Number(lng)] as LatLngExpression);
+    }
+  }, [getValues, isView]);
+  useEffect(() => {
+    if (isView) return;
     if (!location) return;
     setValue('toStation.latitude', location[0].toString(), {
       shouldDirty: false
@@ -22,6 +34,8 @@ export const ToLocationForm = ({ formContent }) => {
       shouldDirty: false
     });
     getAddressDataByLatLng(location[0], location[1]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
   const getAddressDataByLatLng = async (lat: number, lng: number) => {
     const data: NominatimAddress = await getAddressDataByLatLngUtils(lat, lng);
@@ -47,8 +61,10 @@ export const ToLocationForm = ({ formContent }) => {
     setLocation(address?.latlng);
   };
   const handelOnDragMarker = (point: any) => {
-    const latLng: LatLngExpression = [point.lat, point.lng];
-    setLocation(latLng);
+    if (!isView) {
+      const latLng: LatLngExpression = [point.lat, point.lng];
+      setLocation(latLng);
+    }
   };
 
   return (
@@ -75,21 +91,25 @@ export const ToLocationForm = ({ formContent }) => {
               name="toStation.address"
               label={t('store.address') + '*'}
               control={control}
+              disabled={isView}
             />
             <InputField
               name="toStation.city"
               label={t('adminLevel.province') + '*'}
               control={control}
+              disabled={isView}
             />
             <InputField
               name="toStation.district"
               label={t('adminLevel.district') + '*'}
               control={control}
+              disabled={isView}
             />
             <InputField
               name="toStation.ward"
               label={t('adminLevel.ward') + '*'}
               control={control}
+              disabled={isView}
             />
           </Stack>
         </Card>
@@ -101,7 +121,7 @@ export const ToLocationForm = ({ formContent }) => {
           </Typography>
           <Stack spacing={3}>
             <Box>
-              <SearchAddress onChangeAddress={handelSelectLocation} />
+              {!isView && <SearchAddress onChangeAddress={handelSelectLocation} />}
               <Box mt={3}>
                 <MapDraggable
                   location={location}

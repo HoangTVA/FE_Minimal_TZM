@@ -4,6 +4,7 @@ import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import { Icon } from '@iconify/react';
 // material
 import {
+  Avatar,
   Button,
   Card,
   Container,
@@ -14,6 +15,7 @@ import {
   DialogTitle,
   IconButton,
   LinearProgress,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -24,7 +26,7 @@ import {
 } from '@material-ui/core';
 // material
 import { Box } from '@material-ui/system';
-import orderApi from 'api/orderApi';
+import teamApi from 'api/teamApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { useTable } from 'components/common';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
@@ -32,43 +34,40 @@ import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 // components
 import Page from 'components/Page';
 import Scrollbar from 'components/Scrollbar';
-import { OrderEnum } from 'constants/orderEnum';
 // hooks
 import useSettings from 'hooks/useSettings';
-import { Order } from 'models';
-import { GetStatusOrderMap } from 'models/dto/orderStatus';
+import { PaginationRequest, Task } from 'models';
+import { GetTaskTypeMap } from 'models/dto/taskStatus';
 import { useSnackbar } from 'notistack5';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // redux
 // routes
 import { PATH_DASHBOARD } from 'routes/paths';
-import OrderForm from '../components/OrderForm';
-import { orderActions, selectFilter, selectLoading, selectOrderList } from '../orderSlice';
+import { selectFilter, selectLoading, selectTaskList, taskActions } from '../taskSlice';
 // ----------------------------------------------------------------------
 
-export default function OrderList() {
+export default function TaskList() {
   const { themeStretch } = useSettings();
   const dispatch = useAppDispatch();
   const filter = useAppSelector(selectFilter);
   const loading = useAppSelector(selectLoading);
-  const rs = useAppSelector(selectOrderList);
-  //const navigate = useNavigate();
+  const rs = useAppSelector(selectTaskList);
+  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const [orderSelected, setOrderSelected] = useState<Order>();
-  const { statusOrderMap } = GetStatusOrderMap();
-  const [popupOpen, setPopupOpen] = useState(false);
+  const [teamSelected, setTeamSelected] = useState<Task>();
+  const { taskStatusMap } = GetTaskTypeMap();
 
   //effect
   useEffect(() => {
-    dispatch(orderActions.fetchOrderList(filter));
+    dispatch(taskActions.fetchTaskList(filter));
   }, [dispatch, filter]);
   //functions
   const onPageChange = (page: number) => {
     dispatch(
-      orderActions.setFilter({
+      taskActions.setFilter({
         ...filter,
         page: page + 1
       })
@@ -76,7 +75,7 @@ export default function OrderList() {
   };
   const onRowPerPageChange = (perPage: number) => {
     dispatch(
-      orderActions.setFilter({
+      taskActions.setFilter({
         ...filter,
         pageSize: perPage
       })
@@ -84,26 +83,28 @@ export default function OrderList() {
   };
   const onSortChange = (colName: string, sortType: number) => {
     dispatch(
-      orderActions.setFilter({
+      taskActions.setFilter({
         ...filter,
         colName: colName,
         sortType: sortType
       })
     );
   };
-  const handelDetailsClick = (order: Order) => {
-    setOrderSelected(order);
-    setPopupOpen(true);
+  const handelSearchDebounce = (newFilter: PaginationRequest) => {
+    dispatch(taskActions.setFilterWithDebounce(newFilter));
   };
   //header
   const { t } = useTranslation();
 
   const headCells = [
-    { id: 'orderCode', label: t('order.code') },
-    { id: 'startPoint', label: t('order.start') },
-    { id: 'endPoint', label: t('order.end') },
-    { id: 'items', label: t('order.items'), disableSorting: true },
-    { id: 'status', label: t('common.status') },
+    { id: 'id', label: '#', align: 'center', disableSorting: true },
+    { id: 'start', label: t('task.start'), align: 'left', disableSorting: true },
+    // { id: 'end', label: t('task.end'), align: 'left', disableSorting: true },
+    { id: 'orders', label: t('task.orders'), align: 'left', disableSorting: true },
+    { id: 'agents', label: t('task.agents'), align: 'left', disableSorting: true },
+    { id: 'totalItems', label: t('task.totalItems'), align: 'left', disableSorting: true },
+    { id: 'totalDistance', label: t('task.totalDistance'), align: 'left', disableSorting: true },
+    { id: 'status', label: t('common.status'), disableSorting: true },
     { id: 'action', label: t('common.actions'), disableSorting: true, align: 'center' }
   ];
   const { TblHead, TblPagination } = useTable({
@@ -114,50 +115,53 @@ export default function OrderList() {
     onRowPerPageChange,
     onSortChange
   });
-  const handelRemoveClick = (team: Order) => {
-    setOrderSelected(team);
+  const handelDetailsClick = (team: Task) => {
+    navigate(`${PATH_DASHBOARD.team.edit}/${team.id}`);
+  };
+  const handelRemoveClick = (team: Task) => {
+    setTeamSelected(team);
     setConfirmDelete(true);
   };
   const handelConfirmRemoveClick = async () => {
     try {
-      await orderApi.remove(Number(orderSelected?.id) || 0);
+      await teamApi.remove(Number(teamSelected?.id) || 0);
       const newFilter = { ...filter };
-      dispatch(orderActions.setFilter(newFilter));
-      enqueueSnackbar(orderSelected?.orderCode + ' ' + t('store.deleteSuccess'), {
+      dispatch(taskActions.setFilter(newFilter));
+      enqueueSnackbar(teamSelected?.id + ' ' + t('store.deleteSuccess'), {
         variant: 'success'
       });
 
-      setOrderSelected(undefined);
+      setTeamSelected(undefined);
       setConfirmDelete(false);
     } catch (error) {
-      enqueueSnackbar(orderSelected?.orderCode + ' ' + t('common.errorText'), { variant: 'error' });
+      enqueueSnackbar(teamSelected?.id + ' ' + t('common.errorText'), { variant: 'error' });
     }
   };
 
   return (
-    <Page title={t('order.list')}>
+    <Page title={t('task.list')}>
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={t('order.list')}
+          heading={t('task.list')}
           links={[
             { name: t('content.dashboard'), href: PATH_DASHBOARD.root },
 
-            { name: t('order.list') }
+            { name: t('task.list') }
           ]}
           action={
             <Button
               variant="contained"
               component={RouterLink}
-              to={PATH_DASHBOARD.order.add}
+              to={PATH_DASHBOARD.task.add}
               startIcon={<Icon icon={plusFill} />}
             >
-              {t('order.titleAdd')}
+              {t('task.addTitle')}
             </Button>
           }
         />
 
         <Card>
-          {/* <TeamFilter filter={filter} onSearchChange={handelSearchDebounce} /> */}
+          {/* <TaskFilter filter={filter} onSearchChange={handelSearchDebounce} /> */}
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -172,6 +176,53 @@ export default function OrderList() {
                     </TableRow>
                   )}
 
+                  {rs.results.map((e, idx) => (
+                    <TableRow key={e.id}>
+                      <TableCell align="center" width={70}>
+                        {idx + 1}
+                      </TableCell>
+                      <TableCell align="left">{e.depot?.address || t('store.none')}</TableCell>
+                      {/* <TableCell align="left">
+                        {e.orders[e.orders.length - 1]?.toStation?.address || t('store.none')}
+                      </TableCell> */}
+                      <TableCell align="left">{e.orders.length}</TableCell>
+                      <TableCell component="th" scope="row" padding="none">
+                        {e.batchRoutes.map((x) => (
+                          <Stack direction="row" alignItems="center" spacing={2}>
+                            <Avatar alt={'error'} src={x.driver.image} />
+                            <Typography variant="subtitle2" noWrap>
+                              {x.driver.username}
+                            </Typography>
+                          </Stack>
+                        ))}
+                      </TableCell>
+                      <TableCell align="left">
+                        {e.batchRoutes.reduce((sum, current) => (sum += current.totalLoads), 0)}
+                      </TableCell>
+                      <TableCell align="left">
+                        {e.batchRoutes.reduce((sum, current) => (sum += current.totalDistance), 0)}
+                      </TableCell>
+                      <TableCell>
+                        <Box color={taskStatusMap[e.status].color} fontWeight="bold">
+                          {taskStatusMap[e.status].name}
+                        </Box>
+                      </TableCell>
+                      <TableCell>
+                        <Box style={{ display: 'flex', justifyContent: 'center' }}>
+                          <Tooltip key={`btnDetails-${e.id}`} title={t('common.details') || ''}>
+                            <IconButton color="info" onClick={() => handelDetailsClick(e)}>
+                              <Icon icon={editFill} />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip key={`btnDelete-${e.id}`} title={t('common.remove') || ''}>
+                            <IconButton color="error" onClick={() => handelRemoveClick(e)}>
+                              <Icon icon={trash2Outline} />
+                            </IconButton>
+                          </Tooltip>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                   {rs.results.length === 0 && (
                     <TableRow style={{ height: 53 * 10 }}>
                       <TableCell colSpan={20}>
@@ -184,41 +235,6 @@ export default function OrderList() {
                       </TableCell>
                     </TableRow>
                   )}
-                  {rs?.results?.map((e, idx) => (
-                    <TableRow key={e.id}>
-                      <TableCell align="left">{e.orderCode}</TableCell>
-                      <TableCell align="left">{e.fromStation.address}</TableCell>
-                      <TableCell align="left">{e.toStation.address}</TableCell>
-                      <TableCell align="left">{e.packageItems.length}</TableCell>
-                      <TableCell>
-                        <Box color={statusOrderMap[e.status]?.color || 'green'} fontWeight="bold">
-                          {statusOrderMap[e.status].name}
-                        </Box>
-                      </TableCell>
-                      <TableCell>
-                        <Box style={{ display: 'flex', justifyContent: 'center' }}>
-                          <Tooltip key={`btnDetails-${e.id}`} title={t('common.details') || ''}>
-                            <IconButton color="info" onClick={() => handelDetailsClick(e)}>
-                              <Icon icon={editFill} />
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip key={`btnDelete-${e.id}`} title={t('common.remove') || ''}>
-                            <span>
-                              <IconButton
-                                color="error"
-                                onClick={() => handelRemoveClick(e)}
-                                disabled={
-                                  e.status === OrderEnum.New || e.status === OrderEnum.Delivered
-                                }
-                              >
-                                <Icon icon={trash2Outline} />
-                              </IconButton>
-                            </span>
-                          </Tooltip>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  ))}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -231,7 +247,7 @@ export default function OrderList() {
         <DialogTitle>{t('common.titleConfirm')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {t('common.order') + ': ' + orderSelected?.orderCode + ' ' + t('store.removeTitleEnd')}
+            {t('team.name') + ': ' + teamSelected?.id + ' ' + t('store.removeTitleEnd')}
             <br />
             {t('common.canRevert')}
           </DialogContentText>
@@ -243,27 +259,6 @@ export default function OrderList() {
           <Button onClick={handelConfirmRemoveClick} autoFocus>
             {t('common.confirmBtn')}
           </Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog open={popupOpen} onClose={() => setPopupOpen(false)} maxWidth="lg" fullWidth>
-        <DialogTitle>{t('common.details')}</DialogTitle>
-        <DialogContent>
-          {orderSelected !== undefined && (
-            <OrderForm initialValue={orderSelected} isEdit={false} isView={true} />
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button color="inherit" onClick={() => setPopupOpen(false)}>
-            {t('content.btnClose')}
-          </Button>
-          {/* <Button
-            onClick={() => {
-              navigate(`${PATH_DASHBOARD.agent.edit}/${orderSelected?.id}`);
-            }}
-            autoFocus
-          >
-            {t('common.editInfo')}
-          </Button> */}
         </DialogActions>
       </Dialog>
     </Page>

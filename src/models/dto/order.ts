@@ -1,3 +1,5 @@
+import { PaginationRequest } from "models";
+
 export interface Order {
     id: number;
     fromStationId: number;
@@ -56,4 +58,11 @@ export interface OrderInfo {
 export interface ItemInfo {
     img: string;
     name: string;
+}
+export interface OrderOptions {
+    id: number;
+    name: string;
+}
+export interface OrderPagingRequest extends PaginationRequest {
+    status?: number;
 }

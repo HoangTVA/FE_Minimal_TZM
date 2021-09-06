@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from 'app/store';
 import { Agent, AgentPagingRequest, Response } from "models";
 import { toast } from 'react-toastify';
@@ -54,10 +54,10 @@ export const agentActions = agentSlice.actions;
 //selectors
 export const selectLoading = (state: RootState) => state.agent.loading;
 export const selectAgentList = (state: RootState) => state.agent.agents;
-// export const selectTeamsOptions = createSelector(selectAgentList, (agents) => agents.results.map((agent) => ({
-//     name: agent.username,
-//     id: agent.id
-// })));
+export const selectAgentOptions = createSelector(selectAgentList, (agents) => agents.results.map((agent) => ({
+    name: agent.username,
+    id: agent.id
+})));
 export const selectFilter = (state: RootState) => state.agent.filter;
 //reducers
 const agentReducer = agentSlice.reducer;

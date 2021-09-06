@@ -1,18 +1,21 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Order } from 'models';
+import { useState } from 'react';
 import { FormProvider, useForm, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
+import { FormLocationForm } from './FormLocationForm';
 import LinearAlternativeLabel from './LinearAlternativeLabel';
 
 interface TeamFormProps {
   initialValue: Order;
   onSubmit?: (formValue: Order) => void;
   isEdit: boolean;
+  isView: boolean;
 }
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-export default function OrderForm({ initialValue, onSubmit, isEdit }: TeamFormProps) {
+export default function OrderForm({ initialValue, onSubmit, isEdit, isView }: TeamFormProps) {
   const { t } = useTranslation();
   //schema
   const schema = yup.object().shape({
@@ -68,7 +71,7 @@ export default function OrderForm({ initialValue, onSubmit, isEdit }: TeamFormPr
           code: yup.string().required(t('common.isRequired'))
         })
       )
-      .required()
+      .required(t('common.isRequiredOptions'))
   });
   const methods = useForm<Order>({
     defaultValues: initialValue,
@@ -87,7 +90,7 @@ export default function OrderForm({ initialValue, onSubmit, isEdit }: TeamFormPr
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(handelFormSubmit)}>
-        <LinearAlternativeLabel isDirty={isDirty} isSubmitting={isSubmitting} />
+        <LinearAlternativeLabel isView={isView} isDirty={isDirty} isSubmitting={isSubmitting} />
       </form>
     </FormProvider>
   );

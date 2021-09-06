@@ -54,10 +54,10 @@ export default function Login() {
       </AuthLayout>
       <MHidden width="mdDown">
         <SectionStyle>
-          <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
+          <Typography variant="h3" sx={{ px: 5, mt: 10 }}>
             {t('login.welcome')}
           </Typography>
-          <img src="/static/illustrations/illustration_login.png" alt="login" />
+          <img src="/static/home/login.svg" alt="login" />
         </SectionStyle>
       </MHidden>
 

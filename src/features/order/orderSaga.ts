@@ -1,13 +1,13 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import orderApi from 'api/orderApi';
-import { Order, PaginationRequest, Response } from 'models';
+import { Order, OrderPagingRequest, Response } from 'models';
 import { call, debounce, put, takeLatest } from 'redux-saga/effects';
 import { orderActions } from './orderSlice';
 
 
 
 
-function* fetchOrderList(action: PayloadAction<PaginationRequest>) {
+function* fetchOrderList(action: PayloadAction<OrderPagingRequest>) {
     try {
         const rs: Response<Order> = yield call(orderApi.getAll, action.payload);
         yield put(orderActions.fetchOrderListSuccess(rs));
@@ -15,7 +15,7 @@ function* fetchOrderList(action: PayloadAction<PaginationRequest>) {
         yield put(orderActions.fetchOrderListError());
     }
 }
-function* searchWithDebounce(action: PayloadAction<PaginationRequest>) {
+function* searchWithDebounce(action: PayloadAction<OrderPagingRequest>) {
     yield put(orderActions.setFilter(action.payload));
 }
 export default function* orderSaga() {

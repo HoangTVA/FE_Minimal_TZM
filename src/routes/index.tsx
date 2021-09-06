@@ -134,6 +134,14 @@ export default function Router() {
           ]
         },
         {
+          path: 'tasks',
+          children: [
+            { path: '/', element: <TaskList /> },
+            { path: 'add', element: <AddEditTaskPage /> },
+            { path: 'edit/:agentId', element: <ComingSoon /> }
+          ]
+        },
+        {
           path: 'trackings',
           children: [{ path: '/', element: <TrackingPage /> }]
         }
@@ -220,3 +228,5 @@ const TrackingPage = Loadable(lazy(() => import('features/tracking/pages/Trackin
 const AddEditOrderPage = Loadable(lazy(() => import('features/order/pages/AddEditOrderPage')));
 const FeaturesPage = Loadable(lazy(() => import('components/_external-pages/landing/Features')));
 const ClientPage = Loadable(lazy(() => import('components/_external-pages/landing/Client')));
+const TaskList = Loadable(lazy(() => import('features/task/pages/TaskList')));
+const AddEditTaskPage = Loadable(lazy(() => import('features/task/components/AddEditTaskPage')));

@@ -296,7 +296,10 @@
     "itemList": "Danh sách mặt hàng",
     "addItem": "Thêm mặt hàng",
     "item": "Mặt hàng",
-    "doneSteps": "Các bước đã hoàn thành - nhấn gửi đi để hoàn thành tạo đơn hàng"
+    "doneSteps": "Các bước đã hoàn thành - nhấn gửi đi để hoàn thành tạo đơn hàng",
+    "pickedUp": "Đã lấy",
+    "delivered": "Đã giao",
+    "addSuccess": "Thêm mới đơn hàng thành công"
   },
   "common": {
     "status": "Trạng thái",
@@ -436,6 +439,37 @@
     "map": "Bản đồ",
     "mapDes": "Dữ liệu bản đồ cập nhật liên tục, cung cấp cái nhìn tổng quan về hệ thống cửa hàng, các khu vực kinh doanh, địa điểm tiềm năng được hiển thị một cách trực quan, tổng quát",
     "save": "Tiết kiệm chi phí",
-    "saveDes": "Sử dụng nền tảng OpenStreetMap giúp tiết kiệm chi phí đáng kể so với google map, và khả năng tùy biến, chỉnh sửa cao"
+    "saveDes": "Sử dụng nền tảng OpenStreetMap giúp tiết kiệm chi phí đáng kể so với google map, và khả năng tùy biến, chỉnh sửa cao",
+    "hostingSupport": "Hosting - Hỗ trợ",
+    "domain": "Tùy chọn tên miền",
+    "domainDes": "Bạn có thể sử dụng tên miền của riêng bạn cho trang web",
+    "work": "99.99998% Uptime",
+    "workDes": "'Đảm bảo doanh nghiệp của bạn phải luôn hoạt động, ngay cả khi bạn đang ngủ",
+    "ssl": "Chứng chỉ SSL",
+    "sslDes": "Trang web của bạn sẽ có chứng chỉ SSL để giữ an toàn cho thông tin khách hàng và dữ liệu kinh doanh của bạn",
+    "updateNow": "Cập nhật lập tức",
+    "updateNowDes": "Tất cả các thay đổi của bạn đều tự động, vì vậy bạn sẽ nhận được các tính năng mới nhất ngay lập tức mà không gặp bất kỳ rắc rối nào",
+    "support": "Đội ngũ hỗ trợ tận tâm",
+    "supportDes": "Nhóm hỗ trợ Trade Zone Map làm việc 24/7, hoặc bạn có thể gửi thông tin qua email, trò chuyện trực tiếp và điện thoại để đảm bảo luôn giải quyết các vấn đề cho bạn",
+    "title": "Tất cả tính năng | TZM"
+  },
+  "task": {
+    "title": "Quản lí công việc",
+    "list": "Danh sách công việc",
+    "addTitle": "Thêm mới công việc",
+    "editTitle": "Chỉnh sửa công việc",
+    "start": "Điểm xuất phát",
+    "end": "Điểm kết thúc",
+    "totalItems": "Tổng mặt hàng được giao",
+    "agents": "Tài xế tham gia",
+    "totalDistance": "Tổng quảng đường(m)",
+    "orders": "Số đơn hàng",
+    "addSuccess": "Thêm mới công việc thành công",
+    "new": "Mới",
+    "failed": "Không thành công",
+    "closed": "Đã đóng",
+    "notEnoughDriver": "Không đủ tài xế",
+    "search": "Tìm kiếm bằng tên địa điểm",
+    "capacity": "Số mặt hàng mỗi tài xế"
   }
 }

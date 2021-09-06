@@ -40,9 +40,11 @@ export default function AddEditOrderPage() {
   const handelStoreFormSubmit = async (formValues: Order) => {
     if (!isEdit) {
       try {
-        await orderApi.add(formValues);
         formValues.orderInfo = JSON.stringify(formValues.orderInfoObj);
-        enqueueSnackbar(formValues?.orderCode + ' ' + t('team.addSuccess'), { variant: 'success' });
+        await orderApi.add(formValues);
+        enqueueSnackbar(formValues?.orderCode + ' ' + t('order.addSuccess'), {
+          variant: 'success'
+        });
         const newFilter = { ...filter };
         dispatch(orderActions.setFilter(newFilter));
         navigate(PATH_DASHBOARD.order.root);
@@ -91,18 +93,18 @@ export default function AddEditOrderPage() {
       updatedAt: ''
     },
     orderInfoObj: {
-      cod: 0,
+      cod: '',
       email: '',
-      height: 0,
-      incurred: 0,
-      length: 0,
+      height: '',
+      incurred: '',
+      length: '',
       note: '',
       phone: '',
       receiverName: '',
-      serviceCharge: 0,
-      totalPriceOrder: 0,
-      weight: 0,
-      width: 0
+      serviceCharge: '',
+      totalPriceOrder: '',
+      weight: '',
+      width: ''
     },
     orderCode: '',
     orderInfo: '',
@@ -135,6 +137,7 @@ export default function AddEditOrderPage() {
                   initialValue={initialValues}
                   onSubmit={handelStoreFormSubmit}
                   isEdit={isEdit}
+                  isView={false}
                 />
               )}
             </Grid>

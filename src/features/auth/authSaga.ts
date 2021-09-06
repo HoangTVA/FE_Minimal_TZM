@@ -19,7 +19,7 @@ function* handleLogin(payload: AuthRequest) {
         yield put(authAction.loginSuccess(user));
 
     } catch (error) {
-        yield put(authAction.loginFailed(error.message));
+        yield put(authAction.loginFailed(""));
     }
 }
 function* handleLogout() {

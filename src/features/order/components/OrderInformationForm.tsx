@@ -13,21 +13,43 @@ import {
 } from '@material-ui/core';
 import InputAreaField from 'components/FormField/InputAreaField';
 import InputField from 'components/FormField/InputField';
-import { useState } from 'react';
+import { OrderInfo } from 'models';
+import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-export const OrderInformationForm = ({ formContent }) => {
+interface OrderInformationFormProps {
+  isView: boolean;
+}
+
+export const OrderInformationForm = ({ isView }: OrderInformationFormProps) => {
   const { t } = useTranslation();
   const methods = useFormContext();
   const [listItems, setListItems] = useState<number[]>([0]);
 
-  const { control, setValue } = methods;
+  const { control, setValue, getValues } = methods;
+  useEffect(() => {
+    if (isView) {
+      const list = getValues('packageItems');
+      const newList = list.map((e, idx) => idx);
+      const infoObj = getValues('orderInfo');
+      try {
+        const obj: OrderInfo = JSON.parse(infoObj);
+        setValue('orderInfoObj', obj, {
+          shouldDirty: true
+        });
+      } catch (error) {}
+
+      setListItems(newList);
+    }
+  }, [getValues, isView]);
   const handelAddItem = () => {
+    if (isView) return;
     const newList = [...listItems];
     newList.push(newList.length);
     setListItems(newList);
   };
   const handelRemoveItem = (index: number) => {
+    if (isView) return;
     const newList = [...listItems];
     newList.splice(index, 1);
     setValue(`packageItems[${index}].code`, '', {
@@ -75,17 +97,20 @@ export const OrderInformationForm = ({ formContent }) => {
             name={`packageItems[${index}].code`}
             label={t('order.codeItem') + '*'}
             control={control}
+            disabled={isView}
           />
           <InputField
             name={`packageItems[${index}].quantity`}
             label={t('order.quantity') + '*'}
             type="number"
             control={control}
+            disabled={isView}
           />
           <InputField
             name={`packageItems[${index}].description`}
             label={t('order.description') + '*'}
             control={control}
+            disabled={isView}
           />
         </Stack>
       </Box>
@@ -100,7 +125,12 @@ export const OrderInformationForm = ({ formContent }) => {
             {t('order.info')}
           </Typography>
           <Stack spacing={3}>
-            <InputField name="orderCode" label={t('order.code') + '*'} control={control} />
+            <InputField
+              name="orderCode"
+              label={t('order.code') + '*'}
+              control={control}
+              disabled={isView}
+            />
 
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
               <InputField
@@ -108,12 +138,14 @@ export const OrderInformationForm = ({ formContent }) => {
                 label={t('order.totalPriceOrder') + '*'}
                 control={control}
                 type="number"
+                disabled={isView}
               />
               <InputField
                 name="orderInfoObj.cod"
                 label={t('order.cod') + '*'}
                 control={control}
                 type="number"
+                disabled={isView}
               />
             </Stack>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
@@ -122,12 +154,14 @@ export const OrderInformationForm = ({ formContent }) => {
                 label={t('order.length') + '*'}
                 control={control}
                 type="number"
+                disabled={isView}
               />
               <InputField
                 name="orderInfoObj.width"
                 label={t('order.width') + '*'}
                 control={control}
                 type="number"
+                disabled={isView}
               />
 
               <InputField
@@ -135,12 +169,14 @@ export const OrderInformationForm = ({ formContent }) => {
                 label={t('order.height') + '*'}
                 control={control}
                 type="number"
+                disabled={isView}
               />
               <InputField
                 name="orderInfoObj.weight"
                 label={t('order.weight') + '*'}
                 control={control}
                 type="number"
+                disabled={isView}
               />
             </Stack>
 
@@ -148,16 +184,19 @@ export const OrderInformationForm = ({ formContent }) => {
               name="orderInfoObj.receiverName"
               label={t('order.receiverName') + '*'}
               control={control}
+              disabled={isView}
             />
             <InputField
               name="orderInfoObj.email"
               label={t('order.email') + '*'}
               control={control}
+              disabled={isView}
             />
             <InputField
               name="orderInfoObj.phone"
               label={t('order.phone') + '*'}
               control={control}
+              disabled={isView}
             />
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
               <InputField
@@ -165,6 +204,7 @@ export const OrderInformationForm = ({ formContent }) => {
                 label={t('order.serviceCharge') + '*'}
                 control={control}
                 type="number"
+                disabled={isView}
               />
               <InputField
                 name="orderInfoObj.incurred"
@@ -174,7 +214,12 @@ export const OrderInformationForm = ({ formContent }) => {
               />
             </Stack>
 
-            <InputAreaField name="orderInfoObj.note" label={t('order.note')} control={control} />
+            <InputAreaField
+              name="orderInfoObj.note"
+              label={t('order.note')}
+              control={control}
+              disabled={isView}
+            />
           </Stack>
         </Card>
       </Grid>
