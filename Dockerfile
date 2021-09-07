@@ -22,7 +22,7 @@ COPY --from=builder /usr/src/app/ .
 
 RUN ls -la
 
-EXPOSE 6280
+EXPOSE 80
 
 # Start the app
 CMD npm run start
