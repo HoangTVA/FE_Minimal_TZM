@@ -36,10 +36,10 @@ export default function EnterpriseHero() {
       <RootStyle initial="initial" animate="animate" variants={varWrapEnter}>
         <Box
           component="img"
-          src="/static/enterprise/wave.svg"
+          src="/static/client/wave.svg"
           sx={{
             position: 'absolute',
-            top: 74,
+            top: 240,
             left: 0,
             width: '100%',
             height: ['75vh', '40vh', `${top * 0 + 65}vh`],
@@ -52,7 +52,7 @@ export default function EnterpriseHero() {
           <HeroImgStyle
             style={{ top: -(top * 0.05) }}
             alt="hero"
-            src="/static/enterprise/hero_img.jpg"
+            src="/static/startup/hero_img.jpg"
             variants={varFadeInUp}
           />
         </MHidden>
@@ -68,13 +68,13 @@ export default function EnterpriseHero() {
                 Giải pháp thương mại điện tử doanh nghiệp
               </Typography>
               <Typography component="h1" variant={isDesktop ? 'h3' : 'h4'}>
-                Đặt hàng theo yêu cầu cho Doanh nghiệp của bạn
+              Hợp lý hóa hoạt động giao hàng của bạn với Hệ thống quản lý giao hàng 
               </Typography>
             </motion.div>
 
             <motion.div variants={varFadeInRight}>
               <Typography>
-                Reso là giải pháp thương mại điện tử hiệu quả về chi phí đáng tin cậy nhất được xây
+                TZM là giải pháp thương mại điện tử hiệu quả về chi phí đáng tin cậy nhất được xây
                 dựng để giúp bạn phát triển
               </Typography>
             </motion.div>

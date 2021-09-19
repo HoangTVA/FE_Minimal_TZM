@@ -22,7 +22,9 @@ export const PATH_PAGE = {
   page500: '/500',
   components: '/components',
   features: '/features',
-  client: '/client'
+  client: '/client',
+  enterprise: '/enterprise',
+  customerApp: '/customerApp',
 };
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,

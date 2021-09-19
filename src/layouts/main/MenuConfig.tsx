@@ -23,8 +23,8 @@ const menuConfig = [
       {
         subheader: 'Danh sách',
         items: [
-          { title: 'Hệ thống quản lý giao hàng', path: '/' },
-          { title: 'Ứng dụng cho tài xế', path: '/' },
+          { title: 'Hệ thống quản lý giao hàng', path: PATH_PAGE.enterprise },
+          { title: 'Ứng dụng cho tài xế', path: PATH_PAGE.customerApp },
           { title: 'Headless-TZM', path: '/' }
         ]
       }
@@ -36,7 +36,7 @@ const menuConfig = [
 export const rightMenuConfig = [
   {
     title: 'Doanh nghiệp',
-    path: '/enterprise',
+    path: '/',
     icon: <Icon icon={appstoreFilled} {...ICON_SIZE} />
   },
   {

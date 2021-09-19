@@ -79,14 +79,14 @@ export default function EnterprisePartner() {
                           component="img"
                           src="/static/enterprise/domino-logo.png"
                         />
-                        <Box height={140} component="img" src="/static/enterprise/passio.png" />
+                        <Box height={140} component="img" src="/static/enterprise/passio.jpg" />
                       </Slider>
                     </SlickStyle>
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Stack spacing={6}>
                       <Typography variant="h3">
-                        Các doanh nghiệp đã tin tưởng sử dụng nền tảng chúng tôi
+                        Các doanh nghiệp đã tin tưởng sử dụng nền tảng của chúng tôi
                       </Typography>
                       <Box>
                         <Button endIcon={<ArrowRightAltIcon />}>Xem thêm</Button>

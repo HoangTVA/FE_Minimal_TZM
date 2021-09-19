@@ -86,7 +86,7 @@ export default function EnterpriseHIW() {
           <Box sx={{ mb: { xs: 10, md: 15 }, textAlign: 'center' }}>
             <MotionInView variants={varFadeInDown}>
               <Typography variant="h3" sx={{ mb: 3 }}>
-                Nhận được sự quan tâm chuyên nghiệp và lập kế hoạch cho dự án của bạn mỗi ngày.
+              Tìm kiếm nội dung kinh doanh có giá trị?
               </Typography>
             </MotionInView>
             <MotionInView variants={varFadeInUp}>
@@ -95,9 +95,7 @@ export default function EnterpriseHIW() {
                   color: isLight ? 'text.secondary' : 'text.primary'
                 }}
               >
-                Với Reso, một trong những chuyên gia của chúng tôi sẽ cộng tác với bạn trong suốt
-                quá trình cho đến khi bạn khởi chạy và hơn nữa. Bên cạnh đó, chúng tôi sẽ hỗ trợ và
-                hướng dẫn để đối tác có thể sử dụng dễ dàng.
+                Chúng tôi sẽ cung cấp cho bạn thông tin chi tiết về Phần mềm quản lý giao hàng.
               </Typography>
             </MotionInView>
           </Box>
